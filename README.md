@@ -2,14 +2,16 @@
 
 install:
 
-`npm install`
+`cd www && npm install`
 
 test: 
 
 `npm start`
 
-go to 
+and go to:
+
 http://localhost:3000
 
-react guide
+react guide:
+
 https://blog.tighten.co/react-101-building-a-gif-search-engine
