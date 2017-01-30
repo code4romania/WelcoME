@@ -10,14 +10,6 @@ export const AUTH_USER = 'AUTH_USER';
 export const EDIT_PROFILE = 'EDIT_PROFILE';
 export const GET_PROFILE = 'GET_PROFILE';
 
-// TODO: remove GIF action types
-export const OPEN_MODAL = 'OPEN_MODAL';
-export const CLOSE_MODAL = 'CLOSE_MODAL';
-export const REQUEST_GIFS = 'REQUEST_GIFS';
-export const FETCH_FAVORITED_GIFS = 'FETCH_FAVORITED_GIFS';
-const API_URL = 'http://api.giphy.com/v1/gifs/search?q=';
-const API_KEY = '&api_key=dc6zaTOxFJmzC';
-
 // Set up Firebase
 var firebaseConfig = {
   apiKey: "AIzaSyDLt7lrJEkHhmEb-cy0yonb7jJDfAlr1WE",
@@ -40,7 +32,7 @@ export function signUpUser(credentials) {
       .createUserWithEmailAndPassword(credentials.email, credentials.password)
       .then(response => {
         dispatch(authUser());
-        browserHistory.push('/favorites');
+        browserHistory.push('/');
       })
       .catch(error => {
         console.log(error);
@@ -58,7 +50,7 @@ export function signInUser(credentials) {
       .signInWithEmailAndPassword(credentials.email, credentials.password)
       .then(response => {
         dispatch(authUser());
-        browserHistory.push('/favorites');
+        browserHistory.push('/');
       })
       .catch(error => {
         dispatch(authError(error));
@@ -86,7 +78,7 @@ export function signInUserWithFacebook() {
         // ...
         console.log(user);
         dispatch(authUser());
-        browserHistory.push('/favorites');
+        browserHistory.push('/');
       })
       .catch(function(error) {
         // Handle Errors here.
@@ -171,7 +163,7 @@ export function updateProfile(profileData) {
  * Redirect to user home page after profile editing
  */
 export function editProfile() {
-  browserHistory.push('/favorites');
+  browserHistory.push('/');
 
   return {
     type: EDIT_PROFILE,
@@ -192,61 +184,5 @@ export function fetchProfile() {
         })
       });
     }
-  }
-}
-
-// TODO: remove Gifs actions
-
-export function requestGifs(term = null) {
-  return function(dispatch) {
-    request.get(`${API_URL}${term.replace(/\s/g, '+')}${API_KEY}`).then(response => {
-      dispatch({
-        type: REQUEST_GIFS,
-        payload: response,
-      });
-    });
-  }
-}
-
-export function favoriteGif({selectedGif}) {
-  const userUid = Firebase.auth().currentUser.uid;
-  const gifId = selectedGif.id;
-
-  return dispatch => Firebase.database().ref(userUid).update({
-    [gifId]: selectedGif,
-  });
-}
-
-export function unfavoriteGif({selectedGif}) {
-  const userUid = Firebase.auth().currentUser.uid;
-  const gifId = selectedGif.id;
-
-  return dispatch => Firebase.database().ref(userUid).child(gifId).remove();
-}
-
-export function fetchFavoritedGifs() {
-  return dispatch => {
-    var user = Firebase.auth().currentUser;
-    if (user != null) {
-      Firebase.database().ref(user.uid).on('value', snapshot => {
-        dispatch({
-          type: FETCH_FAVORITED_GIFS,
-          payload: snapshot.val()
-        })
-      });
-    }
-  }
-}
-
-export function openModal(gif) {
-  return {
-    type: OPEN_MODAL,
-    gif
-  }
-}
-
-export function closeModal() {
-  return {
-    type: CLOSE_MODAL
   }
 }
