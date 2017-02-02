@@ -1,30 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Main from './components/general/Main';
+import './index.css';
 
-import App from './components/App';
-import Home from './containers/Home';
-import Signup from './containers/Signup';
-import Login from './containers/Login';
-import RequireAuth from './containers/RequireAuth';
-import EditProfile from './containers/EditProfile';
-
-import { Router, Route, IndexRoute, browserHistory } from 'react-router';
-import { Provider } from 'react-redux';
-import configureStore from './store/configureStore';
-
-const store = configureStore();
-
-// TODO: remove favourites route
+// render main component
 ReactDOM.render(
-  <Provider store={store}>
-    <Router history={browserHistory}>
-      <Route path="/" component={App}>
-        <IndexRoute component={Home} />
-        <Route path="signup" component={Signup} />
-        <Route path="login" component={Login} />
-        <Route path="editprofile" component={RequireAuth(EditProfile)} />
-      </Route>
-    </Router>
-  </Provider>,
+  <Main/>,
   document.getElementById('app')
 );
