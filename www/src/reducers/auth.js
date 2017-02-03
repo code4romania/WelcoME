@@ -1,8 +1,15 @@
-import { AUTH_USER, AUTH_ERROR, SIGN_OUT_USER } from '../actions';
+import {AUTH_USER, AUTH_ERROR, AUTH_REQUEST, RECEIVED_PROFILE} from '../actions';
 
-const initialState =  {
+const initialState = {
   authenticated: false,
-  error: null,
+  user: null,
+  profile: {
+    received: false,
+    name: '',
+    surname: ''
+  },
+  pending: true,
+  error: null
 };
 
 export default function auth(state = initialState, action) {
@@ -10,19 +17,36 @@ export default function auth(state = initialState, action) {
     case AUTH_USER:
       return {
         ...state,
-        authenticated: true,
-        error: null,
+        authenticated: !!action.payload,
+        pending: false,
+        user: action.payload,
+        error: null
       };
-    case SIGN_OUT_USER:
+    case AUTH_REQUEST:
       return {
         ...state,
-        authenticated: false,
-        error: null,
+        pending: true
       };
     case AUTH_ERROR:
       return {
         ...state,
-        error: action.payload.message,
+        authenticated: false,
+        pending: false,
+        user: null,
+        error: action.payload
+      };
+    case RECEIVED_PROFILE:
+      return {
+        ...state,
+        profile: {
+          received: true,
+          name: action.payload != null
+            ? action.payload.name
+            : '',
+          surname: action.payload != null
+            ? action.payload.surname
+            : ''
+        }
       };
     default:
       return state;

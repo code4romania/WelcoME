@@ -1,27 +1,30 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
-import * as Actions from '../actions';
+import * as Actions from '../../actions';
 
 class Header extends React.Component {
-  handleSignout() {
-    this.props.signOutUser();
-  }
 
   renderAuthLinks() {
     if (this.props.authenticated) {
+      // TODO: remove favourites from here
       return [
+        <li className="nav-item" key={1}>
+          <Link className="nav-link" to="/favorites">
+            My Favorites
+          </Link>
+        </li>,
         <li className="nav-item" key={2}>
           <Link className="nav-link" to="/editprofile">
             Profile
           </Link>
         </li>,
         <li className="nav-item" key={3}>
-          <a className="nav-link" href="#" onClick={() => this.handleSignout()}>
+          <Link className="nav-link" to="/logout" >
             Sign Out
-          </a>
+          </Link>
         </li>,
-      ]
+      ];
     } else {
       return [
         <li className="nav-item" key={1}>
@@ -34,7 +37,7 @@ class Header extends React.Component {
             Sign Up
           </Link>
         </li>,
-      ]
+      ];
     }
   }
 
@@ -59,7 +62,7 @@ class Header extends React.Component {
 function mapStateToProps(state) {
   return {
     authenticated: state.auth.authenticated,
-  }
+  };
 }
 
 export default connect(mapStateToProps, Actions)(Header);
