@@ -1,5 +1,6 @@
 import React from 'react';
 import { Field, reduxForm } from 'redux-form';
+import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import * as Actions from '../../actions';
 
@@ -87,7 +88,9 @@ class Signup extends React.Component {
               type="password"
               component={this.renderField}
               label="Password Confirmation" />
-
+             <p>
+                <Link to="/login">Already having a account? Sign in</Link>  
+             </p>  
             <button action="submit" className="btn btn-primary">
               Sign up
             </button>

@@ -1,6 +1,5 @@
 import React from 'react';
 import { Field, reduxForm } from 'redux-form';
-import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import * as Actions from '../../actions';
 
@@ -12,18 +11,13 @@ const validate = values => {
   } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
     errors.email = 'Invalid email address';
   }
-
-  if (!values.password) {
-    errors.password = "Please enter a password.";
-  }
-
   return errors;
 };
 
-class Login extends React.Component {
+class Forgot extends React.Component {
 
   handleFormSubmit = (values) => {
-    this.props.signInUser(values);
+    this.props.forgotUser(values);
   };
 
   renderField = ({ input, label, type, meta: { touched, error } }) => (
@@ -58,7 +52,7 @@ class Login extends React.Component {
       <div className="container">
         <div className="col-md-6 col-md-offset-3">
           <h2 className="text-center">
-            Log In
+            Forgot Password
           </h2>
 
           { this.renderAuthenticationError() }
@@ -70,18 +64,8 @@ class Login extends React.Component {
               className="form-control"
               type="text"
               label="Email" />
-
-            <Field
-              name="password"
-              component={this.renderField}
-              className="form-control"
-              type="password"
-              label="Password" />
-              <p>
-                <Link to="/forgot">Forgot password?</Link>  
-              </p>
             <button action="submit" className="btn btn-primary">
-              Sign In
+              Reset password
             </button>
           </form>
         </div>
@@ -98,6 +82,6 @@ function mapStateToProps(state) {
 
 
 export default connect(mapStateToProps, Actions)(reduxForm({
-  form: 'login',
+  form: 'forgot',
   validate,
-})(Login));
+})(Forgot));

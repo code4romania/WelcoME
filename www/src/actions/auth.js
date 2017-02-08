@@ -64,6 +64,18 @@ export const signInUser = credentials => dispatch => {
     .catch(error => dispatch({type: AUTH_ERROR, payload: error}));
 };
 
+// Sign in with email
+export const forgotUser = credentials => dispatch => {  
+  Firebase
+    .auth()
+    .sendPasswordResetEmail(credentials.email)
+    .then(user => {
+      //TO DO: change this to some toast or something!!!
+      alert('Email sent');
+    })
+    .catch(error => dispatch({type: AUTH_ERROR, payload: error}));
+};
+
 //Update profile
 export const updateProfile = profileData => dispatch => {
   const user = Firebase
