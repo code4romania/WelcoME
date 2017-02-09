@@ -1,10 +1,16 @@
 import Rx from 'rxjs'
-import counterStore$ from './counter'
+
 import routerStore$ from './router'
+import authStore$ from './auth'
+import '../services'
+// Combine all stores in one large stores stream
+const stores$ = Rx
+    .Observable
+    .merge(authStore$, routerStore$)
+    .scan((store, currentStore) => ({
+      ...store,
+      ...currentStore
+    }))
 
-// Combine all stores in one large store
-const stores$ = Rx.Observable.merge(counterStore$, routerStore$).scan(
-    (store, currentStore) => ({...store, ...currentStore})
-)
-
-export default stores$
+// debounce all initial states to one render
+export default stores$.debounceTime(16)

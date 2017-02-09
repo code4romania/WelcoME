@@ -7,7 +7,7 @@ import {add} from 'ramda'
 Rxdux.addActionType('COUNTER_INCREASED')
 Rxdux.addActionType('COUNTER_DECREASED')
 
-// helper streams
+// reducer streams
 const increase$ = Rxdux.getPayload(Rxdux.actions.COUNTER_INCREASED).mapTo(1)
 const decrease$ = Rxdux.getPayload(Rxdux.actions.COUNTER_DECREASED).mapTo(-1)
 

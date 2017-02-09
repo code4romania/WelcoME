@@ -1,23 +1,49 @@
-
 import {Observable} from 'rxjs'
 import Rxdux from '../rxdux'
-import {browserHistory as history} from 'react-router'
+import createHistory from 'history/createBrowserHistory'
 
+const history = createHistory()
+const checkIfDifferentLocation = ({location, route}) => {
+  console.log('aaa', location, route)
+  return !route.key || (location.key !== route.key)
+}
 // export Actions object in browser for testing
 if (process.env.NODE_ENV === 'development') {
-  console.log(Rxdux)
+  // console.log(Rxdux)
   global.Rxdux = Rxdux
-  global.history1 = history
+  global.myHistory = history
 }
-
-Observable.fromEventPattern(history.listen)
-   .merge(Observable.of(history.getCurrentLocation()))
-   .subscribe(console.log)
-
+console.log(history)
 Rxdux.addActionType('ROUTE_CHANGED')
+const router$ = Rxdux
+  .getPayload(Rxdux.actions.ROUTE_CHANGED)
+  .startWith({})
 
-const router$ = Rxdux.getPayload(Rxdux.actions.ROUTE_CHANGED)
+export default Rxdux
+  .mergeKeys({router$})
+  .scan((store, currentStore) => ({
+    ...store,
+    ...currentStore
+  }))
 
-export default router$.scan(
-    (store, currentStore) => ({...store, ...currentStore})
-)
+// service navigate when action dispatched
+Rxdux
+  .getPayload(Rxdux.actions.ROUTE_CHANGED)
+  .withLatestFrom(Observable.of(history.location), (route, location) => ({location, route}))
+  .filter(({location, route}) => true)
+  .pluck('route')
+  .subscribe(v => console.log('pp', v))
+// .do(route => route.pathname && history.push(route.pathname)) service dispatch
+
+// route from history
+Observable
+  .fromEventPattern(history.listen)
+  .merge(Observable.of(history.location))
+  .withLatestFrom(router$, (location, route) => ({location, route}))
+  .filter(checkIfDifferentLocation)
+  .pluck('location')
+  //.subscribe(v => console.log('pp1', v))
+  .do(location => {
+    console.log('aaaaaaaaaa',location)
+    Rxdux.dispatch(Rxdux.actions.ROUTE_CHANGED, location)
+  })

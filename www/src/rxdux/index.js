@@ -23,6 +23,7 @@ export default (() => {
                      Please make sure actions you use are in the
                      list of known actions.`)
     }
+    console.log('Dispatci',type,payload)
     const action = {type, payload}
     __dispatcher.next(action)
   }
@@ -58,7 +59,7 @@ export default (() => {
       // arguments's values are the actions we would like to filter by
       filteredDispatcher = _dispatcher.filter(buildFilterFunction(args))
     }
-
+   
     // After we have filtered, the only data that is interesting is under the data key
     return filteredDispatcher
   }
