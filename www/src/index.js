@@ -1,15 +1,4 @@
-<<<<<<< HEAD
-import React from 'react';
-import ReactDOM from 'react-dom';
-import Main from './components/general/Main';
-import './index.css';
 
-// render main component
-ReactDOM.render(
-  <Main/>,
-  document.getElementById('app')
-);
-=======
 import React from 'react'
 import { render } from 'react-dom'
 import stores$ from './stores'
@@ -28,5 +17,4 @@ stores$.debounceTime(16).startWith(initialState).subscribe(store => {
     mainContainer
   )
 })
-// render main component
->>>>>>> master
+

@@ -1,14 +1,4 @@
-<<<<<<< HEAD
-//
 
-import Provider from './provider';
-import connect from './connect';
-
-export {
-    Provider,
-    connect
-};
-=======
 // Singleton rxdux
 import { Subject, Observable } from 'rxjs'
 
@@ -88,4 +78,3 @@ export default (() => {
 
   return Object.freeze(__)
 })()
->>>>>>> master
