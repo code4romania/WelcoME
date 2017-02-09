@@ -13,13 +13,9 @@ import {RequireAuth, RequireNotAuth, IifAuth} from '../containers/special/Requir
 import EditProfile from '../containers/app/EditProfile';
 
 import {Router, Route, IndexRoute, browserHistory, Redirect} from 'react-router';
-import {syncHistoryWithStore} from 'react-router-redux';
-import store from '../store';
-
-const history = syncHistoryWithStore(browserHistory, store);
 
 const router = (
-    <Router history={history}>
+    <Router history={browserHistory}>
         <Route path="/" component={IifAuth(App, StaticApp)}>
             <IndexRoute component={IifAuth(Home, StaticHome)}/>
             <Route path="signup" component={RequireNotAuth(Signup)}/>

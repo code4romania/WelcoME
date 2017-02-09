@@ -1,5 +1,5 @@
 import React from 'react';
-import {connect} from 'react-redux';
+import {connect} from '../../rxdux';
 import {browserHistory} from 'react-router';
 
 export const RequireAuth = (WrappedComponent) => {
@@ -18,9 +18,9 @@ export const RequireAuth = (WrappedComponent) => {
     }
   }
 
-  function mapStateToProps(state) {
+  const mapStateToProps = (state) => {
     return {authenticated: state.auth.authenticated, pending: state.auth.pending};
-  }
+  };
 
   return connect(mapStateToProps)(Auth);
 };
@@ -41,9 +41,9 @@ export const RequireNotAuth = (WrappedComponent) => {
     }
   }
 
-  function mapStateToProps(state) {
-    return {authenticated: state.auth.authenticated, pending: state.auth.pending}; 
-  }
+  const mapStateToProps = (state) => {
+    return {authenticated: state.auth.authenticated, pending: state.auth.pending};
+  };
 
   return connect(mapStateToProps)(Auth);
 };
@@ -58,9 +58,9 @@ export const IifAuth = (WrappedComponentAuth, WrappedComponentNotAuth) => {
     }
   }
 
-  function mapStateToProps(state) {
+  const mapStateToProps = (state) => {
     return {authenticated: state.auth.authenticated};
-  }
+  };
 
   return connect(mapStateToProps)(IifAuth);
-}
+};
