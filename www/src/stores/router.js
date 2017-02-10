@@ -1,49 +1,22 @@
-import {Observable} from 'rxjs'
+import Rx from 'rxjs'
 import Rxdux from '../rxdux'
-import createHistory from 'history/createBrowserHistory'
 
-const history = createHistory()
-const checkIfDifferentLocation = ({location, route}) => {
-  console.log('aaa', location, route)
-  return !route.key || (location.key !== route.key)
-}
-// export Actions object in browser for testing
-if (process.env.NODE_ENV === 'development') {
-  // console.log(Rxdux)
-  global.Rxdux = Rxdux
-  global.myHistory = history
-}
-console.log(history)
+// actions
 Rxdux.addActionType('ROUTE_CHANGED')
-const router$ = Rxdux
-  .getPayload(Rxdux.actions.ROUTE_CHANGED)
-  .startWith({})
+Rxdux.addActionType('ROUTE_REQUESTED')
 
-export default Rxdux
-  .mergeKeys({router$})
-  .scan((store, currentStore) => ({
-    ...store,
-    ...currentStore
-  }))
+// reducer
 
-// service navigate when action dispatched
-Rxdux
-  .getPayload(Rxdux.actions.ROUTE_CHANGED)
-  .withLatestFrom(Observable.of(history.location), (route, location) => ({location, route}))
-  .filter(({location, route}) => true)
-  .pluck('route')
-  .subscribe(v => console.log('pp', v))
-// .do(route => route.pathname && history.push(route.pathname)) service dispatch
+const routeRequested$ = Rxdux.getPayload(Rxdux.actions.ROUTE_REQUESTED).map(pathname => ({ pendingPathname: pathname }))
+const router$ = Rxdux.getPayload(Rxdux.actions.ROUTE_CHANGED).map(route => ({ ...route, pendingPathname: null }))
 
-// route from history
-Observable
-  .fromEventPattern(history.listen)
-  .merge(Observable.of(history.location))
-  .withLatestFrom(router$, (location, route) => ({location, route}))
-  .filter(checkIfDifferentLocation)
-  .pluck('location')
-  //.subscribe(v => console.log('pp1', v))
-  .do(location => {
-    console.log('aaaaaaaaaa',location)
-    Rxdux.dispatch(Rxdux.actions.ROUTE_CHANGED, location)
-  })
+export default Rx.Observable
+    .merge(routeRequested$, router$)
+    .scan((state, currentState) => ({
+      ...state,
+      ...currentState
+    }))
+    .startWith({
+      pendingPathname: null
+    })
+  .map(router => ({router: { ...router, goToPath: pathname => Rxdux.dispatch(Rxdux.actions.ROUTE_REQUESTED, pathname) }}))

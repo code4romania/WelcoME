@@ -23,8 +23,7 @@ const authUser$ = Rxdux
       error: null
     }))
 
-// state
-const auth$ = Rx
+export default Rx
     .Observable
     .merge(authRequested$, authError$, authUser$)
     .scan((state, currentState) => ({
@@ -41,15 +40,4 @@ const auth$ = Rx
       },
       pending: true,
       error: null
-    })
-
-// handlers
-
-
-
-export default Rxdux
-    .mergeKeys({auth$})
-    .scan((store, currentStore) => ({
-      ...store,
-      ...currentStore
-    }))
+    }).map(auth => ({ auth }))
