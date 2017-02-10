@@ -40,4 +40,4 @@ export default Rx
       },
       pending: true,
       error: null
-    }).map(auth => ({ auth }))
+    }).map(auth => ({ auth: { ...auth, requestLogin: fields => Rxdux.dispatch(Rxdux.actions.AUTH_REQUESTED, fields) } }))

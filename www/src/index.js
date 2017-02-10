@@ -6,7 +6,7 @@ import App from './components/app/App'
 
 import './index.css'
 
-stores$.subscribe(state => console.log('State', state))
+stores$.subscribe(state => console.info('State', state))
 stores$.subscribe(state => {
   global.State = state
 })

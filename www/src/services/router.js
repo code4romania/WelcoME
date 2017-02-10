@@ -1,5 +1,4 @@
 // syncronizing store with history
-
 import Rxdux from '../rxdux'
 import { Observable } from 'rxjs'
 import createHistory from 'history/createBrowserHistory'
@@ -12,17 +11,16 @@ if (process.env.NODE_ENV === 'development') {
   global.rxduxHistory = history
 }
 
-// service navigate when action dispatched
+// if route is requested history will navigate to it
 Rxdux
   .getPayload(Rxdux.actions.ROUTE_REQUESTED)
   .filter(pathname => pathname && (history.location.pathname !== pathname))
   .subscribe(history.push)
 
-// route from history
+// all routes pulled from history event are dispatched into router store
 Observable
   .fromEventPattern(history.listen)
   .merge(Observable.of(history.location))
-
   // history changes key with the same pathname for many debounceTime so ignoring multiple event call
   .debounceTime(16)
   .withLatestFrom(Rxdux
