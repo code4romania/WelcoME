@@ -8,13 +8,13 @@ const fields = [
     label: 'Email',
     type: 'email'
   }, {
-    key: 'password',
-    name: 'password',
+    key: 'password1',
+    name: 'password1',
     label: 'Password',
     type: 'password'
   }, {
-    key: 'passwordConfirmation',
-    name: 'passwordConfirmation',
+    key: 'password2',
+    name: 'password2',
     label: 'Confirm Password',
     type: 'password'
   }
@@ -35,14 +35,14 @@ const validate = values => {
   } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
     errors.email = 'Invalid email address'
   }
-  if (!values.password) {
-    errors.password = 'Please enter a password.'
+  if (!values.password1) {
+    errors.password1 = 'Please enter a password.'
   }
-  if (!values.passwordConfirmation) {
-    errors.passwordConfirmation = 'Please enter a password confirmation.'
+  if (!values.password2) {
+    errors.password2 = 'Please enter a password confirmation.'
   }
-  if (values.password !== values.passwordConfirmation) {
-    errors.password = 'Passwords do not match'
+  if (values.password1 !== values.password2) {
+    errors.password1 = 'Passwords do not match'
   }
   return errors
 }

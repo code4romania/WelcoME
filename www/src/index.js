@@ -2,7 +2,7 @@ import React from 'react'
 import { render } from 'react-dom'
 import stores$ from './stores'
 
-import App from './components/app/App'
+import App from './components/App'
 import './index.css'
 
 if (process.env.NODE_ENV === 'development') {

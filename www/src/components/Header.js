@@ -42,7 +42,7 @@ const Header = (props) => (
       <ul className='nav navbar-nav navbar-right'>
         <AuthLink pathname='/favorites' {...props}>My Favorites</AuthLink>
         <AuthLink pathname='/editprofile' {...props}>Profile</AuthLink>
-        <AuthLink pathname='/logout' {...props}>Sign Out</AuthLink>
+        <AuthLink pathname='/signout' {...props}>Sign Out</AuthLink>
         <NotAuthLink pathname='/login' {...props}>Sign In</NotAuthLink>
         <NotAuthLink pathname='/signup' {...props}>Sign Up</NotAuthLink>
       </ul>

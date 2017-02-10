@@ -7,6 +7,7 @@ Rxdux.addActionType('AUTH_USER')
 Rxdux.addActionType('AUTH_ERROR')
 Rxdux.addActionType('AUTH_REQUESTED')
 Rxdux.addActionType('SIGNUP_REQUESTED')
+Rxdux.addActionType('SIGNOUT_REQUESTED')
 Rxdux.addActionType('FORGOT_REQUESTED')
 
 // reducers
@@ -19,6 +20,9 @@ const forgotRequested$ = Rxdux
 const signupRequested$ = Rxdux
   .getPayload(Rxdux.actions.SIGNUP_REQUESTED)
   .mapTo({pending: true, error: null})
+const signoutRequested$ = Rxdux
+  .getPayload(Rxdux.actions.SIGNOUT_REQUESTED)
+  .mapTo({})
 const authError$ = Rxdux
   .getPayload(Rxdux.actions.AUTH_ERROR)
   .map(error => ({authenticated: false, pending: false, user: null, error: error}))
@@ -33,7 +37,7 @@ const authUser$ = Rxdux
 
 export default Rx
   .Observable
-  .merge(authRequested$, forgotRequested$, signupRequested$, authError$, authUser$)
+  .merge(authRequested$, forgotRequested$, signupRequested$, authError$, authUser$, signoutRequested$)
   .scan((state, currentState) => ({
     ...state,
     ...currentState
@@ -52,6 +56,7 @@ export default Rx
   .map(auth => ({
     auth: {
       ...auth,
+      signOut: () => Rxdux.dispatch(Rxdux.actions.SIGNOUT_REQUESTED),
       requestLogin: fields => Rxdux.dispatch(Rxdux.actions.AUTH_REQUESTED, fields),
       requestForgot: fields => Rxdux.dispatch(Rxdux.actions.FORGOT_REQUESTED, fields),
       requestSignup: fields => Rxdux.dispatch(Rxdux.actions.SIGNUP_REQUESTED, fields)
