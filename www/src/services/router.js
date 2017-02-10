@@ -15,8 +15,7 @@ if (process.env.NODE_ENV === 'development') {
 // service navigate when action dispatched
 Rxdux
   .getPayload(Rxdux.actions.ROUTE_REQUESTED)
-  .withLatestFrom(Observable.of(history.location), (pathname, location) => ({location, pathname}))
-  .filter(({location, pathname}) => pathname && (location.pathname !== pathname))
+  .filter(pathname => pathname && (history.location.pathname !== pathname))
   .subscribe(history.push)
 
 // route from history
