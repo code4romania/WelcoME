@@ -1,4 +1,6 @@
 // log actions to console
 import Rxdux from '../rxdux'
 
-Rxdux.getAction().subscribe(action => console.info('Action', action))
+if (process.env.NODE_ENV === 'development') {
+  Rxdux.getAction().subscribe(action => console.info('Action', action))
+}

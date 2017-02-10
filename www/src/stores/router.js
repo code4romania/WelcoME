@@ -6,7 +6,6 @@ Rxdux.addActionType('ROUTE_CHANGED')
 Rxdux.addActionType('ROUTE_REQUESTED')
 
 // reducer
-
 const routeRequested$ = Rxdux.getPayload(Rxdux.actions.ROUTE_REQUESTED).map(pathname => ({ pendingPathname: pathname }))
 const router$ = Rxdux.getPayload(Rxdux.actions.ROUTE_CHANGED).map(route => ({ ...route, pendingPathname: null }))
 

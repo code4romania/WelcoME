@@ -1,7 +1,8 @@
 import React from 'react'
 import Home from './Home'
 import Login from './Login'
-
+import Forgot from './Forgot'
+import Signup from './Signup'
 
 const Router = (props) => {
   switch (props.router.pathname) {
@@ -10,11 +11,12 @@ const Router = (props) => {
     case '/login':
       return <Login {...props} />
     case '/forgot':
-      return <Login {...props} />
-    case '/register':
-      return <Login {...props} />
+      return <Forgot {...props} />
+    case '/signup':
+      return <Signup {...props} />
     default:
-      return <Home />
+      props.router.goToPath('/')
+      return <div />
   }
 }
 

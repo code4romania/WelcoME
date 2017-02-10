@@ -21,7 +21,7 @@ Rxdux
 Observable
   .fromEventPattern(history.listen)
   .merge(Observable.of(history.location))
-  // history changes key with the same pathname for many debounceTime so ignoring multiple event call
+  // history changes key with the same pathname for many times, so ignoring multiple event call
   .debounceTime(16)
   .withLatestFrom(Rxdux
     .getPayload(Rxdux.actions.ROUTE_CHANGED).startWith({}), (location, route) => ({location, route}))

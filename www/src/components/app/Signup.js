@@ -1,113 +1,59 @@
-import React from 'react';
-import { Field, reduxForm } from 'redux-form';
-import { Link } from 'react-router';
-import { connect } from 'react-redux';
-import * as Actions from '../../actions';
+import React from 'react'
+import Form from './Form'
+
+const fields = [
+  {
+    key: 'email',
+    name: 'email',
+    label: 'Email',
+    type: 'email'
+  }, {
+    key: 'password',
+    name: 'password',
+    label: 'Password',
+    type: 'password'
+  }, {
+    key: 'passwordConfirmation',
+    name: 'passwordConfirmation',
+    label: 'Confirm Password',
+    type: 'password'
+  }
+]
+
+const links = [
+  {
+    key: 'login',
+    pathname: '/login',
+    text: 'Already having an account? Sign In'
+  }
+]
 
 const validate = values => {
-  const errors = {};
-
+  const errors = {}
   if (!values.email) {
-    errors.email = "Please enter an email.";
+    errors.email = 'Please enter an email.'
   } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-    errors.email = 'Invalid email address';
+    errors.email = 'Invalid email address'
   }
-
   if (!values.password) {
-    errors.password = "Please enter a password.";
+    errors.password = 'Please enter a password.'
   }
-
   if (!values.passwordConfirmation) {
-    errors.passwordConfirmation = "Please enter a password confirmation.";
+    errors.passwordConfirmation = 'Please enter a password confirmation.'
   }
-
-  if (values.password !== values.passwordConfirmation ) {
-    errors.password = 'Passwords do not match';
+  if (values.password !== values.passwordConfirmation) {
+    errors.password = 'Passwords do not match'
   }
-
-  return errors;
-};
-
-class Signup extends React.Component {
-  handleFormSubmit = (values) => {
-    this.props.signUpUser(values);
-  };
-
-  renderField = ({ input, label, type, meta: { touched, error } }) => (
-    <fieldset className={`form-group ${touched && error ? 'has-error' : ''}`}>
-      <label>
-        {label}
-      </label>
-      <div>
-        <input
-          {...input}
-          placeholder={label}
-          className="form-control"
-          type={type} />
-        {touched && error && <div className="help-block">{error}</div>}
-      </div>
-    </fieldset>
-  );
-
-  renderAuthenticationError() {
-    if (this.props.authenticationError) {
-      return (
-        <div className="alert alert-danger">
-          { this.props.authenticationError }
-        </div>
-      );
-    }
-    return <div></div>;
-  }
-
-  render() {
-    return (
-      <div className="container">
-        <div className="col-md-6 col-md-offset-3">
-          <h2 className="text-center">
-            Sign Up
-          </h2>
-
-          { this.renderAuthenticationError() }
-
-          <form onSubmit={this.props.handleSubmit(this.handleFormSubmit)}>
-            <Field
-              name="email"
-              type="text"
-              component={this.renderField}
-              label="Email" />
-
-            <Field
-              name="password"
-              type="password"
-              component={this.renderField}
-              label="Password" />
-
-            <Field
-              name="passwordConfirmation"
-              type="password"
-              component={this.renderField}
-              label="Password Confirmation" />
-             <p>
-                <Link to="/login">Already having a account? Sign in</Link>  
-             </p>  
-            <button action="submit" className="btn btn-primary">
-              Sign up
-            </button>
-          </form>
-        </div>
-      </div>
-    );
-  }
+  return errors
 }
 
-function mapStateToProps(state) {
-  return {
-    authenticationError: state.auth.error && state.auth.error.message,
-  };
-}
-
-export default connect(mapStateToProps, Actions)(reduxForm({
-  form: 'signup',
-  validate,
-})(Signup));
+const Signup = (props) => (
+  <Form
+    fields={fields}
+    links={links}
+    submitText='Sign Up'
+    title='Sign up'
+    validate={validate}
+    submitHandler={props.auth.requestSignup}
+    {...props} />)
+export default Signup
