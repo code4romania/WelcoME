@@ -1,6 +1,6 @@
 // auth store
-import { registerAction, Reducers, Actions, dispatch, Handlers } from '../rxdux'
-import Firebase from '../firebase'
+import { registerAction, Reducers, Actions, dispatch, Handlers } from '../../rxdux'
+import Firebase from '../../firebase'
 
 // actions
 registerAction('AUTH_USER')
