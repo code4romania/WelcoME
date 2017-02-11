@@ -1,4 +1,5 @@
 import React from 'react'
+import { Handlers } from '../rxdux'
 import './Header.css'
 
 let key = 0
@@ -37,14 +38,14 @@ const Header = (props) => (
   <nav className='navbar navbar-default'>
     <div className='container-fluid'>
       <div className='navbar-header'>
-        <a className='navbar-brand' onClick={() => props.router.goToPath('/')}>Welcome</a>
+        <a className='navbar-brand' onClick={() => Handlers.goToPath('/')}>Welcome</a>
       </div>
       <ul className='nav navbar-nav navbar-right'>
-        <AuthLink pathname='/favorites' {...props}>My Favorites</AuthLink>
-        <AuthLink pathname='/editprofile' {...props}>Profile</AuthLink>
-        <AuthLink pathname='/signout' {...props}>Sign Out</AuthLink>
-        <NotAuthLink pathname='/login' {...props}>Sign In</NotAuthLink>
-        <NotAuthLink pathname='/signup' {...props}>Sign Up</NotAuthLink>
+        <AuthLink pathname='/favorites'>My Favorites</AuthLink>
+        <AuthLink pathname='/editprofile'>Profile</AuthLink>
+        <AuthLink pathname='/signout'>Sign Out</AuthLink>
+        <NotAuthLink pathname='/login'>Sign In</NotAuthLink>
+        <NotAuthLink pathname='/signup'>Sign Up</NotAuthLink>
       </ul>
     </div>
   </nav>

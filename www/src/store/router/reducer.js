@@ -6,7 +6,7 @@ registerAction('ROUTE_CHANGED')
 registerAction('ROUTE_REQUESTED')
 // handlers
 Handlers.changeRoute = location => dispatch(Actions.ROUTE_CHANGED, location)
-
+Handlers.goToPath = pathname => dispatch(Actions.ROUTE_REQUESTED, pathname)
 // reducer
 const initialState = {}
 Reducers.router = (state = initialState, action) => {

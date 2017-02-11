@@ -1,9 +1,15 @@
 import React from 'react'
 import { render } from 'react-dom'
 
-import './store'
-
+import { store$, handlers } from './store'
+import Provider from './rxdux/Provider'
 import App from './components/App'
 import './index.css'
 
-render(<App />, document.getElementById('app'))
+store$.subscribe(store => render(
+  <Provider store={store} handlers={handlers}>
+    <App />
+  </Provider>,
+  document.getElementById('app')
+  ))
+
