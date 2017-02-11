@@ -1,5 +1,5 @@
 import React from 'react'
 
 export default () => (
-  <footer />
+  <h1>Home</h1>
 )

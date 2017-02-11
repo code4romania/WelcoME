@@ -11,6 +11,7 @@ registerAction('SIGNOUT_REQUESTED')
 registerAction('FORGOT_REQUESTED')
 
 // handlers
+Handlers.requestLogin = user => dispatch(Actions.SIGNIN_EMAIL_REQUESTED)
 Handlers.authUser = user => dispatch(Actions.AUTH_USER, user)
 Handlers.errorUser = error => dispatch(Actions.AUTH_ERROR, error)
 Handlers.signOut = () => {
@@ -46,7 +47,6 @@ Reducers.auth = (state = initialState, action) => {
         error: null
       }
     case Actions.SIGNOUT_REQUESTED:
-      return state
     case Actions.FORGOT_REQUESTED:
     default:
       return state

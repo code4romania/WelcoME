@@ -28,7 +28,7 @@ const Field = ({
         placeholder={label}
         className='form-control'
         type={type}
-        onChange={event => handler({formKey, value: event.target.value})} /> {touched && error && <div className='help-block'>{error}</div>}
+        onChange={event => handler({key: formKey, value: event.target.value})} /> {touched && error && <div className='help-block'>{error}</div>}
     </div>
   </fieldset>
 )
@@ -61,24 +61,26 @@ const Form = ({
   fields = [],
   links = [],
   ...props
-}) => {
-  const validate = props.validate(props.forms)
+}, context) => {
+  const {forms, auth} = context.store
+  const validate = props.validate(forms)
+  const handlers = context.handlers
   return (
     <div className='container'>
       <div className='col-md-6 col-md-offset-3'>
         <h2 className='text-center'>{props.title}</h2>
-        <FormError formError={props.auth.error && props.auth.error.message} />
+        <FormError formError={auth.error && auth.error.message} />
         <form onSubmit={e => e.preventDefault()}>
           {fields.map(field => <Field
             {...field}
             formKey={field.key}
-            handler={props.forms.changeField}
-            value={props.forms[field.key] || ''}
-            touched={props.forms[field.key] !== null && props.forms[field.key] !== undefined}
+            handler={handlers.changeField}
+            value={forms[field.key] || ''}
+            touched={forms[field.key] !== null && forms[field.key] !== undefined}
             error={validate[field.key]} />)}
           <p>
             {links.map(link => (
-              <LoginLink {...link} handler={props.router.goToPath}>
+              <LoginLink {...link} handler={handlers.goToPath}>
                 {link.text}
               </LoginLink>
             ))}
@@ -89,7 +91,7 @@ const Form = ({
             .keys(validate)
             .length}
             className='btn btn-primary'
-            onClick={() => props.submitHandler(props.forms)}>
+            onClick={() => handlers[props.submitHandler](forms)}>
             {props.submitText}
           </button>
         </form>
@@ -99,11 +101,15 @@ const Form = ({
 }
 Form.propTypes = {
   title: PropTypes.string.isRequired,
-  submitHandler: PropTypes.func.isRequired,
+  submitHandler: PropTypes.string.isRequired,
   validate: PropTypes.func,
   submitText: PropTypes.string.isRequired,
   fields: PropTypes.array,
   links: PropTypes.array
 }
 
+Form.contextTypes = {
+  store: PropTypes.object.isRequired,
+  handlers: PropTypes.object.isRequired
+}
 export default Form

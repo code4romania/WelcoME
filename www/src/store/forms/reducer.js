@@ -6,7 +6,7 @@ registerAction('FIELDS_CHANGED')
 
 // handlers
 Handlers.changeFields = (fields) => dispatch(Actions.FIELDS_CHANGED, fields)
-
+Handlers.changeField = ({key, value}) => dispatch(Actions.FIELDS_CHANGED, {[key]: value})
 // reducer
 const initialState = {}
 Reducers.forms = (state = initialState, action) => {
