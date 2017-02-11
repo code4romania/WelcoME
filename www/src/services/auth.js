@@ -1,25 +1,17 @@
-import Rxdux from '../rxdux'
+import { Handlers, actions$, Actions } from '../rxdux'
 // import { Observable } from 'rxjs'
 import Firebase from '../firebase'
 
 // on auth sync store
 Firebase
   .auth()
-  .onAuthStateChanged(user => Rxdux.dispatch(Rxdux.actions.AUTH_USER, user),
-    error => Rxdux.dispatch(Rxdux.actions.AUTH_ERROR, error))
+  .onAuthStateChanged(Handlers.authUser, Handlers.errorUser)
 
 // signout user
-Rxdux.getAction(
-  Rxdux.actions.SIGNOUT_REQUESTED
-).subscribe(() => {
-  Firebase.auth().signOut()
-  Rxdux.dispatch(Rxdux.actions.ROUTE_REQUESTED, '/')
-})
+actions$(Actions.SIGNOUT_REQUESTED).subscribe(Handlers.signOut)
 
 // clean up login forms on authentication
-Rxdux.getAction(
-  Rxdux.actions.AUTH_USER
-).subscribe(() => Rxdux.dispatch(Rxdux.actions.FIELDS_CHANGED, {
+actions$(Actions.AUTH_USER).subscribe(() => Handlers.changeFields({
   email: null,
   password: null,
   password1: null,
@@ -27,11 +19,7 @@ Rxdux.getAction(
 }))
 
 // clean up password fields on every request
-Rxdux.getAction(
-  Rxdux.actions.AUTH_REQUESTED,
-  Rxdux.actions.SIGNUP_REQUESTED,
-  Rxdux.actions.FORGET_REQUESTED
-).subscribe(() => Rxdux.dispatch(Rxdux.actions.FIELDS_CHANGED, {
+actions$(Actions.AUTH_REQUESTED, Actions.SIGNUP_REQUESTED, Actions.FORGET_REQUESTED).subscribe(() => Handlers.changeFields({
   password: null,
   password1: null,
   password2: null

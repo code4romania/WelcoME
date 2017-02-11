@@ -11,7 +11,7 @@ const Link = ({pathname, handler, ...props}) => (
 )
 
 const AuthLink = ({pathname, handler, ...props}) => {
-  if (props.auth.authenticated) {
+  if (props.auth && props.auth.authenticated) {
     return (
       <Link handler={props.router.goToPath} pathname={pathname} {...props}>
         {props.children}
@@ -22,9 +22,9 @@ const AuthLink = ({pathname, handler, ...props}) => {
   }
 }
 const NotAuthLink = ({pathname, ...props}) => {
-  if (!props.auth.authenticated) {
+  if (!props.auth || !props.auth.authenticated) {
     return (
-      <Link handler={props.router.goToPath} pathname={pathname} {...props}>
+      <Link handler={props.router && props.router.goToPath} pathname={pathname} {...props}>
         {props.children}
       </Link>
     )
