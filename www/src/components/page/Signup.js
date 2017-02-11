@@ -54,6 +54,6 @@ const Signup = (props) => (
     submitText='Sign Up'
     title='Sign up'
     validate={validate}
-    submitHandler={props.auth.requestSignup}
+    submitHandler='requestSignup'
     {...props} />)
 export default Signup

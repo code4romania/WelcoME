@@ -30,7 +30,7 @@ const Login = (props) => (
     submitText='Sign In'
     title='Sign In'
     validate={validate}
-    submitHandler={props.auth.requestLogin}
+    submitHandler='requestLogin'
     {...props} />
 )
 export default Login

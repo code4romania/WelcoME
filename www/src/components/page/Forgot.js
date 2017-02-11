@@ -26,7 +26,7 @@ const Forgot = (props) => (
     submitText='Search'
     title='Forgot password'
     validate={validate}
-    submitHandler={props.auth.requestForgot}
+    submitHandler='requestForgot'
     {...props} />
 )
 export default Forgot
