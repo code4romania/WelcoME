@@ -1,6 +1,5 @@
 // auth store
 import { registerAction, Reducers, Actions, dispatch, Handlers } from '../../rxdux'
-import Firebase from '../../firebase'
 
 // actions
 registerAction('AUTH_USER')
@@ -11,13 +10,11 @@ registerAction('SIGNOUT_REQUESTED')
 registerAction('FORGOT_REQUESTED')
 
 // handlers
-Handlers.requestLogin = user => dispatch(Actions.SIGNIN_EMAIL_REQUESTED)
+Handlers.requestLogin = fields => dispatch(Actions.SIGNIN_EMAIL_REQUESTED, fields)
+Handlers.requestSignup = fields => dispatch(Actions.SIGNUP_EMAIL_REQUESTED, fields)
+Handlers.requestForgot = fields => dispatch(Actions.FORGOT_REQUESTED, fields)
 Handlers.authUser = user => dispatch(Actions.AUTH_USER, user)
 Handlers.errorUser = error => dispatch(Actions.AUTH_ERROR, error)
-Handlers.signOut = () => {
-  Firebase.auth().signOut()
-  dispatch(Actions.ROUTE_REQUESTED, '/')
-}
 
 // reducer
 const initialState = {}

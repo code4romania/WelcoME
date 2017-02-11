@@ -1,6 +1,6 @@
-
-import './auth'
 import './router'
+import './auth'
+
 import './forms'
 import './logger'
 import { store$ as store, Handlers } from '../rxdux'
