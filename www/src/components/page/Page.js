@@ -11,6 +11,5 @@ export default () => (
     <Route notAuth to='/login'><Login /></Route>
     <Route notAuth to='/signup'><Signup /></Route>
     <Route notAuth to='/forgot'><Forgot /></Route>
-    <Route auth to='/signout' />
   </div>
 )
