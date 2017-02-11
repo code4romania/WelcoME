@@ -26,5 +26,7 @@ export const combineReducers = (reducers) => (state = {}, action) =>
 // store
 export const store$ = actions$().scan(combineReducers(Reducers), {})
 
+export const connect = stateToProps => WrappedComponent => props => WrappedComponent(props)
+
 global.Reducers = Reducers
 global.combineReducers = combineReducers
