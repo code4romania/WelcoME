@@ -1,5 +1,5 @@
 // router store
-import { registerAction, Reducers, Handlers, dispatch, Actions } from '../rxdux'
+import { registerAction, Reducers, Handlers, dispatch, Actions } from '../../rxdux'
 
 // actions
 registerAction('ROUTE_CHANGED')

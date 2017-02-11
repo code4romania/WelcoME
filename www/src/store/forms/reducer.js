@@ -1,5 +1,5 @@
 // forms store
-import { registerAction, Reducers, Actions, Handlers, dispatch } from '../rxdux'
+import { registerAction, Reducers, Actions, Handlers, dispatch } from '../../rxdux'
 
 // actions
 registerAction('FIELDS_CHANGED')
