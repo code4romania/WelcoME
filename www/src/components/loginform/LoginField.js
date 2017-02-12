@@ -4,7 +4,7 @@ const LoginField = (props, { handlers }) => {
   // helpers
   const errorClassName = props.touched && props.error ? 'has-error' : ''
   const errorMessage = props.touched && props.error && <div className={`${props.errorClassName}`}>{props.error}</div>
-  const onChange = event => handlers.changeField({key: props.name, value: event.target.value})
+  const onChange = event => handlers.changeFields({[props.name]: event.target.value})
 
   return (
     <fieldset className={`${props.className} ${errorClassName}`}>

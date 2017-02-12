@@ -5,8 +5,10 @@ import { registerAction, Reducers, Actions, Handlers, dispatch } from '../../rxd
 registerAction('FIELDS_CHANGED')
 
 // handlers
+// *** with forms will have an object will all keys in the state
+// when forms keys changes
 Handlers.changeFields = (fields) => dispatch(Actions.FIELDS_CHANGED, fields)
-Handlers.changeField = ({key, value}) => dispatch(Actions.FIELDS_CHANGED, {[key]: value})
+
 // reducer
 const initialState = {}
 Reducers.forms = (state = initialState, action) => {
