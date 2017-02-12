@@ -29,6 +29,7 @@ const Login = (props) => (
     links={links}
     submitText='Sign In'
     title='Sign In'
+    name='login'
     validate={validate}
     submitHandler='requestLogin'
   />

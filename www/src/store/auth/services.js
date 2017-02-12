@@ -5,28 +5,32 @@ import Firebase from '../../firebase'
 // on auth sync store
 Firebase
   .auth()
-  .onAuthStateChanged(user => Handlers.authUser(user), err => Handlers.errorUser(err))
+  .onAuthStateChanged(user => Handlers.authUser(user), err => Handlers.errorUser(err, ['signup', 'login', 'forgot']))
 
 // signup with email requested
 payloads$(Actions.SIGNUP_EMAIL_REQUESTED)
   .subscribe(fields => {
     Firebase.auth().createUserWithEmailAndPassword(fields.email, fields.password1)
        .then(user => user.sendEmailVerification())
-       .then(() => Handlers.okUser('Email sent!'))
-       .catch(err => Handlers.errorUser(err))
+       .then(() => Handlers.okUser(`An email was sent at ${fields.email} for verifying the password`, ['signup']))
+       .catch(err => Handlers.errorUser(err, ['signup']))
   })
 
 // login with email requested
 payloads$(Actions.SIGNIN_EMAIL_REQUESTED)
-  .switchMap(fields => Observable.fromPromise(Firebase.auth().signInWithEmailAndPassword(fields.email, fields.password))
-                        .catch(err => Observable.of(err)))
-  .subscribe(userOrError => userOrError.uid ? Handlers.authUser(userOrError) : Handlers.errorUser(userOrError))
+  .subscribe(fields => {
+    Firebase.auth().signInWithEmailAndPassword(fields.email, fields.password)
+        .then(user => Handlers.authUser(user))
+        .catch(err => Handlers.errorUser(err, ['login']))
+  })
 
-// signup with email requested
+// forgot password requested
 payloads$(Actions.FORGOT_REQUESTED)
-  .switchMap(fields => Observable.fromPromise(Firebase.auth().sendPasswordResetEmail(fields.email, fields.password))
-                        .catch(err => Observable.of(err)))
-  .subscribe(userOrError => userOrError.uid ? Handlers.authUser(userOrError) : Handlers.errorUser(userOrError))
+  .subscribe(fields => {
+    Firebase.auth().sendPasswordResetEmail(fields.email)
+        .then(() => Handlers.okUser(`An email was sent at ${fields.email} for resetting the password`, ['forgot']))
+        .catch(err => Handlers.errorUser(err, ['forgot']))
+  })
 
 // signout user requested
 payloads$(Actions.SIGNOUT_REQUESTED).subscribe(() => {
@@ -34,17 +38,11 @@ payloads$(Actions.SIGNOUT_REQUESTED).subscribe(() => {
   Firebase.auth().signOut()
 })
 
-// clean up login forms on authentication
-actions$(Actions.AUTH_USER).subscribe(() => Handlers.changeFields({
-  email: null,
-  password: null,
-  password1: null,
-  password2: null
-}))
-
-// clean up password fields on every request
-actions$(Actions.SIGNUP_EMAIL_REQUESTED, Actions.SIGNIN_EMAIL_REQUESTED, Actions.FORGOT_REQUESTED).subscribe(() => Handlers.changeFields({
-  password: null,
-  password1: null,
-  password2: null
-}))
+// clean up forms fields on every request
+actions$(Actions.AUTH_USER, Actions.SIGNUP_EMAIL_REQUESTED, Actions.SIGNIN_EMAIL_REQUESTED, Actions.FORGOT_REQUESTED)
+ .subscribe(() => Handlers.changeFields({
+   email: null,
+   password: null,
+   password1: null,
+   password2: null
+ }))

@@ -22,9 +22,9 @@ Handlers.requestSignout = () => dispatch(Actions.SIGNOUT_REQUESTED)
 
 Handlers.authUser = user => dispatch(Actions.AUTH_USER, user)
 // send error message to inform user
-Handlers.errorUser = error => dispatch(Actions.AUTH_MESSAGE, {...error, isError: true})
+Handlers.errorUser = (error, forms) => dispatch(Actions.AUTH_MESSAGE, {...error, isError: true, forms})
 // send other type of message other then error to inform user
-Handlers.okUser = (message, type = { isOk: true }) => dispatch(Actions.AUTH_MESSAGE, { message, ...type })
+Handlers.okUser = (message, forms, type = { isOk: true }) => dispatch(Actions.AUTH_MESSAGE, { message, ...type, forms })
 
 // reducer
 const initialState = {}
@@ -41,9 +41,6 @@ Reducers.auth = (state = initialState, action) => {
     case Actions.AUTH_MESSAGE:
       return {
         ...state,
-        authenticated: false,
-        pending: false,
-        user: null,
         message: action.payload
       }
     case Actions.SIGNIN_EMAIL_REQUESTED:

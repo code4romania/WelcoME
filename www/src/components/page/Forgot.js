@@ -25,6 +25,7 @@ const Forgot = (props) => (
     links={links}
     submitText='Search'
     title='Forgot password'
+    name='forgot'
     validate={validate}
     submitHandler='requestForgot'
   />
