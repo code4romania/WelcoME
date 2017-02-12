@@ -1,21 +1,30 @@
 // auth store
 import { registerAction, Reducers, Actions, dispatch, Handlers } from '../../rxdux'
-
+import { transformUser } from './helpers'
 // actions
 registerAction('AUTH_USER')
-registerAction('AUTH_ERROR')
+registerAction('AUTH_MESSAGE')
 registerAction('SIGNIN_EMAIL_REQUESTED')
 registerAction('SIGNUP_EMAIL_REQUESTED')
 registerAction('SIGNOUT_REQUESTED')
 registerAction('FORGOT_REQUESTED')
 
 // handlers
-Handlers.requestLogin = fields => dispatch(Actions.SIGNIN_EMAIL_REQUESTED, fields)
+// user requested signup with email and password
 Handlers.requestSignup = fields => dispatch(Actions.SIGNUP_EMAIL_REQUESTED, fields)
+// user requested login with email and password
+Handlers.requestLogin = fields => dispatch(Actions.SIGNIN_EMAIL_REQUESTED, fields)
+
 Handlers.requestForgot = fields => dispatch(Actions.FORGOT_REQUESTED, fields)
+
+// user requests to signout
 Handlers.requestSignout = () => dispatch(Actions.SIGNOUT_REQUESTED)
+
 Handlers.authUser = user => dispatch(Actions.AUTH_USER, user)
-Handlers.errorUser = error => dispatch(Actions.AUTH_ERROR, error)
+// send error message to inform user
+Handlers.errorUser = error => dispatch(Actions.AUTH_MESSAGE, {...error, isError: true})
+// send other type of message other then error to inform user
+Handlers.okUser = (message, type = { isOk: true }) => dispatch(Actions.AUTH_MESSAGE, { message, ...type })
 
 // reducer
 const initialState = {}
@@ -26,23 +35,23 @@ Reducers.auth = (state = initialState, action) => {
         ...state,
         authenticated: !!action.payload,
         pending: false,
-        user: action.payload,
-        error: null
+        user: transformUser(action.payload),
+        message: null
       }
-    case Actions.AUTH_ERROR:
+    case Actions.AUTH_MESSAGE:
       return {
         ...state,
         authenticated: false,
         pending: false,
         user: null,
-        error: action.payload
+        message: action.payload
       }
     case Actions.SIGNIN_EMAIL_REQUESTED:
     case Actions.SIGNUP_EMAIL_REQUESTED:
       return {
         ...state,
         pending: true,
-        error: null
+        message: null
       }
     case Actions.SIGNOUT_REQUESTED:
     case Actions.FORGOT_REQUESTED:

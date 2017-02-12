@@ -5,24 +5,27 @@ import Firebase from '../../firebase'
 // on auth sync store
 Firebase
   .auth()
-  .onAuthStateChanged(Handlers.authUser, Handlers.errorUser)
+  .onAuthStateChanged(user => Handlers.authUser(user), err => Handlers.errorUser(err))
+
+// signup with email requested
+payloads$(Actions.SIGNUP_EMAIL_REQUESTED)
+  .subscribe(fields => {
+    Firebase.auth().createUserWithEmailAndPassword(fields.email, fields.password1)
+       .then(user => user.sendEmailVerification())
+       .then(() => Handlers.okUser('Email sent!'))
+       .catch(err => Handlers.errorUser(err))
+  })
 
 // login with email requested
 payloads$(Actions.SIGNIN_EMAIL_REQUESTED)
   .switchMap(fields => Observable.fromPromise(Firebase.auth().signInWithEmailAndPassword(fields.email, fields.password))
-                        .catch(Observable.of))
-  .subscribe(userOrError => userOrError.uid ? Handlers.authUser(userOrError) : Handlers.errorUser(userOrError))
-
-// signup with email requested
-payloads$(Actions.SIGNUP_EMAIL_REQUESTED)
-  .switchMap(fields => Observable.fromPromise(Firebase.auth().createUserWithEmailAndPassword(fields.email, fields.password1))
-                        .catch(Observable.of))
+                        .catch(err => Observable.of(err)))
   .subscribe(userOrError => userOrError.uid ? Handlers.authUser(userOrError) : Handlers.errorUser(userOrError))
 
 // signup with email requested
 payloads$(Actions.FORGOT_REQUESTED)
   .switchMap(fields => Observable.fromPromise(Firebase.auth().sendPasswordResetEmail(fields.email, fields.password))
-                        .catch(Observable.of))
+                        .catch(err => Observable.of(err)))
   .subscribe(userOrError => userOrError.uid ? Handlers.authUser(userOrError) : Handlers.errorUser(userOrError))
 
 // signout user requested

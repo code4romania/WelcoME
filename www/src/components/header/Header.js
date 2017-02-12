@@ -1,19 +1,25 @@
 import React from 'react'
 import Link from './Link'
 
+const links = [
+  { name: 'profile', visible: state => state.auth.authenticated, text: 'Profile', route: '/profile' },
+  { name: 'signout', visible: state => state.auth.authenticated, text: 'Sign Out', action: 'requestSignout' },
+  { name: 'login', visible: state => !state.auth.authenticated, text: 'Sign In', route: '/login' },
+  { name: 'signup', visible: state => !state.auth.authenticated, text: 'Sign Up', route: '/signup' }
+].map(link => ({...link, className: 'nav-link', liClassName: 'nav-item'}))
+
 export default () => (
   <nav className='navbar navbar-default'>
     <div className='container-fluid'>
       <div className='navbar-header'>
-        <Link className='navbar-brand' simple goTo='/'>Welcome</Link>
+        <Link className='navbar-brand' simple route='/'>Welcome</Link>
       </div>
       <ul className='nav navbar-nav navbar-right'>
-        <Link auth liClassName='nav-item' className='nav-link' goTo='/favorites'>My Favorites</Link>
-        <Link auth goTo='/editprofile'>Profile</Link>
-        <Link auth action='requestSignout'>Sign Out</Link>
-        <Link notAuth goTo='/login'>Sign In</Link>
-        <Link notAuth goTo='/signup'>Sign Up</Link>
+        {links.map(link => (
+          <Link key={link.name} {...link} />
+        ))}
       </ul>
     </div>
   </nav>
 )
+
