@@ -2,33 +2,23 @@ import React, {PropTypes} from 'react'
 const Route = (props, context) => {
   // get state from context
   const state = context.store
+  const visible = (state.router.pathname === props.route) && (props.visible ? props.visible(state) : true)
 
   // only for authenticated users
-  if (props.auth && !state.auth.authenticated) {
+  if (!visible) {
     return <div />
   }
-
-  // only for non-authenticated users
-  if (props.notAuth && state.auth.authenticated) {
-    return <div />
-  }
-
-  // tot current route or other routes
-  if (props.to !== '*' && (state.router.pathname !== props.to)) {
-    return <div />
-  }
-
   // render page
-  return props.children || <div />
+  return props.component(undefined, context) || <div />
 }
 
 Route.propTypes = {
-  // only for authenticated users
-  auth: PropTypes.bool,
-  // only for non-authenticated users
-  notAuth: PropTypes.bool,
+  // visibility function
+  visible: PropTypes.func,
+  // component
+  component: PropTypes.func,
   // page route pathname
-  to: PropTypes.string.isRequired
+  route: PropTypes.string.isRequired
 }
 
 Route.contextTypes = {
