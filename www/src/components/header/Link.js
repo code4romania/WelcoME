@@ -4,20 +4,17 @@ const Link = (props, context) => {
   // get state and handlers from context
   const handlers = context.handlers
   const state = context.store
-
+  const visible = props.visible ? props.visible(state) : true
+  const text = props.text || props.children
   // helpers
   const onClick = event => {
     event.preventDefault()
-    props.goTo ? handlers.goToPath(props.goTo) : handlers[props.action]()
+    props.route ? handlers.goToPath(props.route) : handlers[props.action]()
   }
-  const activeRouteClass = state.router.pathname === props.goTo ? 'active' : ''
+  const activeRouteClass = state.router.pathname === props.route ? 'active' : ''
 
-  // only for authenticated users
-  if (props.auth && !state.auth.authenticated) {
-    return <div />
-  }
-  // only for non-authenticated users
-  if (props.notAuth && state.auth.authenticated) {
+  // only for visible ones
+  if (!visible) {
     return <div />
   }
 
@@ -33,20 +30,16 @@ const Link = (props, context) => {
   // li with a
   return (
     <li className={`${props.liClassName} ${activeRouteClass}`}>
-      <a href className={props.className} onClick={onClick}>
-        {props.children}
-      </a>
+      <a href className={props.className} onClick={onClick}> {text} </a>
     </li>
   )
 }
 
 Link.propTypes = {
-  // only for authenticated users
-  auth: PropTypes.bool,
-  // only for non-authenticated users
-  notAuth: PropTypes.bool,
+  // visibility function
+  visible: PropTypes.func,
   // history navigate address
-  goTo: PropTypes.string,
+  route: PropTypes.string,
   // action link handler name
   action: PropTypes.string,
   // CSS class for a tag

@@ -28,7 +28,7 @@ const Form = ({fields = [], links = [], ...props}, context) => {
     <div className='container'>
       <div className='col-md-6 col-md-offset-3'>
         <h2 className='text-center'>{props.title}</h2>
-        <LoginMessage message={auth.error && auth.error.message} className='alert alert-danger' />
+        <LoginMessage message={auth.message} />
         <form onSubmit={onSubmit}>
           {fields.map(FieldHelper)}
           <p>
