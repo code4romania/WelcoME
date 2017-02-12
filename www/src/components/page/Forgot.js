@@ -1,12 +1,12 @@
 import React from 'react'
-import Form from './Form'
+import LoginForm from '../loginform/LoginForm'
 
 const fields = [
-  { key: 'email', name: 'email', label: 'Email', type: 'email' }
+  { name: 'email', label: 'Email', type: 'email' }
 ]
 
 const links = [
-  { key: 'signup', pathname: '/signup', text: 'Not having an account? Sign Up' }
+  { goTo: '/signup', text: 'Not having an account? Sign Up' }
 ]
 
 const validate = values => {
@@ -20,13 +20,13 @@ const validate = values => {
 }
 
 const Forgot = (props) => (
-  <Form
+  <LoginForm
     fields={fields}
     links={links}
     submitText='Search'
     title='Forgot password'
     validate={validate}
     submitHandler='requestForgot'
-    {...props} />
+  />
 )
 export default Forgot
