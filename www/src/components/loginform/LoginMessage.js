@@ -21,8 +21,8 @@ const LoginMessage = ({ message }) => {
 }
 
 LoginMessage.propTypes = {
-  // message text
-  message: PropTypes.string
+  // message object
+  message: PropTypes.object
 }
 
 export default LoginMessage
