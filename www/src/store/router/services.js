@@ -23,5 +23,5 @@ Observable
   // starting with current route
   .merge(Observable.of(history.location))
   // only distinct pathnames
-  .distinctUntilChanged((route, oldroute) => route.pathname !== oldroute.pathname)
+  .distinctUntilChanged((route, oldroute) => route.pathname === oldroute.pathname)
   .subscribe(route => Handlers.changeRoute(route))
