@@ -1,5 +1,4 @@
 import { Handlers, actions$, Actions, payloads$ } from '../../rxdux'
-import { Observable } from 'rxjs'
 import Firebase from '../../firebase'
 
 // on auth sync store
