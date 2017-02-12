@@ -12,7 +12,7 @@ const Form = ({fields = [], links = [], ...props}, context) => {
     e.preventDefault()
     handlers[props.submitHandler](forms)
   }
-
+  const message = auth.message && auth.message.forms && auth.message.forms.some(form => form === props.name) ? auth.message : null
   const FieldHelper = field => {
             // helpers for field
     const touched = forms[field.name] !== null && forms[field.name] !== undefined
@@ -28,7 +28,7 @@ const Form = ({fields = [], links = [], ...props}, context) => {
     <div className='container'>
       <div className='col-md-6 col-md-offset-3'>
         <h2 className='text-center'>{props.title}</h2>
-        <LoginMessage message={auth.message} />
+        <LoginMessage message={message} />
         <form onSubmit={onSubmit}>
           {fields.map(FieldHelper)}
           <p>
@@ -49,6 +49,8 @@ Form.propTypes = {
   validate: PropTypes.func,
   // submit button text
   submitText: PropTypes.string.isRequired,
+  // name of form
+  name: PropTypes.string.isRequired,
   // the fields
   fields: PropTypes.array,
   // the linked links

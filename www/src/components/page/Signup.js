@@ -36,6 +36,7 @@ const Signup = (props) => (
     links={links}
     submitText='Sign Up'
     title='Sign up'
+    name='signup'
     validate={validate}
     submitHandler='requestSignup'
   />)
