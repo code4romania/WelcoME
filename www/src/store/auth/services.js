@@ -7,26 +7,26 @@ Firebase
   .auth()
   .onAuthStateChanged(Handlers.authUser, Handlers.errorUser)
 
-// login with email
+// login with email requested
 payloads$(Actions.SIGNIN_EMAIL_REQUESTED)
   .switchMap(fields => Observable.fromPromise(Firebase.auth().signInWithEmailAndPassword(fields.email, fields.password))
                         .catch(Observable.of))
   .subscribe(userOrError => userOrError.uid ? Handlers.authUser(userOrError) : Handlers.errorUser(userOrError))
 
-// signup with email
+// signup with email requested
 payloads$(Actions.SIGNUP_EMAIL_REQUESTED)
   .switchMap(fields => Observable.fromPromise(Firebase.auth().createUserWithEmailAndPassword(fields.email, fields.password1))
                         .catch(Observable.of))
   .subscribe(userOrError => userOrError.uid ? Handlers.authUser(userOrError) : Handlers.errorUser(userOrError))
 
-// signup with email
+// signup with email requested
 payloads$(Actions.FORGOT_REQUESTED)
   .switchMap(fields => Observable.fromPromise(Firebase.auth().sendPasswordResetEmail(fields.email, fields.password))
                         .catch(Observable.of))
   .subscribe(userOrError => userOrError.uid ? Handlers.authUser(userOrError) : Handlers.errorUser(userOrError))
 
-// signout user navigating to route /signout
-payloads$(Actions.ROUTE_CHANGED).filter(route => route.pathname === '/signout').subscribe(() => {
+// signout user requested
+payloads$(Actions.SIGNOUT_REQUESTED).subscribe(() => {
   Handlers.goToPath('/')
   Firebase.auth().signOut()
 })

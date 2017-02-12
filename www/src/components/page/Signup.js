@@ -1,31 +1,14 @@
 import React from 'react'
-import Form from './Form'
+import LoginForm from '../loginform/LoginForm'
 
 const fields = [
-  {
-    key: 'email',
-    name: 'email',
-    label: 'Email',
-    type: 'email'
-  }, {
-    key: 'password1',
-    name: 'password1',
-    label: 'Password',
-    type: 'password'
-  }, {
-    key: 'password2',
-    name: 'password2',
-    label: 'Confirm Password',
-    type: 'password'
-  }
+  { name: 'email', label: 'Email', type: 'email' },
+  { name: 'password1', label: 'Password', type: 'password' },
+  { name: 'password2', label: 'Confirm Password', type: 'password' }
 ]
 
 const links = [
-  {
-    key: 'login',
-    pathname: '/login',
-    text: 'Already having an account? Sign In'
-  }
+  { goTo: '/login', text: 'Already having an account? Sign In' }
 ]
 
 const validate = values => {
@@ -48,12 +31,12 @@ const validate = values => {
 }
 
 const Signup = (props) => (
-  <Form
+  <LoginForm
     fields={fields}
     links={links}
     submitText='Sign Up'
     title='Sign up'
     validate={validate}
     submitHandler='requestSignup'
-    {...props} />)
+  />)
 export default Signup

@@ -13,6 +13,7 @@ registerAction('FORGOT_REQUESTED')
 Handlers.requestLogin = fields => dispatch(Actions.SIGNIN_EMAIL_REQUESTED, fields)
 Handlers.requestSignup = fields => dispatch(Actions.SIGNUP_EMAIL_REQUESTED, fields)
 Handlers.requestForgot = fields => dispatch(Actions.FORGOT_REQUESTED, fields)
+Handlers.requestSignout = () => dispatch(Actions.SIGNOUT_REQUESTED)
 Handlers.authUser = user => dispatch(Actions.AUTH_USER, user)
 Handlers.errorUser = error => dispatch(Actions.AUTH_ERROR, error)
 

@@ -1,13 +1,13 @@
 import React from 'react'
-import Form from './Form'
+import LoginForm from '../loginform/LoginForm'
 
 const fields = [
-  { key: 'email', name: 'email', label: 'Email', type: 'email' },
-  { key: 'password', name: 'password', label: 'Password', type: 'password' }
+  { name: 'email', label: 'Email', type: 'email' },
+  { name: 'password', label: 'Password', type: 'password' }
 ]
 
 const links = [
-  { key: 'forgot', pathname: '/forgot', text: 'Forgot your password?' }
+  { goTo: '/forgot', text: 'Forgot your password?' }
 ]
 
 const validate = values => {
@@ -24,13 +24,13 @@ const validate = values => {
 }
 
 const Login = (props) => (
-  <Form
+  <LoginForm
     fields={fields}
     links={links}
     submitText='Sign In'
     title='Sign In'
     validate={validate}
     submitHandler='requestLogin'
-    {...props} />
+  />
 )
 export default Login
