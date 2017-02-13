@@ -1,15 +1,13 @@
 import { Handlers, actions$, Actions, payloads$ } from '../../rxdux'
-import Firebase from '../../firebase'
+import { FirebaseAuth } from '../../firebase'
 
 // on auth sync store
-Firebase
-  .auth()
-  .onAuthStateChanged(user => Handlers.authUser(user), err => Handlers.errorUser(err, ['signup', 'login', 'forgot']))
+FirebaseAuth.onAuthStateChanged(user => Handlers.authUser(user), err => Handlers.errorUser(err, ['signup', 'login', 'forgot']))
 
 // signup with email requested
 payloads$(Actions.SIGNUP_EMAIL_REQUESTED)
   .subscribe(fields => {
-    Firebase.auth().createUserWithEmailAndPassword(fields.email, fields.password1)
+    FirebaseAuth.createUserWithEmailAndPassword(fields.email, fields.password1)
        .then(user => user.sendEmailVerification())
        .then(() => Handlers.okUser(`An email was sent at ${fields.email} for verifying the password`, ['signup']))
        .catch(err => Handlers.errorUser(err, ['signup']))
@@ -18,7 +16,7 @@ payloads$(Actions.SIGNUP_EMAIL_REQUESTED)
 // login with email requested
 payloads$(Actions.SIGNIN_EMAIL_REQUESTED)
   .subscribe(fields => {
-    Firebase.auth().signInWithEmailAndPassword(fields.email, fields.password)
+    FirebaseAuth.signInWithEmailAndPassword(fields.email, fields.password)
         .then(user => Handlers.authUser(user))
         .catch(err => Handlers.errorUser(err, ['login']))
   })
@@ -26,7 +24,7 @@ payloads$(Actions.SIGNIN_EMAIL_REQUESTED)
 // forgot password requested
 payloads$(Actions.FORGOT_REQUESTED)
   .subscribe(fields => {
-    Firebase.auth().sendPasswordResetEmail(fields.email)
+    FirebaseAuth.sendPasswordResetEmail(fields.email)
         .then(() => Handlers.okUser(`An email was sent at ${fields.email} for resetting the password`, ['forgot']))
         .catch(err => Handlers.errorUser(err, ['forgot']))
   })
@@ -34,7 +32,7 @@ payloads$(Actions.FORGOT_REQUESTED)
 // signout user requested
 payloads$(Actions.SIGNOUT_REQUESTED).subscribe(() => {
   Handlers.goToPath('/')
-  Firebase.auth().signOut()
+  FirebaseAuth.signOut()
 })
 
 // clean up forms fields on every request

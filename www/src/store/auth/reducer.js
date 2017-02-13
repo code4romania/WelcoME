@@ -24,10 +24,14 @@ Handlers.authUser = user => dispatch(Actions.AUTH_USER, user)
 // send error message to inform user
 Handlers.errorUser = (error, forms) => dispatch(Actions.AUTH_MESSAGE, {...error, isError: true, forms})
 // send other type of message other then error to inform user
-Handlers.okUser = (message, forms, type = { isOk: true }) => dispatch(Actions.AUTH_MESSAGE, { message, ...type, forms })
+Handlers.okUser = (okMessage, forms, type = { isOk: true }) => dispatch(Actions.AUTH_MESSAGE, { okMessage, ...type, forms })
 
 // reducer
-const initialState = {}
+const initialState = {
+  // loading stands for initial fetching of auth state status from Firebase
+  loading: true
+}
+
 Reducers.auth = (state = initialState, action) => {
   switch (action.type) {
     case Actions.AUTH_USER:
@@ -35,23 +39,25 @@ Reducers.auth = (state = initialState, action) => {
         ...state,
         authenticated: !!action.payload,
         pending: false,
+        loading: false,
         user: transformUser(action.payload),
         message: null
       }
     case Actions.AUTH_MESSAGE:
       return {
         ...state,
+        pending: false,
         message: action.payload
       }
     case Actions.SIGNIN_EMAIL_REQUESTED:
     case Actions.SIGNUP_EMAIL_REQUESTED:
+    case Actions.SIGNOUT_REQUESTED:
+    case Actions.FORGOT_REQUESTED:
       return {
         ...state,
         pending: true,
         message: null
       }
-    case Actions.SIGNOUT_REQUESTED:
-    case Actions.FORGOT_REQUESTED:
     default:
       return state
   }

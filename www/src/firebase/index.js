@@ -15,6 +15,8 @@ var configRazvan = {
   storageBucket: 'avangear-34841.appspot.com',
   messagingSenderId: '808871774750'
 }
+
 Firebase.initializeApp(configRazvan)
-global.Firebase = Firebase
+
+export const FirebaseAuth = Firebase.auth()
 export default Firebase
