@@ -17,10 +17,10 @@ export const actions$ = (...args) => !args.length ? dispatcher$
   // ************************
   // TODO probably we should use Schedulers
   // need debounce because in services, we need to dispatch the actions in correct order
-  // Ex: without debouce:
+  // Ex: without debounce:
   //         ROUTE_REQUESTED is dispatched first, in services we dispatch ROUTE_CHANGED subscribing to ROUTE_REQUESTED stream
   //         Actually ROUTE_CHANGED is dispatched first and ROUTE_REQUESTED after
-  //     with debouce:
+  //     with debounce:
   //         The order is preserved
   // *******************************
    .debounceTime(1)
