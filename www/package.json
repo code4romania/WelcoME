@@ -8,13 +8,11 @@
   },
   "homepage": "https://welcome.pw",
   "dependencies": {
-    "classnames": "^2.2.5",
-    "eventemitter3": "^2.0.2",
+    "classnames": "^2.2.5",    
     "fbjs": "^0.8.9",
     "firebase": "^3.6.9",
     "history": "^4.5.1",
-    "npm-git-install": "^0.2.0",
-    "ramda": "^0.23.0",
+    "npm-git-install": "^0.2.0",   
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "rxjs": "^5.0.3"
