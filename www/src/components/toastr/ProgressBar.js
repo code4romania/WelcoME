@@ -31,7 +31,6 @@ class ProgressBar extends Component {
 
   render () {
     const {percent} = this.state
-
     return (
       <div className='toastr-progress-container'>
         <div className='toastr-progressbar' style={{width: `${percent}%`}} />

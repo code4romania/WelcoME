@@ -4,79 +4,32 @@ import { guid } from './utils'
 // actions
 registerAction('ADD_TOASTR')
 registerAction('REMOVE_TOASTR')
-registerAction('CLEAN_TOASTR')
-registerAction('SHOW_CONFIRM')
-registerAction('HIDE_CONFIRM')
-registerAction('REMOVE_BY_TYPE')
+registerAction('CLEAN_TOASTRS')
 
 // handlers
-Handlers.addToastr = (toastr) => dispatch(Actions.ADD_TOASTR, toastr)
-Handlers.cleanToastr = () => dispatch(Actions.CLEAN_TOASTR)
-Handlers.removeToastr = (params) => dispatch(Actions.REMOVE_TOASTR, params)
-Handlers.showConfirmToastr = (obj) => dispatch(Actions.SHOW_CONFIRM, obj)
-Handlers.hideConfirmToastr = () => dispatch(Actions.HIDE_CONFIRM)
-Handlers.removeByTypeToastr = (payload) => dispatch(Actions.REMOVE_BY_TYPE, payload)
+Handlers.addToastr = (toastr) => dispatch(Actions.ADD_TOASTR, {id: guid(), ...toastr})
+Handlers.cleanToastrs = () => dispatch(Actions.CLEAN_TOASTRS, {})
+Handlers.removeToastr = (id) => dispatch(Actions.REMOVE_TOASTR, id)
 
 // reducer
-const initialState = {
-  toastrs: [],
-  confirm: null
-}
+const initialState = []
 
-Reducers.toastr = (state = initialState, action) => {
-  const {type, payload: { title, message, options, id }} = action
-  let newState
-  switch (type) {
+Reducers.toastrs = (state = initialState, action) => {
+  switch (action.type) {
     case Actions.ADD_TOASTR:
-      const newToastr = {
-        id: guid(),
+      const {payload: { title, message, options, id, type }} = action
+      return [ {
+        id,
         type,
         title,
         message,
         options
-      }
-      newState = {}
-      newState = {
-        ...state,
-        toastrs: [
-          newToastr,
-          ...state.toastrs
-        ]
-      }
-      return newState
-
+      }, ...state ]
     case Actions.REMOVE_TOASTR:
-      newState = {
-        ...state,
-        toastrs: state.toastrs.filter(toastr => toastr.id !== id)
-      }
-      return newState
-    case Actions.REMOVE_BY_TYPE:
-      newState = {
-        ...state,
-        toastrs: state.toastrs.filter(toastr => toastr.type !== type)
-      }
-      return newState
-    case Actions.CLEAN_TOASTR:
-      return {
-        ...state,
-        toastrs: []
-      }
-    case Actions.SHOW_CONFIRM:
-      return {
-        ...state,
-        confirm: {
-          id: guid(),
-          show: true,
-          message,
-          options: options || {}
-        }
-      }
-    case Actions.HIDE_CONFIRM:
-      return {
-        ...state,
-        confirm: null
-      }
+      return state.filter(toastr => toastr.id !== action.payload)
+
+    case Actions.CLEAN_TOASTRS:
+      return []
     default:
       return state
   }
