@@ -3,8 +3,8 @@ import Header from './header/Header.js'
 import Page from './page/Page'
 import Footer from './footer/Footer'
 import LoadingApp from './LoadingApp'
+import Toastr from './toastr/Toastr'
 import './App.css'
-
 const App = (props, context) => {
   if (context.store.auth.loading) {
     return <LoadingApp />
@@ -14,6 +14,7 @@ const App = (props, context) => {
       <Header />
       <Page />
       <Footer />
+      <Toastr />
     </div>
   )
 }

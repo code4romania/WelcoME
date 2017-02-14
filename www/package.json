@@ -8,6 +8,9 @@
   },
   "homepage": "https://welcome.pw",
   "dependencies": {
+    "classnames": "^2.2.5",
+    "eventemitter3": "^2.0.2",
+    "fbjs": "^0.8.9",
     "firebase": "^3.6.9",
     "history": "^4.5.1",
     "npm-git-install": "^0.2.0",
