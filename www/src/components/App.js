@@ -14,7 +14,7 @@ const App = (props, context) => {
       <Header />
       <Page />
       <Footer />
-      <Toastr />
+      <Toastr timeOut={150000} />
     </div>
   )
 }

@@ -46,7 +46,6 @@ class ToastrBox extends Component {
 
   componentDidMount () {
     const {item} = this.props
-    if (this.props.inMemory[item.id]) return
 
     const timeOut = this._getItemTimeOut()
 
@@ -60,7 +59,6 @@ class ToastrBox extends Component {
 
     this._setTransition()
     onCSSTransitionEnd(this.toastrBox, this._onAnimationComplete)
-    this.props.addToMemory(item.id)
   }
 
   componentWillUnmount () {
@@ -79,35 +77,6 @@ class ToastrBox extends Component {
 
     this._setShouldClose(true)
     this._removeToastr()
-  }
-
-  mouseEnter () {
-    clearTimeout(this.intervalId)
-
-    this._setIntervalId(null)
-    this._setIsHiding(false)
-
-    const {progressBar} = this.props.item.options
-    const timeOut = this._getItemTimeOut()
-
-    if (timeOut && progressBar) {
-      this.setState({progressBar: null})
-    }
-  }
-
-  mouseLeave () {
-    const {removeOnHover} = this.props.item.options
-
-    if (!this.isHiding && (removeOnHover || this.shouldClose)) {
-      this._setIntervalId(setTimeout(this._removeToastr, 1000))
-
-      const {progressBar} = this.props.item.options
-      const timeOut = this._getItemTimeOut()
-
-      if (timeOut && progressBar) {
-        this.setState({progressBar: {duration: 1000}})
-      }
-    }
   }
 
   renderSubComponent () {
@@ -220,12 +189,10 @@ class ToastrBox extends Component {
     if (typeof timeOut === 'undefined') {
       timeOut = this.props.timeOut
     }
-
     return timeOut
   }
 
   _onAnimationComplete () {
-    console.log('aaaaa', this.props)
     const {remove, item} = this.props
     const {options, id} = item
 
@@ -296,8 +263,6 @@ class ToastrBox extends Component {
           type,
           options.className
         )}
-        onMouseEnter={this.mouseEnter.bind(this)}
-        onMouseLeave={this.mouseLeave.bind(this)}
       >
         {this.toastr()}
       </div>
