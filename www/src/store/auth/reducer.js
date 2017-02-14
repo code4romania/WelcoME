@@ -1,9 +1,8 @@
 // auth store
 import { registerAction, Reducers, Actions, dispatch, Handlers } from '../../rxdux'
-import { transformUser } from './helpers'
+
 // actions
 registerAction('AUTH_USER')
-registerAction('AUTH_MESSAGE')
 registerAction('SIGNIN_EMAIL_REQUESTED')
 registerAction('SIGNUP_EMAIL_REQUESTED')
 registerAction('SIGNOUT_REQUESTED')
@@ -27,9 +26,27 @@ Handlers.authUser = user => dispatch(Actions.AUTH_USER, user)
 // messages to forms and alerts with auth types: isError, isOk, isWarning, isInfo
 // routes param is an array with the pathnames of the routes to show the message
 // error message
-Handlers.errorUser = (error, routes) => dispatch(Actions.AUTH_MESSAGE, {...error, isError: true, routes})
-// other type of messages
-Handlers.okUser = (okMessage, routes, type = { isOk: true }) => dispatch(Actions.AUTH_MESSAGE, { okMessage, ...type, routes })
+Handlers.errorUser = (id, title, {message}, timeOut) =>
+  id && title && Handlers.addToastr({
+    id,
+    title,
+    message: message || 'Unknown error',
+    type: 'error',
+    options: {
+      showCloseButton: true,
+      timeOut: timeOut || 17000
+    }})
+// success
+Handlers.okUser = (id, title, message, timeOut) =>
+  id && title && Handlers.addToastr({
+    id,
+    title,
+    message,
+    type: 'success',
+    options: {
+      showCloseButton: true,
+      timeOut: timeOut || 12000
+    }})
 
 // reducer
 const initialState = {
@@ -45,14 +62,7 @@ Reducers.auth = (state = initialState, action) => {
         authenticated: !!action.payload,
         pending: false,
         loading: false,
-        user: transformUser(action.payload),
-        message: null
-      }
-    case Actions.AUTH_MESSAGE:
-      return {
-        ...state,
-        pending: false,
-        message: action.payload
+        user: action.payload
       }
     case Actions.SIGNIN_EMAIL_REQUESTED:
     case Actions.SIGNUP_EMAIL_REQUESTED:
@@ -60,8 +70,7 @@ Reducers.auth = (state = initialState, action) => {
     case Actions.FORGOT_REQUESTED:
       return {
         ...state,
-        pending: true,
-        message: null
+        pending: true
       }
     default:
       return state
