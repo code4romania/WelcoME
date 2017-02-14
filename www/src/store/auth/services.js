@@ -2,7 +2,7 @@ import { Handlers, actions$, Actions, payloads$ } from '../../rxdux'
 import { FirebaseAuth } from '../../firebase'
 
 // on auth sync store
-FirebaseAuth.onAuthStateChanged(user => Handlers.authUser(user), err => Handlers.errorUser(err, ['signup', 'login', 'forgot']))
+FirebaseAuth.onAuthStateChanged(user => Handlers.authUser(user), err => Handlers.errorUser(err, ['signup', 'login', 'forgot', 'general']))
 
 // signup with email requested
 payloads$(Actions.SIGNUP_EMAIL_REQUESTED)
@@ -17,7 +17,6 @@ payloads$(Actions.SIGNUP_EMAIL_REQUESTED)
 payloads$(Actions.SIGNIN_EMAIL_REQUESTED)
   .subscribe(fields => {
     FirebaseAuth.signInWithEmailAndPassword(fields.email, fields.password)
-        .then(user => Handlers.authUser(user))
         .catch(err => Handlers.errorUser(err, ['login']))
   })
 
@@ -32,7 +31,7 @@ payloads$(Actions.FORGOT_REQUESTED)
 // signout user requested
 payloads$(Actions.SIGNOUT_REQUESTED).subscribe(() => {
   Handlers.goToPath('/')
-  FirebaseAuth.signOut()
+  FirebaseAuth.signOut().catch(err => Handlers.errorUser(err, ['general']))
 })
 
 // clean up forms fields on every request

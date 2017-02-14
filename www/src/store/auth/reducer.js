@@ -10,21 +10,26 @@ registerAction('SIGNOUT_REQUESTED')
 registerAction('FORGOT_REQUESTED')
 
 // handlers
+// UI handlers
 // user requested signup with email and password
 Handlers.requestSignup = fields => dispatch(Actions.SIGNUP_EMAIL_REQUESTED, fields)
 // user requested login with email and password
 Handlers.requestLogin = fields => dispatch(Actions.SIGNIN_EMAIL_REQUESTED, fields)
-
+// user requested recovery of the password on email
 Handlers.requestForgot = fields => dispatch(Actions.FORGOT_REQUESTED, fields)
-
 // user requests to signout
 Handlers.requestSignout = () => dispatch(Actions.SIGNOUT_REQUESTED)
 
+// Services handlers
+// authenticate user or signout user if null
 Handlers.authUser = user => dispatch(Actions.AUTH_USER, user)
-// send error message to inform user
-Handlers.errorUser = (error, forms) => dispatch(Actions.AUTH_MESSAGE, {...error, isError: true, forms})
-// send other type of message other then error to inform user
-Handlers.okUser = (okMessage, forms, type = { isOk: true }) => dispatch(Actions.AUTH_MESSAGE, { okMessage, ...type, forms })
+
+// messages to forms and alerts with auth types: isError, isOk, isWarning, isInfo
+// routes param is an array with the pathnames of the routes to show the message
+// error message
+Handlers.errorUser = (error, routes) => dispatch(Actions.AUTH_MESSAGE, {...error, isError: true, routes})
+// other type of messages
+Handlers.okUser = (okMessage, routes, type = { isOk: true }) => dispatch(Actions.AUTH_MESSAGE, { okMessage, ...type, routes })
 
 // reducer
 const initialState = {
