@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react'
 import cn from 'classnames'
 import ToastrBox from './ToastrBox'
-
+import './Toastr.css'
 class Toastr extends Component {
 
   _renderToastrBox (item) {
@@ -46,7 +46,7 @@ Toastr.propTypes = {
 }
 
 Toastr.defaultProps = {
-  position: 'top-right',
+  position: 'bottom-right',
   timeOut: 5000,
   progressBar: true,
   transitionIn: 'bounceIn',
