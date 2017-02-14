@@ -8,7 +8,7 @@ registerAction('CLEAN_TOASTRS')
 
 // handlers
 Handlers.addToastr = (toastr) => dispatch(Actions.ADD_TOASTR, {id: guid(), ...toastr})
-Handlers.cleanToastrs = () => dispatch(Actions.CLEAN_TOASTRS, {})
+Handlers.cleanToastrs = () => dispatch(Actions.CLEAN_TOASTRS)
 Handlers.removeToastr = (id) => dispatch(Actions.REMOVE_TOASTR, id)
 
 // reducer
@@ -27,7 +27,6 @@ Reducers.toastrs = (state = initialState, action) => {
       }, ...state ]
     case Actions.REMOVE_TOASTR:
       return state.filter(toastr => toastr.id !== action.payload)
-
     case Actions.CLEAN_TOASTRS:
       return []
     default:
