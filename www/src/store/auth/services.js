@@ -42,10 +42,15 @@ payloads$(Actions.SIGNOUT_REQUESTED).subscribe(() => {
 })
 
 // clean up forms fields on every request
-actions$(Actions.AUTH_USER, Actions.SIGNUP_EMAIL_REQUESTED, Actions.SIGNIN_EMAIL_REQUESTED, Actions.FORGOT_REQUESTED)
- .subscribe(() => Handlers.changeFields({
-   email: null,
-   password: null,
-   password1: null,
-   password2: null
- }))
+actions$(
+  Actions.AUTH_USER,
+  Actions.SIGNUP_EMAIL_REQUESTED,
+  Actions.SIGNIN_EMAIL_REQUESTED,
+  Actions.FORGOT_REQUESTED,
+  Actions.SIGNOUT_REQUESTED
+).subscribe(() => Handlers.changeFields({
+  email: null,
+  password: null,
+  password1: null,
+  password2: null
+}))
