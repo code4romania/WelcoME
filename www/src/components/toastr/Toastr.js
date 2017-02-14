@@ -47,7 +47,7 @@ Toastr.propTypes = {
 
 Toastr.defaultProps = {
   position: 'bottom-right',
-  timeOut: 5000,
+  timeOut: 6000,
   progressBar: true,
   transitionIn: 'bounceIn',
   transitionOut: 'bounceOut'
