@@ -4,7 +4,7 @@ import LoginField from './LoginField'
 import LoginMessage from './LoginMessage'
 
 const Form = ({fields = [], links = [], ...props}, context) => {
-  const {forms, auth} = context.store
+  const {forms} = context.store
   const handlers = context.handlers
   // helpers
   const validate = props.validate(forms)
@@ -12,7 +12,7 @@ const Form = ({fields = [], links = [], ...props}, context) => {
     e.preventDefault()
     handlers[props.submitHandler](forms)
   }
-  const message = auth.message && auth.message.forms && auth.message.forms.some(form => form === props.name) ? auth.message : null
+  const message = null
   const FieldHelper = field => {
             // helpers for field
     const touched = forms[field.name] !== null && forms[field.name] !== undefined
