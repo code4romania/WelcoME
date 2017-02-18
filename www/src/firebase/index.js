@@ -18,5 +18,7 @@ var configRazvan = {
 
 Firebase.initializeApp(configRazvan)
 
-export const FirebaseAuth = Firebase.auth()
+export const FirebaseAuth = Firebase.auth();
+export const FirebaseDb = Firebase.database();
+
 export default Firebase

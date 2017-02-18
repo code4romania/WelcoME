@@ -2,11 +2,13 @@
 import { registerAction, Reducers, Actions, dispatch, Handlers } from '../../rxdux'
 
 // actions
-registerAction('AUTH_USER')
-registerAction('SIGNIN_EMAIL_REQUESTED')
-registerAction('SIGNUP_EMAIL_REQUESTED')
-registerAction('SIGNOUT_REQUESTED')
-registerAction('FORGOT_REQUESTED')
+registerAction('AUTH_USER');
+registerAction('SIGNIN_EMAIL_REQUESTED');
+registerAction('SIGNUP_EMAIL_REQUESTED');
+registerAction('SIGNOUT_REQUESTED');
+registerAction('FORGOT_REQUESTED');
+registerAction('EDIT_PROFILE_REQUESTED');
+registerAction('LOAD_PROFILE');
 
 // handlers
 // UI handlers
@@ -18,10 +20,15 @@ Handlers.requestLogin = fields => dispatch(Actions.SIGNIN_EMAIL_REQUESTED, field
 Handlers.requestForgot = fields => dispatch(Actions.FORGOT_REQUESTED, fields)
 // user requests to signout
 Handlers.requestSignout = () => dispatch(Actions.SIGNOUT_REQUESTED)
+// user request to edit profile
+Handlers.requestEditProfile = fields => dispatch(Actions.EDIT_PROFILE_REQUESTED, fields);
 
 // Services handlers
 // authenticate user or signout user if null
 Handlers.authUser = user => dispatch(Actions.AUTH_USER, user)
+
+// User profile data loaded
+Handlers.loadProfile = user => dispatch(Actions.LOAD_PROFILE, user);
 
 // messages to forms and alerts with auth types: isError, isOk, isWarning, isInfo
 // routes param is an array with the pathnames of the routes to show the message
@@ -71,6 +78,17 @@ Reducers.auth = (state = initialState, action) => {
       return {
         ...state,
         pending: true
+      }
+    case Actions.EDIT_PROFILE_REQUESTED:
+      return {
+        ...state,
+        pending: true,
+        user: action.payload,
+      }
+    case Actions.LOAD_PROFILE:
+      return {
+        ...state,
+        user: action.payload,
       }
     default:
       return state
