@@ -15,7 +15,6 @@ class ProfileForm extends Component {
   componentDidMount () {
     const {handlers, store} = this.context
     const editFields = store.auth.profile
-    console.log(editFields)
     handlers.changeFields(editFields)
   }
 
