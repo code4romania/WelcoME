@@ -1,4 +1,13 @@
 import React, {PropTypes} from 'react'
+import FlatButton from 'material-ui/FlatButton'
+
+const styles = {
+  flat: {
+    color: '#ffffff',
+    marginTop: 7
+  }
+
+}
 
 const Link = (props, context) => {
   // get state and handlers from context
@@ -17,37 +26,17 @@ const Link = (props, context) => {
   if (!visible) {
     return <div />
   }
-
-  // no li, only a
-  if (props.simple) {
-    return (
-      <a href className={props.className} onClick={onClick}>
-        {props.children}
-      </a>
-    )
-  }
-
   // li with a
-  return (
-    <li className={`${props.liClassName} ${activeRouteClass}`}>
-      <a href className={props.className} onClick={onClick}> {text} </a>
-    </li>
-  )
+  return <FlatButton backgroundColor={activeRouteClass ? '#a4c639' : ''} style={styles.flat} onClick={onClick} label={text} />
 }
-
+Link.muiName = 'FlatButton'
 Link.propTypes = {
   // visibility function
   visible: PropTypes.func,
   // history navigate address
   route: PropTypes.string,
   // action link handler name
-  action: PropTypes.string,
-  // CSS class for a tag
-  className: PropTypes.string,
-  // CSS class for li tag
-  liClassName: PropTypes.string,
-  // only a tag without li tag
-  simple: PropTypes.bool
+  action: PropTypes.string
 }
 
 Link.contextTypes = {

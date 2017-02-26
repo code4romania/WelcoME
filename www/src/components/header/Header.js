@@ -1,5 +1,12 @@
-import React from 'react'
+import React, { PropTypes} from 'react'
 import Link from './Link'
+import AppBar from 'material-ui/AppBar'
+
+const styles = {
+  title: {
+    cursor: 'pointer'
+  }
+}
 
 const links = [
   { name: 'profile', visible: state => state.auth.authenticated, text: 'Profile', route: '/profile' },
@@ -8,18 +15,19 @@ const links = [
   { name: 'signup', visible: state => !state.auth.authenticated, text: 'Sign Up', route: '/signup' }
 ].map(link => ({...link, className: 'nav-link', liClassName: 'nav-item'}))
 
-export default () => (
-  <nav className='navbar navbar-default'>
-    <div className='container-fluid'>
-      <div className='navbar-header'>
-        <Link className='navbar-brand' simple route='/'>Welcome</Link>
-      </div>
-      <ul className='nav navbar-nav navbar-right'>
-        {links.map(link => (
-          <Link key={link.name} {...link} />
-        ))}
-      </ul>
-    </div>
-  </nav>
-)
+const Header = (props, {handlers}) => (
+  <AppBar
+    title={<span style={styles.title}>Welcome</span>} onTitleTouchTap={() => handlers.goToPath('/')}
+    showMenuIconButton={false}
+    iconElementRight={<div>
+      {links.map(link => (
+        <Link key={link.name} {...link} />
+      ))}
+    </div>} />
 
+)
+Header.contextTypes = {
+  store: PropTypes.object.isRequired,
+  handlers: PropTypes.object.isRequired
+}
+export default Header

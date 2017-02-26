@@ -1,10 +1,10 @@
 import React from 'react'
-
+import CircularProgress from 'material-ui/CircularProgress'
 import './LoadingApp.css'
 
 const LoadingApp = () => (
   <div>
-    <h1>Loading</h1>
+    <CircularProgress />
   </div>
   )
 
