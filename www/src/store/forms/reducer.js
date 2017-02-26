@@ -3,12 +3,13 @@ import { registerAction, Reducers, Actions, Handlers, dispatch } from '../../rxd
 
 // actions
 registerAction('FIELDS_CHANGED')
+registerAction('CLEAR_FIELDS')
 
 // handlers
 // *** with forms will have an object will all keys in the state
 // when forms keys changes
 Handlers.changeFields = (fields) => dispatch(Actions.FIELDS_CHANGED, fields)
-
+Handlers.clearFields = () => dispatch(Actions.CLEAR_FIELDS)
 // reducer
 const initialState = {}
 Reducers.forms = (state = initialState, action) => {
@@ -18,6 +19,8 @@ Reducers.forms = (state = initialState, action) => {
         ...state,
         ...action.payload
       }
+    case Actions.CLEAR_FIELDS:
+      return {}
     default:
       return state
   }

@@ -6,7 +6,7 @@ import LoadingApp from './LoadingApp'
 import Toastr from './toastr/Toastr'
 import './App.css'
 const App = (props, context) => {
-  if (context.store.auth.loading) {
+  if (!context.store.auth.userLoaded) {
     return <LoadingApp />
   }
   return (
