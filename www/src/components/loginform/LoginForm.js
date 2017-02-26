@@ -1,7 +1,16 @@
 import React, {PropTypes} from 'react'
 import LoginLink from './LoginLink'
 import LoginField from './LoginField'
-import LoginMessage from './LoginMessage'
+import {Card, CardActions, CardTitle, CardText} from 'material-ui/Card'
+import FlatButton from 'material-ui/FlatButton'
+
+const styles = {
+  card: {
+    marginTop: '100px',
+    marginLeft: '200px',
+    marginRight: '200px'
+  }
+}
 
 const Form = ({fields = [], links = [], ...props}, context) => {
   const {forms} = context.store
@@ -12,32 +21,31 @@ const Form = ({fields = [], links = [], ...props}, context) => {
     e.preventDefault()
     handlers[props.submitHandler](forms)
   }
-  const message = null
   const FieldHelper = field => {
             // helpers for field
     const touched = forms[field.name] !== null && forms[field.name] !== undefined
     const value = forms[field.name] || ''
     const error = validate[field.name]
-    return (<LoginField key={field.name} {... field} className='form-group' inputClassName='form-control' labelClassName='control-label'
-      errorClassName='help-block' value={value} touched={touched} error={error} />)
+    return (<LoginField key={field.name} {... field} value={value} touched={touched} error={error} />)
   }
 
   const submitDisabled = !!Object.keys(validate).length
 
   return (
-    <div className='container'>
-      <div className='col-md-6 col-md-offset-3'>
-        <h2 className='text-center'>{props.title}</h2>
-        <LoginMessage message={message} />
-        <form onSubmit={onSubmit}>
+    <form onSubmit={onSubmit}>
+      <Card style={styles.card}>
+        <CardTitle title={props.title} />
+        <CardText>
           {fields.map(FieldHelper)}
           <p>
             { links.map(link => (<LoginLink key={link.goTo} {...link} />)) }
           </p>
-          <button type='submit' disabled={submitDisabled} className='btn btn-primary'> {props.submitText} </button>
-        </form>
-      </div>
-    </div>
+        </CardText>
+        <CardActions>
+          <FlatButton type='submit' primary disabled={submitDisabled} label={props.submitText} />
+        </CardActions>
+      </Card>
+    </form>
   )
 }
 Form.propTypes = {

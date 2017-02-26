@@ -1,7 +1,10 @@
 import React, { PropTypes } from 'react'
-
+import './LoginLink.css'
 const LoginLink = (props, { handlers }) => (
-  <a onClick={() => handlers.goToPath(props.goTo)}>{ props.text }</a>
+  <a className='login-link' onClick={event => {
+    event.preventDefault()
+    handlers.goToPath(props.goTo)
+  }}>{ props.text }</a>
 )
 
 LoginLink.propTypes = {

@@ -1,6 +1,6 @@
 // auth store
 import { registerAction, Reducers, Actions, dispatch, Handlers } from '../../rxdux'
-
+import rs from 'randomstring'
 // actions
 registerAction('USER_CHANGED')
 registerAction('SIGNIN_EMAIL_REQUESTED')
@@ -20,8 +20,11 @@ Handlers.requestLogin = fields => dispatch(Actions.SIGNIN_EMAIL_REQUESTED, field
 Handlers.requestForgot = fields => dispatch(Actions.FORGOT_REQUESTED, fields)
 // user requests to signout
 Handlers.requestSignout = () => dispatch(Actions.SIGNOUT_REQUESTED)
+
 // user request to edit profile
-Handlers.requestEditProfile = fields => dispatch(Actions.EDIT_PROFILE_REQUESTED, fields)
+// _modif_ temporary workaround for profileLoaded -> true when noting changed on update
+// TODO -> send mutation only if something realy changed
+Handlers.requestEditProfile = fields => dispatch(Actions.EDIT_PROFILE_REQUESTED, {...fields, _modif_: rs.generate(7)})
 
 // Services handlers
 // authenticate user or signout user if null
