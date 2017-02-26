@@ -14,7 +14,6 @@ const validate = values => {
 class ProfileForm extends Component {
   componentDidMount () {
     const {handlers, store} = this.context
-    console.log(handlers, store)
     const editFields = store.auth.profile
     console.log(editFields)
     handlers.changeFields(editFields)
