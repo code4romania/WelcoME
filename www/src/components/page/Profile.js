@@ -1,9 +1,9 @@
-import React, { PropTypes } from 'react'
+import React, { PropTypes, Component } from 'react'
 import LoginForm from '../loginform/LoginForm'
 
 const fields = [
   { name: 'firstName', label: 'First Name', type: 'input' },
-  { name: 'lastName', label: 'Last Name', type: 'input' },
+  { name: 'lastName', label: 'Last Name', type: 'input' }
 ]
 
 const validate = values => {
@@ -11,27 +11,48 @@ const validate = values => {
   return errors
 }
 
+class ProfileForm extends Component {
+  componentDidMount () {
+    const {handlers, store} = this.context
+    console.log(handlers, store)
+    const editFields = store.auth.profile
+    console.log(editFields)
+    handlers.changeFields(editFields)
+  }
+
+  render () {
+    return <LoginForm
+      fields={fields}
+      submitText='Update'
+      title='Edit profile'
+      name='editprofile'
+      validate={validate}
+      submitHandler='requestEditProfile'
+      />
+  }
+}
+ProfileForm.contextTypes = {
+  store: PropTypes.object.isRequired,
+  handlers: PropTypes.object.isRequired
+}
+
 const Profile = (props, { store }) => {
-  const { user } = store.auth
-  const userData1 = user ? `${user.uid} - ${user.email}` : ''
-  const userData2 = user
+  const { user, profile, profileLoaded } = store.auth
+  const userData1 = user.uid ? `${user.uid} - ${user.email}` : ''
+  const userData2 = user.uid
     ? `${user.verified ? 'Verified' : 'Not verified'}`
     : 'Not authenticated'
-
+  const userData3 = profile.firstName ? `${profile.firstName} - ${profile.lastName}` : ''
+  if (!profileLoaded) {
+    return <div />
+  }
   return (
     <div>
       <h1>Profile</h1>
       <h4> { userData1 }</h4>
       <h5> { userData2 }</h5>
-
-      <LoginForm
-        fields={fields}
-        submitText='Update'
-        title='Edit profile'
-        name='editprofile'
-        validate={validate}
-        submitHandler='requestEditProfile'
-      />
+      <h5> { userData3 }</h5>
+      <ProfileForm />
     </div>
   )
 }

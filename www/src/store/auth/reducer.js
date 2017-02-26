@@ -2,13 +2,13 @@
 import { registerAction, Reducers, Actions, dispatch, Handlers } from '../../rxdux'
 
 // actions
-registerAction('AUTH_USER');
-registerAction('SIGNIN_EMAIL_REQUESTED');
-registerAction('SIGNUP_EMAIL_REQUESTED');
-registerAction('SIGNOUT_REQUESTED');
-registerAction('FORGOT_REQUESTED');
-registerAction('EDIT_PROFILE_REQUESTED');
-registerAction('LOAD_PROFILE');
+registerAction('USER_CHANGED')
+registerAction('SIGNIN_EMAIL_REQUESTED')
+registerAction('SIGNUP_EMAIL_REQUESTED')
+registerAction('SIGNOUT_REQUESTED')
+registerAction('FORGOT_REQUESTED')
+registerAction('EDIT_PROFILE_REQUESTED')
+registerAction('PROFILE_CHANGED')
 
 // handlers
 // UI handlers
@@ -21,14 +21,13 @@ Handlers.requestForgot = fields => dispatch(Actions.FORGOT_REQUESTED, fields)
 // user requests to signout
 Handlers.requestSignout = () => dispatch(Actions.SIGNOUT_REQUESTED)
 // user request to edit profile
-Handlers.requestEditProfile = fields => dispatch(Actions.EDIT_PROFILE_REQUESTED, fields);
+Handlers.requestEditProfile = fields => dispatch(Actions.EDIT_PROFILE_REQUESTED, fields)
 
 // Services handlers
 // authenticate user or signout user if null
-Handlers.authUser = user => dispatch(Actions.AUTH_USER, user)
-
-// User profile data loaded
-Handlers.loadProfile = user => dispatch(Actions.LOAD_PROFILE, user);
+Handlers.userChanged = user => dispatch(Actions.USER_CHANGED, user)
+// profile data changed
+Handlers.profileChanged = profile => dispatch(Actions.PROFILE_CHANGED, profile)
 
 // messages to forms and alerts with auth types: isError, isOk, isWarning, isInfo
 // routes param is an array with the pathnames of the routes to show the message
@@ -57,38 +56,39 @@ Handlers.okUser = (id, title, message, timeOut) =>
 
 // reducer
 const initialState = {
-  // loading stands for initial fetching of auth state status from Firebase
-  loading: true
+  // userLoaded stands for initial fetching of auth state status from Firebase
+  authenticated: false,
+  pending: false,
+  userLoaded: false,
+  profileLoaded: false,
+  user: {},
+  profile: {}
 }
 
 Reducers.auth = (state = initialState, action) => {
   switch (action.type) {
-    case Actions.AUTH_USER:
+    case Actions.USER_CHANGED:
       return {
         ...state,
         authenticated: !!action.payload,
         pending: false,
-        loading: false,
-        user: action.payload
+        userLoaded: true,
+        user: action.payload || {}
+      }
+    case Actions.PROFILE_CHANGED:
+      return {
+        ...state,
+        profileLoaded: true,
+        profile: action.payload || {}
       }
     case Actions.SIGNIN_EMAIL_REQUESTED:
     case Actions.SIGNUP_EMAIL_REQUESTED:
     case Actions.SIGNOUT_REQUESTED:
     case Actions.FORGOT_REQUESTED:
-      return {
-        ...state,
-        pending: true
-      }
     case Actions.EDIT_PROFILE_REQUESTED:
       return {
         ...state,
-        pending: true,
-        user: action.payload,
-      }
-    case Actions.LOAD_PROFILE:
-      return {
-        ...state,
-        user: action.payload,
+        pending: true
       }
     default:
       return state

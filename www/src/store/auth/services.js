@@ -2,21 +2,36 @@ import { Handlers, actions$, Actions, payloads$ } from '../../rxdux'
 import { FirebaseAuth, FirebaseDb } from '../../firebase'
 import { transformUser } from './helpers'
 
-// on auth sync store
-FirebaseAuth.onAuthStateChanged(user => {
-  user = transformUser(user);
-  Handlers.authUser(user);
-  Handlers.loadProfile(user);
-  user && Handlers.okUser('auth', 'Welcome', `${user.email}`);
-}, err => Handlers.errorUser('auth', 'Sign In', err))
+// auth and db global observers
+// here will unsubscribe and subscribe to all keys when user changes
+// for now only profile will be extracted from 'users/uid' key
 
-payloads$(Actions.LOAD_PROFILE)
-  .subscribe(user => {
-    FirebaseDb.ref('/users/' + user.uid).once('value').then(snapshot => {
-      user.firstName = snapshot.val().firstName;
-      user.lastName = snapshot.val().lastName;
-    });
-  });
+// TODO mre elegant is to distinctUntilChanged on state$ stream
+// without keeping track of lastUid
+let lastUid
+const updateUserObservers = uid => {
+  // same user
+  if (uid && lastUid && (uid === lastUid)) {
+    return
+  }
+  // unsubscribe old observers
+  if (lastUid) {
+    FirebaseDb.ref('/users/' + lastUid).off('value')
+  }
+  // subscribe new observers
+  if (uid) {
+    FirebaseDb.ref('/users/' + uid).on('value', snapshot => Handlers.profileChanged(snapshot.val()))
+  }
+  lastUid = uid
+}
+
+// on user changed sync it with store
+FirebaseAuth.onAuthStateChanged(user => {
+  user = transformUser(user)
+  updateUserObservers(user && user.uid)
+  Handlers.userChanged(user)
+  user && Handlers.okUser('auth', 'Welcome', `${user.email}`)
+}, err => Handlers.errorUser('auth', 'Sign In', err))
 
 // signup with email requested
 payloads$(Actions.SIGNUP_EMAIL_REQUESTED)
@@ -43,6 +58,7 @@ payloads$(Actions.FORGOT_REQUESTED)
   .subscribe(fields => {
     FirebaseAuth
       .sendPasswordResetEmail(fields.email)
+      .then(() => Handlers.goToPath('/login'))
       .then(() => Handlers.okUser('signup', 'An email was sent at', `${fields.email} for resetting the password`))
       .catch(err => Handlers.errorUser('auth', 'Reset password', err))
   })
@@ -57,31 +73,26 @@ payloads$(Actions.SIGNOUT_REQUESTED).subscribe(() => {
     .catch(err => Handlers.errorUser('auth', 'Sign Out', err))
 })
 
+// edit profile requested
 payloads$(Actions.EDIT_PROFILE_REQUESTED)
   .subscribe((fields) => {
-    const user = FirebaseAuth.currentUser;
-
+    const user = FirebaseAuth.currentUser
     FirebaseDb
       .ref('users/' + user.uid).set({
         firstName: fields.firstName,
-        lastName: fields.lastName,
+        lastName: fields.lastName
       })
-      .then(() => Handlers.authUser(transformUser(user)))
       .then(() => Handlers.okUser('editProfile', 'Profile updated for', `${user.email}`))
       .then(() => Handlers.goToPath('/'))
-      .catch(err => Handlers.errorUser('editProfile', 'Profile not updated..', err));
+      .catch(err => Handlers.errorUser('editProfile', 'Profile not updated..', err))
   })
 
 // clean up forms fields on every request
 actions$(
-  Actions.AUTH_USER,
+  Actions.USER_CHANGED,
   Actions.SIGNUP_EMAIL_REQUESTED,
   Actions.SIGNIN_EMAIL_REQUESTED,
   Actions.FORGOT_REQUESTED,
   Actions.SIGNOUT_REQUESTED,
-).subscribe(() => Handlers.changeFields({
-  email: null,
-  password: null,
-  password1: null,
-  password2: null
-}))
+  Actions.EDIT_PROFILE_REQUESTED
+).subscribe(() => Handlers.clearFields())
