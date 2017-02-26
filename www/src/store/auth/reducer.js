@@ -85,9 +85,14 @@ Reducers.auth = (state = initialState, action) => {
     case Actions.SIGNUP_EMAIL_REQUESTED:
     case Actions.SIGNOUT_REQUESTED:
     case Actions.FORGOT_REQUESTED:
+      return {
+        ...state,
+        pending: true
+      }
     case Actions.EDIT_PROFILE_REQUESTED:
       return {
         ...state,
+        profileLoaded: false,
         pending: true
       }
     default:

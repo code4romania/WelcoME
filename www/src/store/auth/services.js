@@ -83,7 +83,6 @@ payloads$(Actions.EDIT_PROFILE_REQUESTED)
         lastName: fields.lastName
       })
       .then(() => Handlers.okUser('editProfile', 'Profile updated for', `${user.email}`))
-      .then(() => Handlers.goToPath('/'))
       .catch(err => Handlers.errorUser('editProfile', 'Profile not updated..', err))
   })
 
@@ -93,6 +92,5 @@ actions$(
   Actions.SIGNUP_EMAIL_REQUESTED,
   Actions.SIGNIN_EMAIL_REQUESTED,
   Actions.FORGOT_REQUESTED,
-  Actions.SIGNOUT_REQUESTED,
-  Actions.EDIT_PROFILE_REQUESTED
+  Actions.SIGNOUT_REQUESTED
 ).subscribe(() => Handlers.clearFields())
