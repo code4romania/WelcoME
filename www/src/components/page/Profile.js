@@ -14,7 +14,7 @@ const validate = values => {
 class ProfileForm extends Component {
   componentDidMount () {
     const {handlers, store} = this.context
-    const editFields = store.auth.profile
+    const editFields = store.auth.profile && store.auth.profile.data
     handlers.changeFields(editFields)
   }
 
@@ -36,11 +36,12 @@ ProfileForm.contextTypes = {
 
 const Profile = (props, { store }) => {
   const { user, profile, profileLoaded } = store.auth
+  const data = profile.data || {}
   const userData1 = user.uid ? `${user.uid} - ${user.email}` : ''
   const userData2 = user.uid
     ? `${user.verified ? 'Verified' : 'Not verified'}`
     : 'Not authenticated'
-  const userData3 = profile.firstName ? `${profile.firstName} - ${profile.lastName}` : ''
+  const userData3 = data.firstName ? `${data.firstName} - ${data.lastName}` : ''
   if (!profileLoaded) {
     return <div />
   }

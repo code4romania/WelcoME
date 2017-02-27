@@ -78,7 +78,7 @@ payloads$(Actions.EDIT_PROFILE_REQUESTED)
   .subscribe((fields) => {
     const user = FirebaseAuth.currentUser
     FirebaseDb
-      .ref('users/' + user.uid).set(fields)
+      .ref('users/' + user.uid + '/data').set(fields)
       .then(() => Handlers.okUser('editProfile', 'Profile updated for', `${user.email}`))
       .catch(err => Handlers.errorUser('editProfile', 'Profile not updated..', err))
   })
