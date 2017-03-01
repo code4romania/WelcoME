@@ -43,7 +43,7 @@ const Profile = (props, { store }) => {
     : 'Not authenticated'
   const userData3 = data.firstName ? `${data.firstName} - ${data.lastName}` : ''
   if (!profileLoaded) {
-    return <div />
+    return null
   }
   return (
     <div>

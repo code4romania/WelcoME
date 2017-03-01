@@ -17,7 +17,7 @@ const LoginMessage = ({ message }) => {
       </div>
     )
   }
-  return <div />
+  return null
 }
 
 LoginMessage.propTypes = {

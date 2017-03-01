@@ -23,7 +23,7 @@ Handlers.requestSignout = () => dispatch(Actions.SIGNOUT_REQUESTED)
 
 // user request to edit profile
 // _modif_ temporary workaround for profileLoaded -> true when noting changed on update
-// TODO -> send mutation only if something realy changed
+// TODO -> send mutation only if something really changed
 Handlers.requestEditProfile = fields => dispatch(Actions.EDIT_PROFILE_REQUESTED, {...fields, _modif_: rs.generate(7)})
 
 // Services handlers
