@@ -7,6 +7,8 @@ import ContentAdd from 'material-ui/svg-icons/content/add'
 import ContentRemove from 'material-ui/svg-icons/content/remove'
 import Divider from 'material-ui/Divider'
 import ActionInfo from 'material-ui/svg-icons/action/info'
+import './Camps.css'
+
 const style = {
   butt: {
     marginTop: 20,
@@ -18,8 +20,8 @@ const style = {
 }
 
 const fields = [
-  { name: 'firstName', label: 'First Name', type: 'input' },
-  { name: 'lastName', label: 'Last Name', type: 'input' }
+  { name: 'name', label: 'Camp Name', type: 'input' },
+  { name: 'somekey', label: 'Secret thing', type: 'input' }
 ]
 
 const validate = values => {
@@ -28,20 +30,14 @@ const validate = values => {
 }
 
 class CampForm extends Component {
-  componentDidMount () {
-    const {handlers, store} = this.context
-    const editFields = store.auth.profile && store.auth.profile.data
-    handlers.changeFields(editFields)
-  }
-
   render () {
     return <LoginForm
       fields={fields}
       submitText='Update'
-      title='Edit profile'
-      name='editprofile'
+      title='Edit Camp'
+      name='updatecamp'
       validate={validate}
-      submitHandler='requestEditProfile'
+      submitHandler='updateCamp'
       />
   }
 }
@@ -50,34 +46,48 @@ CampForm.contextTypes = {
   handlers: PropTypes.object.isRequired
 }
 
-const Camp = (props) => <ListItem primaryText={props.name}
-  rightIconButton={props.hasRemove ? <FloatingActionButton mini secondary title='Remove camp'>
+const Camp = (props) => <ListItem className={props.activeCamp} onClick={props.onSelectCamp} primaryText={`${props.cid} ${props.name} ${props.somekey ? props.somekey : ''}`}
+  rightIconButton={props.hasRemove ? <FloatingActionButton onClick={props.onDeleteCamp} mini secondary title='Remove camp'>
     <ContentRemove style={style.circ1} />
   </FloatingActionButton> : null} />
 
 const User = () => <ListItem primaryText='User' rightIcon={<ActionInfo />} />
 
-const Camps = (props, {store}) => {
+const Camps = (props, {store, handlers}) => {
   const owner = store.auth.profile && store.auth.profile.owner
-  const camps = store.camps || []
+  const { selectedCamp } = store.camps
+  const camps = Object.keys(store.camps.public).map(cid => ({
+    cid, ...store.camps.public[cid], ...store.camps.private[cid]
+  }))
   const users = []
   return (
     <Card >
       <CardActions>
         { owner
-        ? <FloatingActionButton mini style={style.butt} title='Add camp'>
+        ? <FloatingActionButton onClick={() => handlers.addEmptyCamp()} mini style={style.butt} title='Add camp'>
           <ContentAdd />
         </FloatingActionButton> : null}
       </CardActions>
       <CardText>
         <List>
-          {camps.map(camp => <Camp key={camp.cid} hasRemove={!!owner} {...camp} />)}
+          {camps.map(camp => <Camp key={camp.cid} activeCamp={selectedCamp === camp.cid ? 'activeCamp' : ''}
+            onDeleteCamp={() => handlers.removeCamp(camp.cid)}
+            onSelectCamp={() => {
+              handlers.changeFields({
+                cid: camp.cid,
+                name: camp.name,
+                somekey: camp.somekey
+              })
+              handlers.selectCamp(camp.cid)
+            }}hasRemove={!!owner} {...camp} />)}
         </List>
-        <Divider />
-        <List>
-          {users.map(user => <User {...user} />)}
-        </List>
-        {owner
+        {selectedCamp ? <div>
+          <Divider />
+          <List>
+            {users.map(user => <User {...user} />)}
+          </List>
+        </div> : null }
+        {selectedCamp && owner
         ? <div><Divider />
           <CampForm />
         </div>
@@ -86,5 +96,8 @@ const Camps = (props, {store}) => {
     </Card>
   )
 }
-
+Camps.contextTypes = {
+  store: PropTypes.object.isRequired,
+  handlers: PropTypes.object.isRequired
+}
 export default Camps

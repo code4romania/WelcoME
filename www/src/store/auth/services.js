@@ -9,7 +9,8 @@ import { transformUser } from './helpers'
 // TODO mre elegant is to distinctUntilChanged on state$ stream
 // without keeping track of lastUid
 let lastUid
-const updateUserObservers = uid => {
+const updateUserObservers = user => {
+  const uid = user && user.uid
   // same user
   if (uid && lastUid && (uid === lastUid)) {
     return
@@ -28,7 +29,7 @@ const updateUserObservers = uid => {
 // on user changed sync it with store
 FirebaseAuth.onAuthStateChanged(user => {
   user = transformUser(user)
-  updateUserObservers(user && user.uid)
+  updateUserObservers(user)
   Handlers.userChanged(user)
   user && Handlers.okUser('auth', 'Welcome', `${user.email}`)
 }, err => Handlers.errorUser('auth', 'Sign In', err))
