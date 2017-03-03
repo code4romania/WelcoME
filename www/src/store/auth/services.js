@@ -17,6 +17,7 @@ const updateUserObservers = user => {
   }
   // unsubscribe old observers
   if (lastUid) {
+    Handlers.profileChanged()
     FirebaseDb.ref('/users/' + lastUid).off('value')
   }
   // subscribe new observers
