@@ -22,21 +22,6 @@ store$.map(state => state.auth.user.uid).bufferCount(2, 1).filter(([lastUid, uid
   }
 })
 
-// here will unsubscribe and subscribe to all keys when user changes
-/* store$.map(state => ({ uid: state.auth.user.uid, cid: state.auth.profile.camp }))
-.bufferCount(2, 1).filter(([last, actual]) => `${last.uid || ''}${last.cid || ''}` !== `${actual.uid || ''}${actual.cid || ''}`)
-.subscribe(([last, actual]) => {
-  if (last.uid && last.cid) {
-    FirebaseDb.ref('/owners/' + lastUid).off('value')
-  }
-  if (actual.uid && actual.cid) {
-    FirebaseDb.ref('/users/' + lastUid).off('value')
-  }
-}) */
-
-// on profile changed
-// payloads$(Actions.PROFILE_CHANGED).
-
 // on user changed sync it with store
 FirebaseAuth.onAuthStateChanged(user => {
   user = transformUser(user)

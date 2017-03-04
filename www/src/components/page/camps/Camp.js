@@ -8,8 +8,8 @@ const style = {
   color: 'Red'
 }
 
-const Camp = (props) => <ListItem className={props.activeCamp} onClick={props.onSelectCamp} primaryText={
-  <div><b>{props.name}</b> <span>{props.somekey}</span></div>
+const Camp = (props) => <ListItem className={props.activeCamp ? 'activeCamp' : ''} onClick={props.activeCamp ? props.onDeselectCamp : props.onSelectCamp} primaryText={
+  <div><b>{props.name}</b></div>
   }
   rightIconButton={props.hasRemove ? <FloatingActionButton onClick={props.onDeleteCamp} mini secondary title='Remove camp'>
     <ContentRemove style={style} />
