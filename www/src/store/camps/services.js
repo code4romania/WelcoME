@@ -28,7 +28,7 @@ payloads$(Actions.ADD_EMPTY_CAMP)
       .catch(err => Handlers.errorUser('camps', 'Camp not added', err))
   )
 
-// add empty camp requested
+// update camp requested
 payloads$(Actions.UPDATE_CAMP)
   .subscribe(camp =>
     FirebaseDb
