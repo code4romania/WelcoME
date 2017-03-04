@@ -2,6 +2,7 @@ import React, { PropTypes, Component } from 'react'
 import LoginForm from '../loginform/LoginForm'
 
 const fields = [
+  { name: 'email', label: 'Email', type: 'input', disabled: true },
   { name: 'firstName', label: 'First Name', type: 'input' },
   { name: 'lastName', label: 'Last Name', type: 'input' }
 ]
@@ -14,7 +15,7 @@ const validate = values => {
 class ProfileForm extends Component {
   componentDidMount () {
     const {handlers, store} = this.context
-    const editFields = store.auth.profile && store.auth.profile.data
+    const editFields = {...store.auth.profile && store.auth.profile.data, email: store.auth.user.email}
     handlers.changeFields(editFields)
   }
 

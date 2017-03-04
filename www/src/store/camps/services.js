@@ -5,7 +5,7 @@ import { FirebaseDb } from '../../firebase'
 FirebaseDb.ref('/camps/public').on('value', snapshot => Handlers.campsChangedPublic(snapshot.val()))
 
 // resubscribed when owner role changes
-payloads$(Actions.PROFILE_CHANGED).pluck('owner').distinctUntilChanged().subscribe(owner => {
+payloads$(Actions.PROFILE_CHANGED).filter(profile => !!profile).pluck('owner').distinctUntilChanged().subscribe(owner => {
   if (!owner) {
     FirebaseDb.ref('/camps/private').off()
     Handlers.removeCampsPrivate()
