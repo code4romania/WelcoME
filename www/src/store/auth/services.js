@@ -1,48 +1,73 @@
-import { Handlers, actions$, Actions, payloads$ } from '../../rxdux'
+import { Handlers, actions$, Actions, payloads$, store$ } from '../../rxdux'
 import { FirebaseAuth, FirebaseDb } from '../../firebase'
 import { transformUser } from './helpers'
 
 // auth and db global observers
-// here will unsubscribe and subscribe to all keys when user changes
-// for now only profile will be extracted from 'users/uid' key
 
-// TODO mre elegant is to distinctUntilChanged on state$ stream
-// without keeping track of lastUid
-let lastUid
-const updateUserObservers = user => {
-  const uid = user && user.uid
-  // same user
-  if (uid && lastUid && (uid === lastUid)) {
-    return
-  }
+// here will unsubscribe and subscribe to all keys when user changes
+store$.map(state => state.auth.user.uid).bufferCount(2, 1).filter(([lastUid, uid]) => uid !== lastUid)
+.subscribe(([lastUid, uid]) => {
   // unsubscribe old observers
   if (lastUid) {
     Handlers.profileChanged()
     FirebaseDb.ref('/users/' + lastUid).off('value')
+    FirebaseDb.ref('/owners/' + lastUid).off('value')
+    FirebaseDb.ref('/admins/' + lastUid).off('value')
   }
   // subscribe new observers
   if (uid) {
     FirebaseDb.ref('/users/' + uid).on('value', snapshot => Handlers.profileChanged(snapshot.val()))
+    FirebaseDb.ref('/owners/' + uid).on('value', snapshot => Handlers.profileKeysChanged({ owner: !!snapshot.val() }))
+    FirebaseDb.ref('/admins/' + uid).on('value', snapshot => Handlers.profileKeysChanged({ admin: !!snapshot.val() }))
   }
-  lastUid = uid
-}
+})
+
+// here will unsubscribe and subscribe to all keys when user changes
+/* store$.map(state => ({ uid: state.auth.user.uid, cid: state.auth.profile.camp }))
+.bufferCount(2, 1).filter(([last, actual]) => `${last.uid || ''}${last.cid || ''}` !== `${actual.uid || ''}${actual.cid || ''}`)
+.subscribe(([last, actual]) => {
+  if (last.uid && last.cid) {
+    FirebaseDb.ref('/owners/' + lastUid).off('value')
+  }
+  if (actual.uid && actual.cid) {
+    FirebaseDb.ref('/users/' + lastUid).off('value')
+  }
+}) */
+
+// on profile changed
+// payloads$(Actions.PROFILE_CHANGED).
 
 // on user changed sync it with store
 FirebaseAuth.onAuthStateChanged(user => {
   user = transformUser(user)
-  updateUserObservers(user)
   Handlers.userChanged(user)
   user && Handlers.okUser('auth', 'Welcome', `${user.email}`)
 }, err => Handlers.errorUser('auth', 'Sign In', err))
 
 // signup with email requested
 payloads$(Actions.SIGNUP_EMAIL_REQUESTED)
-  .subscribe(fields => {
+  .subscribe(({email, password1, volunteer, camp}) => {
     FirebaseAuth
-      .createUserWithEmailAndPassword(fields.email, fields.password1)
-      .then(user => user.sendEmailVerification())
+      .createUserWithEmailAndPassword(email, password1)
+      .then(user => {
+        user.sendEmailVerification()
+        return user
+      })
+      .then(({uid, email}) => {
+        FirebaseDb.ref('users/' + uid).set({
+          email,
+          volunteer: !!volunteer,
+          refugee: !volunteer,
+          owner: false,
+          admin: false,
+          camp,
+          emailPassword: true
+        })
+        return uid
+      })
+      .then(uid => FirebaseDb.ref((volunteer ? 'volunteers/' : 'refugees/') + camp + '/' + uid).set(true))
       .then(() => Handlers.goToPath('/'))
-      .then(() => Handlers.okUser('signup', 'An email was sent at', `${fields.email} for verifying the password`))
+      .then(() => Handlers.okUser('signup', 'An email was sent at', `${email} for verifying the password`))
       .catch(err => Handlers.errorUser('auth', 'Sign Up', err))
   })
 
@@ -80,16 +105,12 @@ payloads$(Actions.EDIT_PROFILE_REQUESTED)
   .subscribe((fields) => {
     const user = FirebaseAuth.currentUser
     FirebaseDb
-      .ref('users/' + user.uid + '/data').set(fields)
+      .ref('users/' + user.uid).set(fields)
       .then(() => Handlers.okUser('editProfile', 'Profile updated for', `${user.email}`))
       .catch(err => Handlers.errorUser('editProfile', 'Profile not updated..', err))
   })
 
-// clean up forms fields on every request
+// clean up forms fields when user changes
 actions$(
-  Actions.USER_CHANGED,
-  Actions.SIGNUP_EMAIL_REQUESTED,
-  Actions.SIGNIN_EMAIL_REQUESTED,
-  Actions.FORGOT_REQUESTED,
-  Actions.SIGNOUT_REQUESTED
+  Actions.USER_CHANGED
 ).subscribe(() => Handlers.clearFields())

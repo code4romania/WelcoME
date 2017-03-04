@@ -18,9 +18,7 @@ const style = {
 const Camps = (props, {store, handlers}) => {
   const owner = store.auth.profile && store.auth.profile.owner
   const { selectedCamp } = store.camps
-  const camps = Object.keys(store.camps.public).map(cid => ({
-    cid, ...store.camps.public[cid], ...store.camps.private[cid]
-  }))
+  const camps = Object.keys(store.camps.camps).map(cid => ({ cid, ...store.camps.camps[cid] }))
   const users = []
   return (
     <Card >
@@ -42,7 +40,7 @@ const Camps = (props, {store, handlers}) => {
               })
               handlers.selectCamp(camp.cid)
             }}
-            hasRemove={!!owner} {...camp} />)}
+            hasRemove={!!owner && (camp.cid !== 'default')} {...camp} />)}
         </List>
         {selectedCamp ? <div>
           <Divider />
