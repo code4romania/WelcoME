@@ -9,7 +9,7 @@ const styles = {
 }
 
 const links = [
-  { name: 'camps', visible: state => state.auth.profile && state.auth.profile.super, text: 'Camps', route: '/camps' },
+  { name: 'camps', visible: state => state.auth.profile && state.auth.profile.owner, text: 'Camps', route: '/camps' },
   { name: 'profile', visible: state => state.auth.authenticated, text: 'Profile', route: '/profile' },
   { name: 'signout', visible: state => state.auth.authenticated, text: 'Sign Out', action: 'requestSignout' },
   { name: 'login', visible: state => !state.auth.authenticated, text: 'Sign In', route: '/login' },

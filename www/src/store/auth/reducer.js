@@ -9,7 +9,7 @@ registerAction('SIGNOUT_REQUESTED')
 registerAction('FORGOT_REQUESTED')
 registerAction('EDIT_PROFILE_REQUESTED')
 registerAction('PROFILE_CHANGED')
-
+registerAction('PROFILE_KEYS_CHANGED')
 // handlers
 // UI handlers
 // user requested signup with email and password
@@ -31,6 +31,7 @@ Handlers.requestEditProfile = fields => dispatch(Actions.EDIT_PROFILE_REQUESTED,
 Handlers.userChanged = user => dispatch(Actions.USER_CHANGED, user)
 // profile data changed
 Handlers.profileChanged = profile => dispatch(Actions.PROFILE_CHANGED, profile)
+Handlers.profileKeysChanged = profile => dispatch(Actions.PROFILE_KEYS_CHANGED, profile)
 
 // messages to forms and alerts with auth types: isError, isOk, isWarning, isInfo
 // routes param is an array with the pathnames of the routes to show the message
@@ -83,6 +84,12 @@ Reducers.auth = (state = initialState, action) => {
         ...state,
         profileLoaded: true,
         profile: action.payload || {}
+      }
+    case Actions.PROFILE_KEYS_CHANGED:
+      return {
+        ...state,
+        profileLoaded: true,
+        profile: {...state.profile, ...action.payload}
       }
     case Actions.SIGNIN_EMAIL_REQUESTED:
     case Actions.SIGNUP_EMAIL_REQUESTED:

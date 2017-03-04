@@ -2,8 +2,7 @@ import React, {Component, PropTypes} from 'react'
 import LoginForm from '../../loginform/LoginForm'
 
 const fields = [
-  { name: 'name', label: 'Camp Name', type: 'input' },
-  { name: 'somekey', label: 'Secret thing', type: 'input' }
+  { name: 'name', label: 'Camp Name', type: 'input' }
 ]
 
 const validate = values => {

@@ -4,7 +4,14 @@ import LoginForm from '../loginform/LoginForm'
 const fields = [
   { name: 'email', label: 'Email', type: 'email' },
   { name: 'password1', label: 'Password', type: 'password' },
-  { name: 'password2', label: 'Confirm Password', type: 'password' }
+  { name: 'password2', label: 'Confirm Password', type: 'password' },
+  {
+    select: true,
+    name: 'camp',
+    label: 'Camp',
+    values: state => Object.keys(state.camps.camps || {}).map(cid => ({ id: cid, text: state.camps.camps[cid].name }))
+  },
+  { switch: true, name: 'volunteer', label: 'Volunteer' }
 ]
 
 const links = [
@@ -26,6 +33,9 @@ const validate = values => {
   }
   if (values.password1 !== values.password2) {
     errors.password1 = 'Passwords do not match'
+  }
+  if (!values.camp) {
+    errors.camp = 'Must select a camp'
   }
   return errors
 }
