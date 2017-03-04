@@ -10,6 +10,7 @@ const LoginField = (props, { handlers }) => {
     <div >
       <TextField className='all-width' onChange={onChange} name={props.name} value={props.value}
         type={props.type}
+        disabled={props.disabled}
         hintText={props.label}
         errorText={errorMessage}
         floatingLabelText={props.label}
