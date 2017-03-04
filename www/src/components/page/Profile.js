@@ -2,6 +2,7 @@ import React, { PropTypes, Component } from 'react'
 import LoginForm from '../loginform/LoginForm'
 
 const fields = [
+  { name: 'email', label: 'Email', type: 'input', disabled: true },
   { name: 'firstName', label: 'First Name', type: 'input' },
   { name: 'lastName', label: 'Last Name', type: 'input' }
 ]
@@ -14,7 +15,7 @@ const validate = values => {
 class ProfileForm extends Component {
   componentDidMount () {
     const {handlers, store} = this.context
-    const editFields = store.auth.profile
+    const editFields = {...store.auth.profile}
     handlers.changeFields(editFields)
   }
 
@@ -36,13 +37,15 @@ ProfileForm.contextTypes = {
 
 const Profile = (props, { store }) => {
   const { user, profile, profileLoaded } = store.auth
+  const data = profile || {}
   const userData1 = user.uid ? `${user.uid} - ${user.email}` : ''
-  const userData2 = user.uid
+  const userData2 = (user.uid
     ? `${user.verified ? 'Verified' : 'Not verified'}`
-    : 'Not authenticated'
-  const userData3 = profile.firstName ? `${profile.firstName} - ${profile.lastName}` : ''
+    : 'Not authenticated') + '   Camp: ' + data.camp
+  const userData3 = data.firstName ? `${data.firstName} - ${data.lastName}` : ''
+  const userData4 = `${data.volunteer ? 'Volunteer' : 'Refugee'} - ${data.admin ? 'CampAdmin' : 'NoCampAdmin'}  - ${data.owner ? 'Owner' : 'NoOwner'}`
   if (!profileLoaded) {
-    return <div />
+    return null
   }
   return (
     <div>
@@ -50,6 +53,7 @@ const Profile = (props, { store }) => {
       <h4> { userData1 }</h4>
       <h5> { userData2 }</h5>
       <h5> { userData3 }</h5>
+      <h6> { userData4 }</h6>
       <ProfileForm />
     </div>
   )

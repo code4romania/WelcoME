@@ -1,4 +1,4 @@
-import React, {PropTypes} from 'react'
+import {PropTypes} from 'react'
 const Route = (props, context) => {
   // get state from context
   const state = context.store
@@ -6,10 +6,10 @@ const Route = (props, context) => {
 
   // only for authenticated users
   if (!visible) {
-    return <div />
+    return null
   }
   // render page
-  return props.component(undefined, context) || <div />
+  return props.component(undefined, context) || null
 }
 
 Route.propTypes = {
@@ -22,6 +22,7 @@ Route.propTypes = {
 }
 
 Route.contextTypes = {
-  store: PropTypes.object.isRequired
+  store: PropTypes.object.isRequired,
+  handlers: PropTypes.object.isRequired
 }
 export default Route

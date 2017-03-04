@@ -1,0 +1,48 @@
+{
+  "rules": {
+    "users": {
+      "$uid": {
+        ".read": true,
+        ".write": "root.child('owners').child(auth.uid).exists() || ($uid === auth.uid)"
+      }
+    },
+    "owners": {
+      "$uid": {
+        ".read": true,
+        ".write": false
+      }
+    },
+    "camps": {
+      ".read": true,
+      ".write": "root.child('owners').child(auth.uid).exists()"
+    },
+    "admins": {
+      "$uid": {
+        ".read": true,
+        ".write": "root.child('owners').child(auth.uid).exists()"
+      }
+    },
+    "campAdmins": {
+      "$cid": {
+        ".read": "root.child('owners').child(auth.uid).exists()",
+        ".write": "root.child('owners').child(auth.uid).exists()"
+      }
+    },
+    "volunteers": {
+      "$cid": {
+        ".read": "root.child('owners').child(auth.uid).exists() || (root.child('campAdmins').child($cid).exists() && root.child('campAdmins').child($cid).child(auth.uid).exists())",
+        "$uid": {
+          ".write": "root.child('owners').child(auth.uid).exists() || ($uid === auth.uid)"
+        }
+      }
+    },
+    "refugees": {
+      "$cid": {
+        ".read": "root.child('owners').child(auth.uid).exists() || (root.child('campAdmins').child($cid).exists() && root.child('campAdmins').child($cid).child(auth.uid).exists())",
+        "$uid": {
+          ".write": "root.child('owners').child(auth.uid).exists() || ($uid === auth.uid)"
+        }
+      }
+    }
+  }
+}

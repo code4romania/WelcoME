@@ -24,7 +24,7 @@ const Link = (props, context) => {
 
   // only for visible ones
   if (!visible) {
-    return <div />
+    return null
   }
   // li with a
   return <FlatButton backgroundColor={activeRouteClass ? '#a4c639' : ''} style={styles.flat} onClick={onClick} label={text} />
