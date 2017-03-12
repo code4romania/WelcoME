@@ -1,10 +1,10 @@
 import React from 'react'
 import Route from './Route'
 import Home from './Home'
-import Login from './Login'
-import Forgot from './Forgot'
-import Signup from './Signup'
-import Profile from './Profile'
+import Login from './authenticate/Login'
+import Forgot from './authenticate/Forgot'
+import Signup from './authenticate/Signup'
+import Profile from './authenticate/Profile'
 import Camps from './camps/Camps'
 
 const pages = [

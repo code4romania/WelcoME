@@ -1,5 +1,5 @@
 import React from 'react'
-import LoginForm from '../loginform/LoginForm'
+import LoginForm from '../../forms/loginform/LoginForm'
 
 const fields = [
   { name: 'email', label: 'Email', type: 'email' }

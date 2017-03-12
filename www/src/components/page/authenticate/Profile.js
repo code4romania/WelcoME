@@ -1,5 +1,5 @@
 import React, { PropTypes, Component } from 'react'
-import LoginForm from '../loginform/LoginForm'
+import LoginForm from '../../forms/loginform/LoginForm'
 
 const fields = [
   { name: 'email', label: 'Email', type: 'input', disabled: true },

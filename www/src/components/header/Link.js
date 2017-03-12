@@ -29,6 +29,7 @@ const Link = (props, context) => {
   // li with a
   return <FlatButton backgroundColor={activeRouteClass ? '#a4c639' : ''} style={styles.flat} onClick={onClick} label={text} />
 }
+
 Link.muiName = 'FlatButton'
 Link.propTypes = {
   // visibility function

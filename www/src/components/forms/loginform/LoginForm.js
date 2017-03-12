@@ -48,6 +48,7 @@ const Form = ({fields = [], links = [], ...props}, context) => {
     </form>
   )
 }
+
 Form.propTypes = {
   // title of the form
   title: PropTypes.string.isRequired,
@@ -69,4 +70,5 @@ Form.contextTypes = {
   store: PropTypes.object.isRequired,
   handlers: PropTypes.object.isRequired
 }
+
 export default Form

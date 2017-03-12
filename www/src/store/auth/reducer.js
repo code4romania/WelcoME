@@ -10,6 +10,7 @@ registerAction('FORGOT_REQUESTED')
 registerAction('EDIT_PROFILE_REQUESTED')
 registerAction('PROFILE_CHANGED')
 registerAction('PROFILE_KEYS_CHANGED')
+
 // handlers
 // UI handlers
 // user requested signup with email and password
