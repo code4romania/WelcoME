@@ -1,19 +1,19 @@
 import React, {PropTypes} from 'react'
-import LoginLink from './LoginLink'
-import LoginField from './LoginField'
+import BasicFormLink from './BasicFormLink'
+import BasicFormField from './BasicFormField'
 import {Card, CardActions, CardTitle, CardText} from 'material-ui/Card'
 import FlatButton from 'material-ui/FlatButton'
 
-import './LoginForm.css'
+import './BasicForm.css'
 
-const LoginForm = ({fields = [], links = [], ...props}, context) => {
+const BasicForm = ({fields = [], links = [], ...props}, context) => {
 
-  const {forms} = context.store
+  const {forms} = context.store;
 
-  const handlers = context.handlers
+  const handlers = context.handlers;
 
   // helpers
-  const validate = props.validate(forms)
+  const validate = props.validate(forms);
 
   const onSubmit = e => {
     e.preventDefault();
@@ -28,7 +28,7 @@ const LoginForm = ({fields = [], links = [], ...props}, context) => {
     const error = validate[field.name];
 
     return (
-      <LoginField
+      <BasicFormField
         key={field.name}
         {... field}
         value={value}
@@ -37,7 +37,7 @@ const LoginForm = ({fields = [], links = [], ...props}, context) => {
     );
   }
 
-  const submitDisabled = !!Object.keys(validate).length
+  const submitDisabled = !!Object.keys(validate).length;
 
   return (
     <form onSubmit={onSubmit}>
@@ -46,7 +46,7 @@ const LoginForm = ({fields = [], links = [], ...props}, context) => {
         <CardText>
           {fields.map(FieldHelper)}
           <p>
-            { links.map(link => (<LoginLink key={link.goTo} {...link} />)) }
+            {links.map(link => (<BasicFormLink key={link.goTo} {...link} />))}
           </p>
         </CardText>
         <CardActions>
@@ -61,7 +61,7 @@ const LoginForm = ({fields = [], links = [], ...props}, context) => {
   );
 }
 
-LoginForm.propTypes = {
+BasicForm.propTypes = {
   // title of the form
   title: PropTypes.string.isRequired,
   // on submit what handler to use
@@ -78,9 +78,9 @@ LoginForm.propTypes = {
   links: PropTypes.array
 }
 
-LoginForm.contextTypes = {
+BasicForm.contextTypes = {
   store: PropTypes.object.isRequired,
   handlers: PropTypes.object.isRequired
 }
 
-export default LoginForm
+export default BasicForm

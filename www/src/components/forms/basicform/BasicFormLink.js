@@ -1,30 +1,29 @@
 import React, { PropTypes } from 'react'
 
-import './LoginLink.css'
+import './BasicFormLink.css'
 
-const LoginLink = (props, { handlers }) => {
-
+const BasicFormLink = (props, { handlers }) => {
   return (
     <a
-      className='login-link'
+      className='basic-form-link'
       onClick={event => {
         event.preventDefault()
         handlers.goToPath(props.goTo)
       }}>
-        { props.text }
+      { props.text }
     </a>
   );
 }
 
-LoginLink.propTypes = {
+BasicFormLink.propTypes = {
   // history navigate address
   goTo: PropTypes.string.isRequired,
   // text
   text: PropTypes.string.isRequired
 }
 
-LoginLink.contextTypes = {
+BasicFormLink.contextTypes = {
   handlers: PropTypes.object.isRequired
 }
 
-export default LoginLink
+export default BasicFormLink

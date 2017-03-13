@@ -4,26 +4,28 @@ import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
 import Toggle from 'material-ui/Toggle'
 
-import './LoginField.css'
+import './BasicFormField.css'
 
-const LoginField = (props, { store, handlers }) => {
+const BasicFormField = (props, { store, handlers }) => {
 
   // helpers
-  const errorMessage = (props.select || props.touched) && props.error
+  const errorMessage =
+    (props.fieldType === 'select' || props.touched) && props.error;
 
   const onChange = (event, index, value) =>
     handlers.changeFields({
-      [props.name]: props.select
+      [props.name]: props.fieldType === 'select'
         ? value
-        : props.switch
+        : props.fieldType === 'switch'
           ? index
           : event.target.value
     })
 
-  const getSelectField = () => {
+  const renderSelectField = () => {
     return (
       <SelectField
         className='all-width'
+        name={props.name}
         floatingLabelText={props.label}
         disabled={props.disabled}
         hintText={props.label}
@@ -44,9 +46,10 @@ const LoginField = (props, { store, handlers }) => {
     );
   }
 
-  const getSwitchField = () => {
+  const renderSwitchField = () => {
     return (
       <Toggle
+        name={props.name}
         disabled={props.disabled}
         label={props.label}
         onToggle={onChange}
@@ -54,7 +57,7 @@ const LoginField = (props, { store, handlers }) => {
     );
   }
 
-  const getTextField = () => {
+  const renderTextField = () => {
     return (
       <TextField
         className='all-width'
@@ -69,34 +72,33 @@ const LoginField = (props, { store, handlers }) => {
     );
   }
 
-  const getField = () => {
-    if (props.select) {
-      return getSelectField();
+  const renderField = () => {
+    switch(props.fieldType) {
+      case 'switch':
+        return renderSwitchField();
+      case 'select':
+        return renderSelectField();
+      case 'textfield':
+        return renderTextField();
+      default:
+        return null;
     }
-    if (props.switch) {
-      return getSwitchField();
-    }
-
-      return getTextField();
-    
   }
 
   return (
     <div>
-      {getField()}
+      {renderField()}
     </div>
-  )
+  );
 }
 
-LoginField.propTypes = {
-  // if switch
-  switch: PropTypes.bool,
-  // if select list
-  select: PropTypes.bool,
-  // values for select list
-  values: PropTypes.func,
+BasicFormField.propTypes = {
   // name of the field
   name: PropTypes.string.isRequired,
+  // type of field to render
+  fieldType: PropTypes.oneOf(['switch', 'select', 'textfield']).isRequired,
+  // values for select list
+  values: PropTypes.func,
   // show error only if touched
   touched: PropTypes.bool,
   // error message
@@ -109,9 +111,9 @@ LoginField.propTypes = {
   value: PropTypes.any
 }
 
-LoginField.contextTypes = {
+BasicFormField.contextTypes = {
   store: PropTypes.object.isRequired,
   handlers: PropTypes.object.isRequired
 }
 
-export default LoginField
+export default BasicFormField

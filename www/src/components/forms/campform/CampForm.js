@@ -1,11 +1,12 @@
-import React, {Component, PropTypes} from 'react'
-import LoginForm from '../loginform/LoginForm'
+import React, { PropTypes } from 'react'
+import BasicForm from '../basicform/BasicForm'
 
 const fields = [
   {
     name: 'name',
     label: 'Camp Name',
-    type: 'input'
+    type: 'input',
+    fieldType: 'textfield'
   }
 ]
 
@@ -16,7 +17,7 @@ const validate = values => {
 
 const CampForm = () => {
   return (
-    <LoginForm
+    <BasicForm
       fields={fields}
       submitText='Update'
       title='Edit Camp'

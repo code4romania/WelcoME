@@ -1,14 +1,31 @@
-import React, { PropTypes, Component } from 'react'
+import React, { PropTypes } from 'react'
 import ProfileForm from '../../forms/profileform/ProfileForm'
 
 const fields = [
-  { name: 'email', label: 'Email', type: 'input', disabled: true },
-  { name: 'firstName', label: 'First Name', type: 'input' },
-  { name: 'lastName', label: 'Last Name', type: 'input' }
+  {
+    name: 'email',
+    fieldType: 'textfield',
+    label: 'Email',
+    type: 'input',
+    disabled: true,
+  },
+  {
+    name: 'firstName',
+    fieldType: 'textfield',
+    label: 'First Name',
+    type: 'input',
+  },
+  {
+    name: 'lastName',
+    fieldType: 'textfield',
+    label: 'Last Name',
+    type: 'input',
+  }
 ]
 
 const Profile = (props, { store }) => {
 
+  // TODO clean up this
   const { user, profile, profileLoaded } = store.auth;
   const data = profile || {}
   const userData1 = user.uid ? `${user.uid} - ${user.email}` : ''
@@ -17,6 +34,7 @@ const Profile = (props, { store }) => {
     : 'Not authenticated') + '   Camp: ' + data.camp
   const userData3 = data.firstName ? `${data.firstName} - ${data.lastName}` : ''
   const userData4 = `${data.volunteer ? 'Volunteer' : 'Refugee'} - ${data.admin ? 'CampAdmin' : 'NoCampAdmin'}  - ${data.owner ? 'Owner' : 'NoOwner'}`
+
   if (!profileLoaded) {
     return null;
   }

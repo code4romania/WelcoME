@@ -1,21 +1,39 @@
 import React from 'react'
-import LoginForm from '../../forms/loginform/LoginForm'
+import BasicForm from '../../forms/basicform/BasicForm'
 import ValidationUtils from '../utils/ValidationUtils'
 
 const fields = [
-  { name: 'email', label: 'Email', type: 'email' },
-  { name: 'password1', label: 'Password', type: 'password' },
-  { name: 'password2', label: 'Confirm Password', type: 'password' },
   {
-    select: true,
-    name: 'camp',
-    label: 'Camp',
-    values: state =>
-      Object
-        .keys(state.camps.camps || {})
-        .map(cid => ({ id: cid, text: state.camps.camps[cid].name }))
+    name: 'email',
+    fieldType: 'textfield',
+    label: 'Email',
+    type: 'email',
   },
-  { switch: true, name: 'volunteer', label: 'Volunteer' }
+  {
+    name: 'password1',
+    fieldType: 'textfield',
+    label: 'Password',
+    type: 'password',
+  },
+  {
+    name: 'password2',
+    fieldType: 'textfield',
+    label: 'Confirm Password',
+    type: 'password',
+  },
+  {
+    name: 'camp',
+    fieldType: 'select',
+    label: 'Camp',
+    values: state => Object
+      .keys(state.camps.camps || {})
+      .map(cid => ({ id: cid, text: state.camps.camps[cid].name })),
+  },
+  {
+    name: 'volunteer',
+    fieldType: 'switch',
+    label: 'Volunteer',
+  }
 ]
 
 const links = [
@@ -46,7 +64,7 @@ const validate = values => {
 
 const Signup = (props) => {
   return (
-    <LoginForm
+    <BasicForm
       fields={fields}
       links={links}
       submitText='Sign Up'

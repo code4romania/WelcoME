@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react'
-import LoginForm from '../../forms/loginform/LoginForm'
+import BasicForm from '../../forms/basicform/BasicForm'
 
 class ProfileForm extends React.Component {
 
@@ -16,7 +16,7 @@ class ProfileForm extends React.Component {
 
   render() {
     return (
-      <LoginForm
+      <BasicForm
         fields={this.props.fields}
         submitText='Update'
         title='Edit profile'

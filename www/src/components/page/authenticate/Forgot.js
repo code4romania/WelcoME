@@ -1,8 +1,9 @@
 import React from 'react'
-import LoginForm from '../../forms/loginform/LoginForm'
+import BasicForm from '../../forms/basicform/BasicForm'
+import ValidationUtils from '../utils/ValidationUtils'
 
 const fields = [
-  { name: 'email', label: 'Email', type: 'email' }
+  { name: 'email', label: 'Email', type: 'email', fieldType: 'textfield'}
 ]
 
 const links = [
@@ -13,7 +14,7 @@ const validate = values => {
   const errors = {};
   if (!values.email) {
     errors.email = 'Please enter an email.';
-  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+  } else if (!ValidationUtils.emailCheck(values.email)) {
     errors.email = 'Invalid email address';
   }
   return errors;
@@ -21,7 +22,7 @@ const validate = values => {
 
 const Forgot = (props) => {
   return (
-    <LoginForm
+    <BasicForm
       fields={fields}
       links={links}
       submitText='Search'

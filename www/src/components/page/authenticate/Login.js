@@ -1,10 +1,20 @@
 import React from 'react'
-import LoginForm from '../../forms/loginform/LoginForm'
+import BasicForm from '../../forms/basicform/BasicForm'
 import ValidationUtils from '../utils/ValidationUtils'
 
 const fields = [
-  { name: 'email', label: 'Email', type: 'email' },
-  { name: 'password', label: 'Password', type: 'password' }
+  {
+    name: 'email',
+    fieldType: 'textfield',
+    label: 'Email',
+    type: 'email',
+  },
+  {
+    name: 'password',
+    fieldType: 'textfield',
+    label: 'Password',
+    type: 'password',
+  }
 ]
 
 const links = [
@@ -13,6 +23,7 @@ const links = [
 
 const validate = values => {
   const errors = {};
+
   if (!values.email) {
     errors.email = 'Please enter an email.'
   } else if (!ValidationUtils.emailCheck(values.email)) {
@@ -21,12 +32,13 @@ const validate = values => {
   if (!values.password) {
     errors.password = 'Please enter a password.';
   }
+
   return errors;
 }
 
 const Login = (props) => {
   return (
-    <LoginForm
+    <BasicForm
       fields={fields}
       links={links}
       submitText='Sign In'
