@@ -1,15 +1,22 @@
 import {PropTypes} from 'react'
+
 const Route = (props, context) => {
+
   // get state from context
-  const state = context.store
-  const visible = (state.router.pathname === props.route) && (props.visible ? props.visible(state) : true)
+  const state = context.store;
+
+  // hidden if not the current route or if explicity set as hidden
+  const visible =
+    state.router.pathname === props.route &&
+    (props.visible ? props.visible(state) : true);
 
   // only for authenticated users
   if (!visible) {
-    return null
+    return null;
   }
+
   // render page
-  return props.component(undefined, context) || null
+  return props.component(undefined, context) || null;
 }
 
 Route.propTypes = {
@@ -25,4 +32,5 @@ Route.contextTypes = {
   store: PropTypes.object.isRequired,
   handlers: PropTypes.object.isRequired
 }
+
 export default Route

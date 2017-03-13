@@ -1,5 +1,9 @@
 
-
 .activeCamp {
   background-color: #DDFFDE!important;
+}
+
+.floatingActionButton {
+  marginTop: 20;
+  marginLeft: 30;
 }

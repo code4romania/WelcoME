@@ -5,10 +5,12 @@ import Footer from './footer/Footer'
 import LoadingApp from './LoadingApp'
 import Toastr from './toastr/Toastr'
 import './App.css'
+
 const App = (props, context) => {
   if (!context.store.auth.userLoaded) {
-    return <LoadingApp />
+    return <LoadingApp />;
   }
+
   return (
     <div>
       <Header />
@@ -16,8 +18,9 @@ const App = (props, context) => {
       <Footer />
       <Toastr />
     </div>
-  )
+  );
 }
+
 App.contextTypes = {
   store: PropTypes.object.isRequired,
   handlers: PropTypes.object.isRequired

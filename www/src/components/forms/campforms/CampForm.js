@@ -1,13 +1,17 @@
 import React, {Component, PropTypes} from 'react'
-import LoginForm from '../../forms/loginform/LoginForm'
+import LoginForm from '../loginform/LoginForm'
 
 const fields = [
-  { name: 'name', label: 'Camp Name', type: 'input' }
+  {
+    name: 'name',
+    label: 'Camp Name',
+    type: 'input'
+  }
 ]
 
 const validate = values => {
-  const errors = {}
-  return errors
+  const errors = {};
+  return errors;
 }
 
 const CampForm = () => {
@@ -18,9 +22,8 @@ const CampForm = () => {
       title='Edit Camp'
       name='updatecamp'
       validate={validate}
-      submitHandler='updateCamp'
-      />
-  )
+      submitHandler='updateCamp' />
+  );
 }
 
 CampForm.contextTypes = {

@@ -6,6 +6,6 @@ const LoadingApp = () => (
   <div>
     <CircularProgress />
   </div>
-  )
+)
 
 export default LoadingApp

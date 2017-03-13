@@ -5,10 +5,11 @@ const Home = (props, { store }) => {
     <div>
       <h1>Home</h1>
     </div>
-  )
+  );
 }
 
 Home.contextTypes = {
   store: PropTypes.object.isRequired
 }
+
 export default Home
