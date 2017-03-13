@@ -1,7 +1,11 @@
 import React, {PropTypes} from 'react'
 
 const LoginMessage = ({ message }) => {
-  if (message) {
+  if (!message) {
+    return null;
+  }
+
+  const getClassName = () => {
     let className = 'alert alert-'
     if (message.isError) {
       className += 'danger'
@@ -10,14 +14,14 @@ const LoginMessage = ({ message }) => {
     } else {
       className += 'success'
     }
-
-    return (
-      <div className={`${className}`}>
-        {message.message}
-      </div>
-    )
+    return className;
   }
-  return null
+
+  return (
+    <div className={`${getClassName()}`}>
+      {message.message}
+    </div>
+  );
 }
 
 LoginMessage.propTypes = {

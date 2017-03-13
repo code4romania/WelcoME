@@ -4,36 +4,44 @@ import LoginField from './LoginField'
 import {Card, CardActions, CardTitle, CardText} from 'material-ui/Card'
 import FlatButton from 'material-ui/FlatButton'
 
-const styles = {
-  card: {
-    marginTop: '100px',
-    marginLeft: '200px',
-    marginRight: '200px'
-  }
-}
+import './LoginForm.css'
 
-const Form = ({fields = [], links = [], ...props}, context) => {
+const LoginForm = ({fields = [], links = [], ...props}, context) => {
+
   const {forms} = context.store
+
   const handlers = context.handlers
+
   // helpers
   const validate = props.validate(forms)
+
   const onSubmit = e => {
-    e.preventDefault()
-    handlers[props.submitHandler](forms)
+    e.preventDefault();
+    handlers[props.submitHandler](forms);
   }
+
   const FieldHelper = field => {
-            // helpers for field
-    const touched = forms[field.name] !== null && forms[field.name] !== undefined
-    const value = forms[field.name] || ''
-    const error = validate[field.name]
-    return (<LoginField key={field.name} {... field} value={value} touched={touched} error={error} />)
+    // helpers for field
+    const touched =
+      forms[field.name] !== null && forms[field.name] !== undefined;
+    const value = forms[field.name] || '';
+    const error = validate[field.name];
+
+    return (
+      <LoginField
+        key={field.name}
+        {... field}
+        value={value}
+        touched={touched}
+        error={error} />
+    );
   }
 
   const submitDisabled = !!Object.keys(validate).length
 
   return (
     <form onSubmit={onSubmit}>
-      <Card style={styles.card}>
+      <Card className='card'>
         <CardTitle title={props.title} />
         <CardText>
           {fields.map(FieldHelper)}
@@ -42,14 +50,18 @@ const Form = ({fields = [], links = [], ...props}, context) => {
           </p>
         </CardText>
         <CardActions>
-          <FlatButton type='submit' primary disabled={submitDisabled} label={props.submitText} />
+          <FlatButton
+            type='submit'
+            primary
+            disabled={submitDisabled}
+            label={props.submitText} />
         </CardActions>
       </Card>
     </form>
-  )
+  );
 }
 
-Form.propTypes = {
+LoginForm.propTypes = {
   // title of the form
   title: PropTypes.string.isRequired,
   // on submit what handler to use
@@ -66,9 +78,9 @@ Form.propTypes = {
   links: PropTypes.array
 }
 
-Form.contextTypes = {
+LoginForm.contextTypes = {
   store: PropTypes.object.isRequired,
   handlers: PropTypes.object.isRequired
 }
 
-export default Form
+export default LoginForm

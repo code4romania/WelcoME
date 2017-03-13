@@ -1,39 +1,74 @@
 import React, { PropTypes} from 'react'
-import Link from './Link'
+import NavLink from './NavLink'
 import AppBar from 'material-ui/AppBar'
 
-const styles = {
-  title: {
-    cursor: 'pointer'
-  }
-}
+import './Header.css'
 
-const links = [
-  { name: 'camps', visible: state => state.auth.profile && state.auth.profile.owner, text: 'Camps', route: '/camps' },
-  { name: 'profile', visible: state => state.auth.authenticated, text: 'Profile', route: '/profile' },
-  { name: 'signout', visible: state => state.auth.authenticated, text: 'Sign Out', action: 'requestSignout' },
-  { name: 'login', visible: state => !state.auth.authenticated, text: 'Sign In', route: '/login' },
-  { name: 'signup', visible: state => !state.auth.authenticated, text: 'Sign Up', route: '/signup' }
+const navBarLinks = [
+  {
+    name: 'camps',
+    visible: state => state.auth.profile && state.auth.profile.owner,
+    text: 'Camps',
+    route: '/camps'
+  },
+  {
+    name: 'profile',
+    visible: state => state.auth.authenticated,
+    text: 'Profile',
+    route: '/profile'
+  },
+  {
+    name: 'signout',
+    visible: state => state.auth.authenticated,
+    text: 'Sign Out',
+    action: 'requestSignout'
+  },
+  {
+    name: 'login',
+    visible: state => !state.auth.authenticated,
+    text: 'Sign In',
+    route: '/login'
+  },
+  {
+    name: 'signup',
+    visible: state => !state.auth.authenticated,
+    text: 'Sign Up',
+    route: '/signup'
+  }
 ].map(link => ({...link, className: 'nav-link', liClassName: 'nav-item'}))
 
-const Header = (props, {handlers}) => (
-  <AppBar
-    title={
-      <span style={styles.title}>Welcome</span>
-    }
-    onTitleTouchTap={() => handlers.goToPath('/')}
-    showMenuIconButton={false}
-    iconElementRight={
+const Header = (props, {handlers}) => {
+
+  const renderTitle = () => {
+    return (
+      <span className='title'>
+        Welcome
+      </span>
+    );
+  }
+
+  const renderNavBar = (links) => {
+    return (
       <div>
         {links.map(link => (
-          <Link key={link.name} {...link} />
+          <NavLink key={link.name} {...link} />
         ))}
       </div>
-    } />
+    );
+  }
 
-)
+  return (
+    <AppBar
+      title={renderTitle()}
+      onTitleTouchTap={() => handlers.goToPath('/')}
+      showMenuIconButton={false}
+      iconElementRight={renderNavBar(navBarLinks)} />
+  );
+}
+
 Header.contextTypes = {
   store: PropTypes.object.isRequired,
   handlers: PropTypes.object.isRequired
 }
+
 export default Header

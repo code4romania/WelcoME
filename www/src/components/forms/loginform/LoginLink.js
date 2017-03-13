@@ -1,11 +1,20 @@
 import React, { PropTypes } from 'react'
+
 import './LoginLink.css'
-const LoginLink = (props, { handlers }) => (
-  <a className='login-link' onClick={event => {
-    event.preventDefault()
-    handlers.goToPath(props.goTo)
-  }}>{ props.text }</a>
-)
+
+const LoginLink = (props, { handlers }) => {
+
+  return (
+    <a
+      className='login-link'
+      onClick={event => {
+        event.preventDefault()
+        handlers.goToPath(props.goTo)
+      }}>
+        { props.text }
+    </a>
+  );
+}
 
 LoginLink.propTypes = {
   // history navigate address
@@ -17,4 +26,5 @@ LoginLink.propTypes = {
 LoginLink.contextTypes = {
   handlers: PropTypes.object.isRequired
 }
+
 export default LoginLink

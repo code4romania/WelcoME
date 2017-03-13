@@ -3,12 +3,22 @@ import TextField from 'material-ui/TextField'
 import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
 import Toggle from 'material-ui/Toggle'
+
 import './LoginField.css'
 
 const LoginField = (props, { store, handlers }) => {
+
   // helpers
   const errorMessage = (props.select || props.touched) && props.error
-  const onChange = (event, index, value) => handlers.changeFields({[props.name]: props.select ? value : props.switch ? index : event.target.value})
+
+  const onChange = (event, index, value) =>
+    handlers.changeFields({
+      [props.name]: props.select
+        ? value
+        : props.switch
+          ? index
+          : event.target.value
+    })
 
   const getSelectField = () => {
     return (
@@ -20,10 +30,14 @@ const LoginField = (props, { store, handlers }) => {
         errorText={errorMessage}
         value={props.value}
         onChange={onChange}
-        autoWidth >
+        autoWidth>
         {
           props.values(store).map(
-            value => <MenuItem key={value.id} value={value.id} primaryText={value.text} />
+            value =>
+              <MenuItem
+                key={value.id}
+                value={value.id}
+                primaryText={value.text} />
           )
         }
       </SelectField>
@@ -55,15 +69,21 @@ const LoginField = (props, { store, handlers }) => {
     );
   }
 
+  const getField = () => {
+    if (props.select) {
+      return getSelectField();
+    }
+    if (props.switch) {
+      return getSwitchField();
+    }
+
+      return getTextField();
+    
+  }
+
   return (
     <div>
-      {
-        props.select
-          ? getSelectField()
-          : props.switch
-            ? getSwitchField()
-            : getTextField()
-      }
+      {getField()}
     </div>
   )
 }
@@ -93,4 +113,5 @@ LoginField.contextTypes = {
   store: PropTypes.object.isRequired,
   handlers: PropTypes.object.isRequired
 }
+
 export default LoginField

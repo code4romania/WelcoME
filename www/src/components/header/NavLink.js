@@ -1,40 +1,46 @@
 import React, {PropTypes} from 'react'
+import FlatButton from 'material-ui/FlatButton'
 
-class NavLink extends React.Component {
+import './NavLink.css'
+
+const NavLink = (props, context) => {
 
   // get state and handlers from context
-  handlers = this.context.handlers;
-  state = this.context.store
-  visible = this.props.visible ? this.props.visible(state) : true
-  text = this.props.text || this.props.children
+  const handlers = context.handlers;
+
+  const state = context.store;
+
+  const visible = props.visible ? props.visible(state) : true;
+
+  const text = props.text || props.children;
 
   // helpers
-  onClick = event => {
-    event.preventDefault()
-    this.props.route
-      ? handlers.goToPath(this.props.route)
-      : handlers[this.props.action]();
+  const onClick = event => {
+    event.preventDefault();
+    props.route ? handlers.goToPath(props.route) : handlers[props.action]();
   }
 
-  activeRouteClass = this.state.router.pathname === props.route
-    ? 'active'
-    : '';
-
-  render() {
-    // only for visible ones
-    if (!this.visible) {
-      return <div />;
-    }
-
-    return (
-      <span>
-        <a href className={this.props.className} onClick={this.onClick}>
-          {props.children}
-        </a>
-      </span>
-    );
+  const getClassName = () => {
+    return state.router.pathname === props.route
+      ? 'active-link'
+      : 'inactive-link';
   }
+
+  // only for visible ones
+  if (!visible) {
+    return null;
+  }
+
+  // li with a
+  return (
+    <FlatButton
+      className={getClassName()}
+      onClick={onClick}
+      label={text} />
+  );
 }
+
+NavLink.muiName = 'FlatButton'
 
 NavLink.propTypes = {
   // visibility function
@@ -42,9 +48,7 @@ NavLink.propTypes = {
   // history navigate address
   route: PropTypes.string,
   // action link handler name
-  action: PropTypes.string,
-  // CSS class for a tag
-  className: PropTypes.string,
+  action: PropTypes.string
 }
 
 NavLink.contextTypes = {
