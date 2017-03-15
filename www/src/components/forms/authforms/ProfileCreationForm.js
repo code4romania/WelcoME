@@ -31,8 +31,13 @@ const validationCriteria = values => {
   if (!values.camp) {
     errors.camp = 'Must select a camp';
   }
+  if (!values.profiletype) {
+    errors.profiletype = 'Must select a user type';
+  }
   return errors;
 }
+
+const ProfileCreationSteps = 4;
 
 class ProfileCreationForm extends React.Component {
 
@@ -48,7 +53,7 @@ class ProfileCreationForm extends React.Component {
     const {stepIndex} = this.state;
     this.setState({
       stepIndex: stepIndex + 1,
-      finished: stepIndex >= 0 ? true : false,
+      finished: stepIndex >= ProfileCreationSteps - 2 ? true : false,
     });
   }
 
@@ -64,7 +69,7 @@ class ProfileCreationForm extends React.Component {
 
   onSubmit = e => {
     e.preventDefault();
-    this.handlers['requestSignup'](this.context.store.forms);
+    this.context.handlers['requestSignup'](this.context.store.forms);
   }
 
   renderStepActions = () => {
@@ -113,16 +118,18 @@ class ProfileCreationForm extends React.Component {
     return (
       <BasicFormField
         key={field.name}
-        {... field}
         value={value}
         touched={touched}
-        error={error} />
+        error={error}
+        {... field} />
     );
   }
 
   renderLink = link => {
     return (
-      <BasicFormLink key={link.goTo} {...link} />
+      <div style={{paddingTop: '25px'}}>
+        <BasicFormLink key={link.goTo} {...link} />
+      </div>
     );
   }
 
@@ -177,11 +184,76 @@ class ProfileCreationForm extends React.Component {
   // Render Step 2
   // ---------------------------------------------------------------------
   renderUserTypeStep = () => {
-    let refugeeField = this.renderField({
-      name: 'volunteer',
-      fieldType: 'switch',
-      label: 'Volunteer',
+    let userTypes = {
+      '0': 'Refugee',
+      '1': 'Asylum Seeker',
+      '2': 'Community Helper',
+    }
+    let userTypeField = this.renderField({
+      name: 'profiletype',
+      fieldType: 'radiogroup',
+      values: () => Object
+        .keys(userTypes)
+        .map(type => ({id: type, label: userTypes[type]})),
     });
+
+    return (
+      <Step>
+        <StepLabel>
+          Welcome
+        </StepLabel>
+        <StepContent>
+          <Card className='card'>
+            <CardText>
+              <p>
+                {'Hello'}
+              </p>
+              <p>
+                {
+                  'Welcome to our platform. We connect communities with ' +
+                  'refugees and asylum seekers. Let\'s find out a few things ' +
+                  'about you, so we can guide you through the platform.'
+                }
+              </p>
+              <p>
+                {'You identify yourself as:'}
+              </p>
+              {userTypeField}
+            </CardText>
+            <CardActions>
+              {this.renderStepActions()}
+            </CardActions>
+          </Card>
+        </StepContent>
+      </Step>
+    );
+  }
+
+  // Render Step 3
+  // ---------------------------------------------------------------------
+  renderProfileStep = () => {
+    return (
+      <Step>
+        <StepLabel>
+          Profile
+        </StepLabel>
+        <StepContent>
+          <Card className='card'>
+            <CardText>
+
+            </CardText>
+            <CardActions>
+              {this.renderStepActions()}
+            </CardActions>
+          </Card>
+        </StepContent>
+      </Step>
+    );
+  }
+
+  // Render Step 4
+  // ---------------------------------------------------------------------
+  renderLocationStep = () => {
     let campField = this.renderField({
       name: 'camp',
       fieldType: 'select',
@@ -194,12 +266,11 @@ class ProfileCreationForm extends React.Component {
     return (
       <Step>
         <StepLabel>
-          Welcome
+          Location
         </StepLabel>
         <StepContent>
           <Card className='card'>
             <CardText>
-              {refugeeField}
               {campField}
             </CardText>
             <CardActions>
@@ -222,6 +293,8 @@ class ProfileCreationForm extends React.Component {
           orientation="vertical">
           {this.renderEmailPasswordStep()}
           {this.renderUserTypeStep()}
+          {this.renderProfileStep()}
+          {this.renderLocationStep()}
         </Stepper>
       </form>
     );

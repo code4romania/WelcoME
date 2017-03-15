@@ -3,6 +3,7 @@ import TextField from 'material-ui/TextField'
 import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
 import Toggle from 'material-ui/Toggle'
+import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 
 import './BasicFormField.css'
 
@@ -72,6 +73,27 @@ const BasicFormField = (props, { store, handlers }) => {
     );
   }
 
+  const renderRadioGroup = () => {
+    return (
+      <RadioButtonGroup
+        name={props.name}
+        disabled={props.disabled}
+        errorText={errorMessage}
+        valueSelected={props.value}
+        onChange={onChange}>
+        {
+          props.values().map(
+            value =>
+              <RadioButton
+                key={value.id}
+                value={value.id}
+                label={value.label} />
+          )
+        }
+      </RadioButtonGroup>
+    );
+  }
+
   const renderField = () => {
     switch(props.fieldType) {
       case 'switch':
@@ -80,6 +102,8 @@ const BasicFormField = (props, { store, handlers }) => {
         return renderSelectField();
       case 'textfield':
         return renderTextField();
+      case 'radiogroup':
+        return renderRadioGroup();
       default:
         return null;
     }
@@ -96,7 +120,9 @@ BasicFormField.propTypes = {
   // name of the field
   name: PropTypes.string.isRequired,
   // type of field to render
-  fieldType: PropTypes.oneOf(['switch', 'select', 'textfield']).isRequired,
+  fieldType: PropTypes.oneOf(
+    ['switch', 'select', 'textfield', 'radiogroup'],
+  ).isRequired,
   // values for select list
   values: PropTypes.func,
   // show error only if touched

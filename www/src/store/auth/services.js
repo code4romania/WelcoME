@@ -38,9 +38,9 @@ FirebaseAuth
 
 // signup with email requested
 payloads$(Actions.SIGNUP_EMAIL_REQUESTED)
-  .subscribe(({email, password1, volunteer, camp}) => {
+  .subscribe((fields) => {
     FirebaseAuth
-      .createUserWithEmailAndPassword(email, password1)
+      .createUserWithEmailAndPassword(fields.email, fields.password)
       .then(user => {
         user.sendEmailVerification()
         return user
@@ -48,18 +48,18 @@ payloads$(Actions.SIGNUP_EMAIL_REQUESTED)
       .then(({uid, email}) => {
         FirebaseDb.ref('users/' + uid).set({
           email,
-          volunteer: !!volunteer,
-          refugee: !volunteer,
+          volunteer: fields.profiletype === 2,
+          refugee: fields.profiletype === 0 || fields.profiletype === 1,
           owner: false,
           admin: false,
-          camp,
-          emailPassword: true
+          camp: fields.camp,
+          emailPassword: true,
         })
         return uid
       })
-      .then(uid => FirebaseDb.ref((volunteer ? 'volunteers/' : 'refugees/') + camp + '/' + uid).set(true))
+      .then(uid => FirebaseDb.ref((fields.profiletype === 2 ? 'volunteers/' : 'refugees/') + fields.camp + '/' + uid).set(true))
       .then(() => Handlers.goToPath('/'))
-      .then(() => Handlers.okUser('signup', 'An email was sent at', `${email} for verifying the password`))
+      .then(() => Handlers.okUser('signup', 'An email was sent at', `${fields.email} for verifying the password`))
       .catch(err => Handlers.errorUser('auth', 'Sign Up', err))
   })
 
