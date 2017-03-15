@@ -30,7 +30,7 @@ Route.propTypes = {
 
 Route.contextTypes = {
   store: PropTypes.object.isRequired,
-  handlers: PropTypes.object.isRequired
+  handlers: PropTypes.object.isRequired,
 }
 
 export default Route

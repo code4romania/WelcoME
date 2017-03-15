@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react'
-import ProfileForm from '../../forms/profileform/ProfileForm'
+import ProfileForm from '../../forms/authforms/ProfileForm'
 
 const fields = [
   {
