@@ -57,22 +57,12 @@ class ProfileCreationForm extends React.Component {
     });
   }
 
-  handlePrev = () => {
-    const {stepIndex} = this.state;
-    if (stepIndex > 0) {
-      this.setState({
-        stepIndex: stepIndex - 1,
-        finished: false,
-      });
-    }
-  }
-
   onSubmit = e => {
     e.preventDefault();
     this.context.handlers['requestSignup'](this.context.store.forms);
   }
 
-  renderStepActions = () => {
+  renderNextAction = () => {
     const {stepIndex, finished} = this.state;
     const nextAction = finished
       ? <RaisedButton
@@ -88,19 +78,10 @@ class ProfileCreationForm extends React.Component {
           disableFocusRipple={true}
           primary={true}
           onTouchTap={this.handleNext} />
-    const prevAction = stepIndex > 0
-      ? <FlatButton
-          label="Back"
-          disabled={stepIndex === 0}
-          disableTouchRipple={true}
-          disableFocusRipple={true}
-          onTouchTap={this.handlePrev} />
-      : null;
 
     return (
       <div style={{margin: '12px 0'}}>
         {nextAction}
-        {prevAction}
       </div>
     );
   }
@@ -159,8 +140,11 @@ class ProfileCreationForm extends React.Component {
       text: 'Already having an account? Sign In',
     });
 
+    let isActive = this.state.stepIndex >= 0;
+    let isCompleted = this.state.stepIndex > 0;
+
     return (
-      <Step>
+      <Step active={isActive} completed={isCompleted}>
         <StepLabel>
           Sign Up
         </StepLabel>
@@ -173,7 +157,7 @@ class ProfileCreationForm extends React.Component {
               {goToSignInLink}
             </CardText>
             <CardActions>
-              {this.renderStepActions()}
+              {!isCompleted ? this.renderNextAction() : null}
             </CardActions>
           </Card>
         </StepContent>
@@ -197,8 +181,11 @@ class ProfileCreationForm extends React.Component {
         .map(type => ({id: type, label: userTypes[type]})),
     });
 
+    let isActive = this.state.stepIndex >= 1;
+    let isCompleted = this.state.stepIndex > 1;
+
     return (
-      <Step>
+      <Step active={isActive} completed={isCompleted}>
         <StepLabel>
           Welcome
         </StepLabel>
@@ -221,7 +208,7 @@ class ProfileCreationForm extends React.Component {
               {userTypeField}
             </CardText>
             <CardActions>
-              {this.renderStepActions()}
+              {!isCompleted ? this.renderNextAction() : null}
             </CardActions>
           </Card>
         </StepContent>
@@ -232,8 +219,12 @@ class ProfileCreationForm extends React.Component {
   // Render Step 3
   // ---------------------------------------------------------------------
   renderProfileStep = () => {
+
+    let isActive = this.state.stepIndex >= 2;
+    let isCompleted = this.state.stepIndex > 2;
+
     return (
-      <Step>
+      <Step active={isActive} completed={isCompleted}>
         <StepLabel>
           Profile
         </StepLabel>
@@ -243,7 +234,7 @@ class ProfileCreationForm extends React.Component {
 
             </CardText>
             <CardActions>
-              {this.renderStepActions()}
+              {!isCompleted ? this.renderNextAction() : null}
             </CardActions>
           </Card>
         </StepContent>
@@ -263,8 +254,11 @@ class ProfileCreationForm extends React.Component {
         .map(cid => ({ id: cid, text: state.camps.camps[cid].name })),
     });
 
+    let isActive = this.state.stepIndex >= 3;
+    let isCompleted = this.state.stepIndex > 3;
+
     return (
-      <Step>
+      <Step active={isActive} completed={isCompleted}>
         <StepLabel>
           Location
         </StepLabel>
@@ -274,7 +268,7 @@ class ProfileCreationForm extends React.Component {
               {campField}
             </CardText>
             <CardActions>
-              {this.renderStepActions()}
+              {!isCompleted ? this.renderNextAction() : null}
             </CardActions>
           </Card>
         </StepContent>
