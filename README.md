@@ -8,6 +8,10 @@ test:
 
 `npm start`
 
+build:
+
+`cd www && npm run build`
+
 and go to:
 
 http://localhost:3000
