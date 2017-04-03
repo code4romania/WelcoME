@@ -63,6 +63,22 @@ payloads$(Actions.SIGNUP_EMAIL_REQUESTED)
       .catch(err => Handlers.errorUser('auth', 'Sign Up', err))
   })
 
+payloads$(Actions.SIGNUP_FACEBOOK_REQUESTED)
+  .subscribe(() => {
+    let fbProvider = new FirebaseAuth.FacebookAuthProvider();
+    FirebaseAuth.signInWithPopup(fbProvider)
+      .then(result => {
+        let token = result.credential.accessToken;
+        let user = result.user;
+        console.log(token);
+        console.log(user);
+      })
+      .catch(err => {
+        console.log('panic!');
+        console.log(err);
+      })
+  })
+
 // login with email requested
 payloads$(Actions.SIGNIN_EMAIL_REQUESTED)
   .subscribe(fields => {

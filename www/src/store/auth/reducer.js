@@ -1,10 +1,12 @@
 // auth store
 import { registerAction, Reducers, Actions, dispatch, Handlers } from '../../rxdux'
 import rs from 'randomstring'
+
 // actions
 registerAction('USER_CHANGED')
 registerAction('SIGNIN_EMAIL_REQUESTED')
 registerAction('SIGNUP_EMAIL_REQUESTED')
+registerAction('SIGNUP_FACEBOOK_REQUESTED');
 registerAction('SIGNOUT_REQUESTED')
 registerAction('FORGOT_REQUESTED')
 registerAction('EDIT_PROFILE_REQUESTED')
@@ -15,6 +17,10 @@ registerAction('PROFILE_KEYS_CHANGED')
 // UI handlers
 // user requested signup with email and password
 Handlers.requestSignup = fields => dispatch(Actions.SIGNUP_EMAIL_REQUESTED, fields)
+
+// user requesting Fb signup
+Handlers.requestFacebookSignup = () => dispatch(Actions.SIGNUP_FACEBOOK_REQUESTED);
+
 // user requested login with email and password
 Handlers.requestLogin = fields => dispatch(Actions.SIGNIN_EMAIL_REQUESTED, fields)
 // user requested recovery of the password on email
@@ -94,6 +100,7 @@ Reducers.auth = (state = initialState, action) => {
       }
     case Actions.SIGNIN_EMAIL_REQUESTED:
     case Actions.SIGNUP_EMAIL_REQUESTED:
+    case Actions.SIGNUP_FACEBOOK_REQUESTED:
     case Actions.SIGNOUT_REQUESTED:
     case Actions.FORGOT_REQUESTED:
       return {
