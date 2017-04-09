@@ -1,8 +1,14 @@
 import React, { PropTypes} from 'react'
 import {Card, CardMedia, CardTitle} from 'material-ui/Card';
 
-const TitleCard = () => {
-  let welcomeTitle =
+const TitleCard = (props, context) => {
+  const state = context.store;
+  const visible = props.visible ? props.visible(state) : true;
+  if (!visible) {
+    return null;
+  }
+
+  const welcomeTitle =
     <CardTitle
       style={{
         fontFamily: 'Roboto',
@@ -35,6 +41,15 @@ const TitleCard = () => {
       </Card>
     </div>
   );
+}
+
+TitleCard.propTypes = {
+  // visibility function
+  visible: PropTypes.func,
+}
+
+TitleCard.contextTypes = {
+  store: PropTypes.object.isRequired,
 }
 
 export default TitleCard

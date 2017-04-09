@@ -3,8 +3,6 @@ import NavLink from './NavLink'
 import TitleCard from './TitleCard'
 import AppBar from 'material-ui/AppBar'
 
-import './Header.css'
-
 const navBarLinks = [
   {
     name: 'camps',
@@ -40,14 +38,6 @@ const navBarLinks = [
 
 const Header = (props, {handlers}) => {
 
-  const renderTitle = () => {
-    return (
-      <span className='title'>
-        Welcome
-      </span>
-    );
-  }
-
   const renderNavBar = (links) => {
     return (
       <div>
@@ -60,9 +50,8 @@ const Header = (props, {handlers}) => {
 
   return (
     <div>
-      <TitleCard />
+      <TitleCard visible={state => !state.auth.authenticated}/>
       <AppBar
-        title={renderTitle()}
         onTitleTouchTap={() => handlers.goToPath('/')}
         showMenuIconButton={false}
         iconElementRight={renderNavBar(navBarLinks)} />
