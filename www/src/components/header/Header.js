@@ -1,5 +1,6 @@
 import React, { PropTypes} from 'react'
 import NavLink from './NavLink'
+import TitleCard from './TitleCard'
 import AppBar from 'material-ui/AppBar'
 
 import './Header.css'
@@ -58,11 +59,14 @@ const Header = (props, {handlers}) => {
   }
 
   return (
-    <AppBar
-      title={renderTitle()}
-      onTitleTouchTap={() => handlers.goToPath('/')}
-      showMenuIconButton={false}
-      iconElementRight={renderNavBar(navBarLinks)} />
+    <div>
+      <TitleCard />
+      <AppBar
+        title={renderTitle()}
+        onTitleTouchTap={() => handlers.goToPath('/')}
+        showMenuIconButton={false}
+        iconElementRight={renderNavBar(navBarLinks)} />
+    </div>
   );
 }
 
