@@ -101,12 +101,12 @@ payloads$(Actions.FORGOT_REQUESTED)
 // signout user requested
 payloads$(Actions.SIGNOUT_REQUESTED)
   .subscribe(() => {
-    Handlers.goToPath('/')
-    const user = transformUser(FirebaseAuth.currentUser)
+    Handlers.goToPath('/login');
+    const user = transformUser(FirebaseAuth.currentUser);
     FirebaseAuth
       .signOut()
       .then(() => Handlers.okUser('auth', 'Good bye', `${user.email}`))
-      .catch(err => Handlers.errorUser('auth', 'Sign Out', err))
+      .catch(err => Handlers.errorUser('auth', 'Sign Out', err));
   })
 
 // edit profile requested

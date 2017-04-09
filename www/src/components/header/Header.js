@@ -1,7 +1,7 @@
 import React, { PropTypes} from 'react'
 import NavLink from './NavLink'
 import TitleCard from './TitleCard'
-import AppBar from 'material-ui/AppBar'
+import {Toolbar, ToolbarGroup, ToolbarSeparator} from 'material-ui/Toolbar'
 
 const navBarLinks = [
   {
@@ -40,21 +40,27 @@ const Header = (props, {handlers}) => {
 
   const renderNavBar = (links) => {
     return (
-      <div>
+      <ToolbarGroup>
         {links.map(link => (
-          <NavLink key={link.name} {...link} />
+          <div>
+            <NavLink key={link.name} {...link} />
+          </div>
         ))}
-      </div>
+      </ToolbarGroup>
     );
   }
 
   return (
     <div>
       <TitleCard visible={state => !state.auth.authenticated}/>
-      <AppBar
-        onTitleTouchTap={() => handlers.goToPath('/')}
-        showMenuIconButton={false}
-        iconElementRight={renderNavBar(navBarLinks)} />
+      <Toolbar
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+        {renderNavBar(navBarLinks)}
+      </Toolbar>
     </div>
   );
 }

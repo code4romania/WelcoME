@@ -30,7 +30,6 @@ const Forgot = (props) => {
       name='forgot'
       validate={validate}
       submitHandler='requestForgot' />
-
   );
 }
 

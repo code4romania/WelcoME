@@ -19,7 +19,10 @@ Handlers.changeRoute = location => dispatch(Actions.ROUTE_CHANGED, location)
 Handlers.routeResolved = () => dispatch(Actions.ROUTE_RESOLVED)
 
 // reducer
-const initialState = {}
+const initialState = {
+  pathname: '/login',
+}
+
 Reducers.router = (state = initialState, action) => {
   switch (action.type) {
     case Actions.ROUTE_REQUESTED:

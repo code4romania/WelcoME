@@ -25,3 +25,6 @@ Observable
   // only distinct pathnames
   .distinctUntilChanged((route, oldroute) => route.pathname === oldroute.pathname)
   .subscribe(route => Handlers.changeRoute(route))
+
+// Make the landing page be login
+history.push('/login');
