@@ -41,8 +41,7 @@ const Login = (props) => {
     <BasicForm
       fields={fields}
       links={links}
-      submitText='Sign In'
-      title='Sign In'
+      submitText='Login'
       name='login'
       validate={validate}
       submitHandler='requestLogin' />

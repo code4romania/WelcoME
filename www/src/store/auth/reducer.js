@@ -7,6 +7,7 @@ registerAction('USER_CHANGED')
 registerAction('SIGNIN_EMAIL_REQUESTED')
 registerAction('SIGNUP_EMAIL_REQUESTED')
 registerAction('SIGNUP_FACEBOOK_REQUESTED');
+registerAction('SIGNUP_CREATE_PROFILE_REQUESTED');
 registerAction('SIGNOUT_REQUESTED')
 registerAction('FORGOT_REQUESTED')
 registerAction('EDIT_PROFILE_REQUESTED')
@@ -17,9 +18,10 @@ registerAction('PROFILE_KEYS_CHANGED')
 // UI handlers
 // user requested signup with email and password
 Handlers.requestSignup = fields => dispatch(Actions.SIGNUP_EMAIL_REQUESTED, fields)
-
 // user requesting Fb signup
 Handlers.requestFacebookSignup = () => dispatch(Actions.SIGNUP_FACEBOOK_REQUESTED);
+// user requesting to create a profile
+Handlers.requestCreateProfile = fields => dispatch(Actions.SIGNUP_CREATE_PROFILE_REQUESTED, fields);
 
 // user requested login with email and password
 Handlers.requestLogin = fields => dispatch(Actions.SIGNIN_EMAIL_REQUESTED, fields)

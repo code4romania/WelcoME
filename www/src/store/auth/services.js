@@ -41,26 +41,42 @@ payloads$(Actions.SIGNUP_EMAIL_REQUESTED)
   .subscribe((fields) => {
     FirebaseAuth
       .createUserWithEmailAndPassword(fields.email, fields.password)
-      .then(user => {
-        user.sendEmailVerification()
-        return user
-      })
       .then(({uid, email}) => {
         FirebaseDb.ref('users/' + uid).set({
           email,
-          volunteer: fields.profiletype === 2,
-          refugee: fields.profiletype === 0 || fields.profiletype === 1,
-          owner: false,
-          admin: false,
-          camp: fields.camp,
           emailPassword: true,
-        })
-        return uid
+          pendingProfile: true,
+        });
+        return uid;
       })
-      .then(uid => FirebaseDb.ref((fields.profiletype === 2 ? 'volunteers/' : 'refugees/') + fields.camp + '/' + uid).set(true))
-      .then(() => Handlers.goToPath('/'))
+      .then(() => Handlers.goToPath('/create_profile'))
       .then(() => Handlers.okUser('signup', 'An email was sent at', `${fields.email} for verifying the password`))
       .catch(err => Handlers.errorUser('auth', 'Sign Up', err))
+  })
+
+payloads$(Actions.SIGNUP_CREATE_PROFILE_REQUESTED)
+  .subscribe((fields) => {
+    const user = FirebaseAuth.currentUser;
+    console.log('........')
+    console.log(fields);
+    console.log(user);
+    console.log('........')
+  
+    FirebaseDb
+      .ref('users/' + user.uid).set({
+        volunteer: fields.profiletype === 2,
+        refugee: fields.profiletype === 0 || fields.profiletype === 1,
+        owner: false,
+        admin: false,
+        camp: fields.camp,
+        pendingProfile: false,
+      })
+      .then(user => {
+        user.sendEmailVerification();
+        return user;
+      })
+      .then(uid => FirebaseDb.ref((fields.profiletype === 2 ? 'volunteers/' : 'refugees/') + fields.camp + '/' + user.uid).set(true))
+      .then(() => Handlers.goToPath('/'));
   })
 
 payloads$(Actions.SIGNUP_FACEBOOK_REQUESTED)

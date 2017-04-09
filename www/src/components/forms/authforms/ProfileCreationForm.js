@@ -1,33 +1,13 @@
 import React, {PropTypes} from 'react'
 import BasicFormLink from '../basicform/BasicFormLink'
 import BasicFormField from '../basicform/BasicFormField'
-import {Card, CardActions, CardText} from 'material-ui/Card'
-import FlatButton from 'material-ui/FlatButton'
+import {Card, CardText} from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton';
-import {
-  Step,
-  Stepper,
-  StepLabel,
-  StepContent,
-} from 'material-ui/Stepper';
+import {Step, Stepper, StepLabel} from 'material-ui/Stepper';
 import ValidationUtils from '../../page/utils/ValidationUtils'
 
 const validationCriteria = values => {
   const errors = {};
-  if (!values.email) {
-    errors.email = 'Please enter an email.';
-  } else if (!ValidationUtils.emailCheck(values.email)) {
-    errors.email = 'Invalid email address';
-  }
-  if (!values.password) {
-    errors.password = 'Please enter a password.';
-  }
-  if (!values.passwordConfirm) {
-    errors.passwordConfirm = 'Please enter a password confirmation.';
-  }
-  if (values.password !== values.passwordConfirm) {
-    errors.password = 'Passwords do not match';
-  }
   if (!values.camp) {
     errors.camp = 'Must select a camp';
   }
@@ -59,7 +39,7 @@ class ProfileCreationForm extends React.Component {
 
   onSubmit = e => {
     e.preventDefault();
-    this.context.handlers['requestSignup'](this.context.store.forms);
+    this.context.handlers['requestCreateProfile'](this.context.store.forms);
   }
 
   renderNextAction = () => {
@@ -114,66 +94,15 @@ class ProfileCreationForm extends React.Component {
     );
   }
 
-  // Render Step 1
-  // ---------------------------------------------------------------------
-  renderEmailPasswordStep = () => {
-    let emailField = this.renderField({
-        name: 'email',
-        fieldType: 'textfield',
-        label: 'Email',
-        type: 'email',
-    });
-    let passwordField = this.renderField({
-      name: 'password',
-      fieldType: 'textfield',
-      label: 'Password',
-      type: 'password',
-    });
-    let passwordConfirmField = this.renderField({
-      name: 'passwordConfirm',
-      fieldType: 'textfield',
-      label: 'Confirm Password',
-      type: 'password',
-    });
-    let goToSignInLink = this.renderLink({
-      goTo: '/login',
-      text: 'Already having an account? Sign In',
-    });
-
-    let isActive = this.state.stepIndex >= 0;
-    let isCompleted = this.state.stepIndex > 0;
-
-    return (
-      <Step active={isActive} completed={isCompleted}>
-        <StepLabel>
-          Sign Up
-        </StepLabel>
-        <StepContent>
-          <Card className='card'>
-            <CardText>
-              {emailField}
-              {passwordField}
-              {passwordConfirmField}
-              {goToSignInLink}
-            </CardText>
-            <CardActions>
-              {!isCompleted ? this.renderNextAction() : null}
-            </CardActions>
-          </Card>
-        </StepContent>
-      </Step>
-    );
-  }
-
-  // Render Step 2
+  // Render User Type
   // ---------------------------------------------------------------------
   renderUserTypeStep = () => {
-    let userTypes = {
+    const userTypes = {
       '0': 'Refugee',
       '1': 'Asylum Seeker',
       '2': 'Community Helper',
     }
-    let userTypeField = this.renderField({
+    const userTypeField = this.renderField({
       name: 'profiletype',
       fieldType: 'radiogroup',
       values: () => Object
@@ -181,71 +110,43 @@ class ProfileCreationForm extends React.Component {
         .map(type => ({id: type, label: userTypes[type]})),
     });
 
-    let isActive = this.state.stepIndex >= 1;
-    let isCompleted = this.state.stepIndex > 1;
-
     return (
-      <Step active={isActive} completed={isCompleted}>
-        <StepLabel>
-          Welcome
-        </StepLabel>
-        <StepContent>
-          <Card className='card'>
-            <CardText>
-              <p>
-                {'Hello'}
-              </p>
-              <p>
-                {
-                  'Welcome to our platform. We connect communities with ' +
-                  'refugees and asylum seekers. Let\'s find out a few things ' +
-                  'about you, so we can guide you through the platform.'
-                }
-              </p>
-              <p>
-                {'You identify yourself as:'}
-              </p>
-              {userTypeField}
-            </CardText>
-            <CardActions>
-              {!isCompleted ? this.renderNextAction() : null}
-            </CardActions>
-          </Card>
-        </StepContent>
-      </Step>
+      <Card className='card'>
+        <CardText>
+          <p>
+            {'Hello'}
+          </p>
+          <p>
+            {
+              'Welcome to our platform. We connect communities with ' +
+              'refugees and asylum seekers. Let\'s find out a few things ' +
+              'about you, so we can guide you through the platform.'
+            }
+          </p>
+          <p>
+            {'You identify yourself as:'}
+          </p>
+          {userTypeField}
+        </CardText>
+      </Card>
     );
   }
 
-  // Render Step 3
+  // Render Basic Profile
   // ---------------------------------------------------------------------
   renderProfileStep = () => {
-
-    let isActive = this.state.stepIndex >= 2;
-    let isCompleted = this.state.stepIndex > 2;
-
     return (
-      <Step active={isActive} completed={isCompleted}>
-        <StepLabel>
-          Profile
-        </StepLabel>
-        <StepContent>
-          <Card className='card'>
-            <CardText>
-
-            </CardText>
-            <CardActions>
-              {!isCompleted ? this.renderNextAction() : null}
-            </CardActions>
-          </Card>
-        </StepContent>
-      </Step>
+      <Card className='card'>
+        <CardText>
+        </CardText>
+      </Card>
     );
   }
 
-  // Render Step 4
+  // Render Camp selection
   // ---------------------------------------------------------------------
   renderLocationStep = () => {
-    let campField = this.renderField({
+    const campField = this.renderField({
       name: 'camp',
       fieldType: 'select',
       label: 'Camp',
@@ -254,26 +155,39 @@ class ProfileCreationForm extends React.Component {
         .map(cid => ({ id: cid, text: state.camps.camps[cid].name })),
     });
 
-    let isActive = this.state.stepIndex >= 3;
-    let isCompleted = this.state.stepIndex > 3;
-
     return (
-      <Step active={isActive} completed={isCompleted}>
-        <StepLabel>
-          Location
-        </StepLabel>
-        <StepContent>
-          <Card className='card'>
-            <CardText>
-              {campField}
-            </CardText>
-            <CardActions>
-              {!isCompleted ? this.renderNextAction() : null}
-            </CardActions>
-          </Card>
-        </StepContent>
-      </Step>
+      <Card className='card'>
+        <CardText>
+          {campField}
+        </CardText>
+      </Card>
     );
+  }
+
+  // Render Skills
+  // ---------------------------------------------------------------------
+  renderSkillsStep = () => {
+    return (
+      <Card className='card'>
+        <CardText>
+        </CardText>
+      </Card>
+    );
+  }
+
+  // Render Steps
+  // ---------------------------------------------------------------------
+  renderStep = () => {
+    switch(this.state.stepIndex) {
+      case 0:
+        return this.renderUserTypeStep();
+      case 1:
+        return this.renderProfileStep();
+      case 2:
+        return this.renderLocationStep();
+      case 3:
+        return this.renderSkillsStep();
+    }
   }
 
   // Render the entire form
@@ -281,15 +195,30 @@ class ProfileCreationForm extends React.Component {
   render() {
     return (
       <form onSubmit={this.onSubmit}>
-        <Stepper
-          activeStep={this.state.stepIndex}
-          linear={false}
-          orientation="vertical">
-          {this.renderEmailPasswordStep()}
-          {this.renderUserTypeStep()}
-          {this.renderProfileStep()}
-          {this.renderLocationStep()}
+        <Stepper activeStep={this.state.stepIndex}>
+          <Step>
+            <StepLabel>
+              Welcome
+            </StepLabel>
+          </Step>
+          <Step>
+            <StepLabel>
+              Profile
+            </StepLabel>
+          </Step>
+          <Step>
+            <StepLabel>
+              Location
+            </StepLabel>
+          </Step>
+          <Step>
+            <StepLabel>
+              Skills
+            </StepLabel>
+          </Step>
         </Stepper>
+        {this.renderStep()}
+        {this.renderNextAction()}
       </form>
     );
   }
