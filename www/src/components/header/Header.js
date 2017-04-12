@@ -37,7 +37,10 @@ const navBarLinks = [
   },
 ].map(link => ({...link, className: 'nav-link', liClassName: 'nav-item'}))
 
-const Header = (props, {handlers}) => {
+const Header = (props, context) => {
+
+  const state = context.store;
+  const handlers = context.handlers;
 
   const renderNavBar = (links) => {
     return (
@@ -49,17 +52,24 @@ const Header = (props, {handlers}) => {
     );
   }
 
+  let showToolbar =
+    state.auth.profile && state.auth.profile.pendingProfile
+      ? 'none'
+      : 'all';
+
   return (
     <div>
       <TitleCard visible={state => !state.auth.authenticated}/>
-      <Toolbar
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}>
-        {renderNavBar(navBarLinks)}
-      </Toolbar>
+      <div style={{display: state => showToolbar}}>
+        <Toolbar
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+          {renderNavBar(navBarLinks)}
+        </Toolbar>
+      </div>
       <ProfileCreation
         visible={
           state => state.auth.profile && state.auth.profile.pendingProfile

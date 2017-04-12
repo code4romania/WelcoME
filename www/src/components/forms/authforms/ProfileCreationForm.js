@@ -197,7 +197,11 @@ class ProfileCreationForm extends React.Component {
   render() {
     return (
       <form onSubmit={this.onSubmit}>
-        <Stepper activeStep={this.state.stepIndex}>
+        <Stepper
+          activeStep={this.state.stepIndex}
+          style={{
+            backgroundColor: 'rgb(232, 232, 232)'
+          }}>
           <Step>
             <StepLabel>
               Welcome

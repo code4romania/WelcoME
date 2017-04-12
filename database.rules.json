@@ -43,6 +43,14 @@
           ".write": "root.child('owners').child(auth.uid).exists() || ($uid === auth.uid)"
         }
       }
-    }
+    },
+    "asylum_seekers": {
+      "$cid": {
+        ".read": "root.child('owners').child(auth.uid).exists() || (root.child('campAdmins').child($cid).exists() && root.child('campAdmins').child($cid).child(auth.uid).exists())",
+        "$uid": {
+          ".write": "root.child('owners').child(auth.uid).exists() || ($uid === auth.uid)"
+        }
+      }
+    },
   }
 }
