@@ -5,6 +5,7 @@ import {Card, CardText} from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton';
 import {Step, Stepper, StepLabel} from 'material-ui/Stepper';
 import ValidationUtils from '../../page/utils/ValidationUtils'
+import { Entities } from '../../../store/constants.js'
 
 const validationCriteria = values => {
   const errors = {};
@@ -97,11 +98,14 @@ class ProfileCreationForm extends React.Component {
   // Render User Type
   // ---------------------------------------------------------------------
   renderUserTypeStep = () => {
+    const REFUGEE = Entities.userTypes.REFUGEE;
+    const ASYLUM_SEEKER = Entities.userTypes.ASYLUM_SEEKER;
+    const VOLUNTEER = Entities.userTypes.VOLUNTEER;
     const userTypes = {
-      '0': 'Refugee',
-      '1': 'Asylum Seeker',
-      '2': 'Community Helper',
-    }
+      REFUGEE: 'Refugee',
+      ASYLUM_SEEKER: 'Asylum Seeker',
+      VOLUNTEER: 'Volunteer',
+    };
     const userTypeField = this.renderField({
       name: 'profiletype',
       fieldType: 'radiogroup',

@@ -43,9 +43,7 @@ const Header = (props, {handlers}) => {
     return (
       <ToolbarGroup>
         {links.map(link => (
-          <div>
-            <NavLink key={link.name} {...link} />
-          </div>
+          <NavLink key={link.name} {...link} />
         ))}
       </ToolbarGroup>
     );

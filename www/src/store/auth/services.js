@@ -1,6 +1,7 @@
 import { Handlers, actions$, Actions, payloads$, store$ } from '../../rxdux'
 import { FirebaseAuth, FirebaseDb } from '../../firebase'
 import { transformUser } from './helpers'
+import { Entities } from '../constants'
 
 // auth and db global observers
 
@@ -41,6 +42,10 @@ payloads$(Actions.SIGNUP_EMAIL_REQUESTED)
   .subscribe((fields) => {
     FirebaseAuth
       .createUserWithEmailAndPassword(fields.email, fields.password)
+      .then(user => {
+        user.sendEmailVerification();
+        return user;
+      })
       .then(({uid, email}) => {
         FirebaseDb.ref('users/' + uid).set({
           email,
@@ -50,32 +55,43 @@ payloads$(Actions.SIGNUP_EMAIL_REQUESTED)
         return uid;
       })
       .then(() => Handlers.goToPath('/create_profile'))
-      .then(() => Handlers.okUser('signup', 'An email was sent at', `${fields.email} for verifying the password`))
+      .then(() => Handlers.okUser(
+        'signup',
+        'An email was sent at', `${fields.email} for verifying the password`,
+      ))
       .catch(err => Handlers.errorUser('auth', 'Sign Up', err))
   })
 
 payloads$(Actions.SIGNUP_CREATE_PROFILE_REQUESTED)
   .subscribe((fields) => {
     const user = FirebaseAuth.currentUser;
-    console.log('........')
-    console.log(fields);
-    console.log(user);
-    console.log('........')
-  
+    const userTypeSpecificTable =
+      fields.profiletype === Entities.userTypes.VOLUNTEER
+        ? 'volunteers'
+        : fields.profiletype === Entities.userTypes.REFUGEE
+          ? 'refugees'
+          : fields.profiletype === Entities.userTypes.ASYLUM_SEEKER
+            ? 'asylum_seekers'
+            : null;
+
     FirebaseDb
-      .ref('users/' + user.uid).set({
-        volunteer: fields.profiletype === 2,
-        refugee: fields.profiletype === 0 || fields.profiletype === 1,
-        owner: false,
-        admin: false,
-        camp: fields.camp,
+      .ref('users/' + user.uid)
+      .update({
+        type:  fields.profiletype,
+        camp_admin: false,
         pendingProfile: false,
       })
-      .then(user => {
-        user.sendEmailVerification();
-        return user;
+      .then(() => FirebaseDb
+        .ref('users/' + user.uid + '/camps/' + fields.camp)
+        .set(true)
+      )
+      .then(uid => {
+        if (userTypeSpecificTable !== null) {
+          FirebaseDb
+            .ref(userTypeSpecificTable + '/' + fields.camp + '/' + user.uid)
+            .set(true)
+        }
       })
-      .then(uid => FirebaseDb.ref((fields.profiletype === 2 ? 'volunteers/' : 'refugees/') + fields.camp + '/' + user.uid).set(true))
       .then(() => Handlers.goToPath('/'));
   })
 
