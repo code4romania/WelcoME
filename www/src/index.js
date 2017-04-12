@@ -7,7 +7,6 @@ import App from './components/App'
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import {cyan500} from 'material-ui/styles/colors';
 import './index.css'
 
 injectTapEventPlugin()

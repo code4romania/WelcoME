@@ -1,5 +1,5 @@
 import { Handlers, actions$, Actions, payloads$, store$ } from '../../rxdux'
-import { FirebaseAuth, FirebaseDb } from '../../firebase'
+import { FirebaseAuth, FirebaseDb, FirebaseFbProvider } from '../../firebase'
 import { transformUser } from './helpers'
 import { Entities } from '../constants'
 
@@ -97,17 +97,19 @@ payloads$(Actions.SIGNUP_CREATE_PROFILE_REQUESTED)
 
 payloads$(Actions.SIGNUP_FACEBOOK_REQUESTED)
   .subscribe(() => {
-    let fbProvider = new FirebaseAuth.FacebookAuthProvider();
-    FirebaseAuth.signInWithPopup(fbProvider)
-      .then(result => {
-        let token = result.credential.accessToken;
-        let user = result.user;
-        console.log(token);
-        console.log(user);
-      })
+    FirebaseAuth.signInWithPopup(FirebaseFbProvider)
+      .then(result => FirebaseDb
+          .ref('users/' + result.user.uid)
+          .set({
+            email: result.user.email,
+            pendingProfile: true,
+          })
+      )
+      .then(() => Handlers.goToPath('/create_profile'))
       .catch(err => {
         console.log('panic!');
         console.log(err);
+        // TODO: solve case where an account exitsts
       })
   })
 

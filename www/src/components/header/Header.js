@@ -2,7 +2,7 @@ import React, { PropTypes} from 'react'
 import NavLink from './NavLink'
 import TitleCard from './TitleCard'
 import ProfileCreation from '../page/authenticate/ProfileCreation'
-import {Toolbar, ToolbarGroup, ToolbarSeparator} from 'material-ui/Toolbar'
+import {Toolbar, ToolbarGroup} from 'material-ui/Toolbar'
 
 const navBarLinks = [
   {

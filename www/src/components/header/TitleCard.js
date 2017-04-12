@@ -36,7 +36,8 @@ const TitleCard = (props, context) => {
           overlayStyle={{
             height: 'auto',
           }}>
-          <img src={require('../../../public/media/header/main.jpg')} />
+          <img
+            src={require('../../../public/media/header/main.jpg')} role="presentation"/>
         </CardMedia>
       </Card>
     </div>

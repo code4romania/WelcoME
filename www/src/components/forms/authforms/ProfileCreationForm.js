@@ -2,10 +2,8 @@ import React, {PropTypes} from 'react'
 import BasicFormLink from '../basicform/BasicFormLink'
 import BasicFormField from '../basicform/BasicFormField'
 import {Card, CardText} from 'material-ui/Card'
-import RaisedButton from 'material-ui/RaisedButton';
-import {Step, Stepper, StepLabel} from 'material-ui/Stepper';
-import ValidationUtils from '../../page/utils/ValidationUtils'
-import { Entities } from '../../../store/constants.js'
+import RaisedButton from 'material-ui/RaisedButton'
+import {Step, Stepper, StepLabel} from 'material-ui/Stepper'
 
 const validationCriteria = values => {
   const errors = {};
@@ -44,7 +42,7 @@ class ProfileCreationForm extends React.Component {
   }
 
   renderNextAction = () => {
-    const {stepIndex, finished} = this.state;
+    const {finished} = this.state;
     const nextAction = finished
       ? <RaisedButton
           label='Create Profile'
@@ -98,9 +96,7 @@ class ProfileCreationForm extends React.Component {
   // Render User Type
   // ---------------------------------------------------------------------
   renderUserTypeStep = () => {
-    const REFUGEE = Entities.userTypes.REFUGEE;
-    const ASYLUM_SEEKER = Entities.userTypes.ASYLUM_SEEKER;
-    const VOLUNTEER = Entities.userTypes.VOLUNTEER;
+    // TODO: check how to use Entities.userTypes as keys for this map
     const userTypes = {
       REFUGEE: 'Refugee',
       ASYLUM_SEEKER: 'Asylum Seeker',
@@ -191,6 +187,8 @@ class ProfileCreationForm extends React.Component {
         return this.renderLocationStep();
       case 3:
         return this.renderSkillsStep();
+      default:
+        return null;
     }
   }
 

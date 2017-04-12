@@ -63,7 +63,7 @@ const BasicForm = ({fields = [], links = [], ...props}, context) => {
 
 BasicForm.propTypes = {
   // title of the form
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string,
   // on submit what handler to use
   submitHandler: PropTypes.string.isRequired,
   // validation function
