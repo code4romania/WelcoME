@@ -6,11 +6,19 @@ install:
 
 test: 
 
-`npm start`
+`cd www && npm start`
+
+deploy functions: 
+
+`cd www && npm run func`
 
 build:
 
 `cd www && npm run build`
+
+deploy firebase:
+
+`firebase deploy`
 
 and go to:
 

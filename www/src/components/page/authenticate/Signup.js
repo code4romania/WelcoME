@@ -74,7 +74,7 @@ const Signup = (props, context) => {
       </div>
       <BasicForm
         fields={fields}
-        submitText='Sign-up with email'
+        submitText='Sign-up with Email'
         name='signup'
         validate={validate}
         submitHandler='requestSignup' />

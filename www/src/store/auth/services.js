@@ -71,6 +71,7 @@ FirebaseAuth.getRedirectResult()
   .then(result => {
 
   })
+  .then(() => Handlers.goToPath('/'))
   .catch(err => Handlers.errorUser('auth', 'Redirect', err))
 
 // modify profile

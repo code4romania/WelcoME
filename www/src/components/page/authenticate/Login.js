@@ -1,6 +1,7 @@
 import React from 'react'
 import BasicForm from '../../forms/basicform/BasicForm'
 import ValidationUtils from '../utils/ValidationUtils'
+import RaisedButton from 'material-ui/RaisedButton'
 
 const fields = [
   {
@@ -36,15 +37,39 @@ const validate = values => {
   return errors
 }
 
-const Login = (props) => {
+const Login = (props, context) => {
+  const handlers = context.handlers
+  const onSignUpWithFb = e => {
+    e.preventDefault()
+    handlers.requestFacebookSignup()
+  }
+
+  const onSignUpWithGl = e => {
+    e.preventDefault()
+    handlers.requestGoogleSignup()
+  }
   return (
-    <BasicForm
-      fields={fields}
-      links={links}
-      submitText='Login'
-      name='login'
-      validate={validate}
-      submitHandler='requestLogin' />
+    <div>
+      <div>
+        <RaisedButton
+          type='submit' onClick={onSignUpWithGl}
+          secondary
+          label='Sign-in with Google' />
+        <span> OR </span>
+        <RaisedButton
+          type='submit' onClick={onSignUpWithFb}
+          primary
+          label='Sign-in with Facebook' />
+        <span> OR </span>
+      </div>
+      <BasicForm
+        fields={fields}
+        links={links}
+        submitText='Sign-in with Email'
+        name='login'
+        validate={validate}
+        submitHandler='requestLogin' />
+    </div>
   )
 }
 
