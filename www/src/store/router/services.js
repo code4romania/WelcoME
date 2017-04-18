@@ -27,4 +27,4 @@ Observable
   .subscribe(route => Handlers.changeRoute(route))
 
 // Make the landing page be login
-history.push('/login');
+history.push('/login')

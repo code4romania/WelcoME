@@ -34,13 +34,12 @@ const navBarLinks = [
     visible: state => !state.auth.authenticated && !(state.auth.profile && state.auth.profile.pendingProfile),
     text: 'New Here',
     route: '/signup'
-  },
+  }
 ].map(link => ({...link, className: 'nav-link', liClassName: 'nav-item'}))
 
 const Header = (props, context) => {
-
-  const state = context.store;
-  const handlers = context.handlers;
+  const state = context.store
+  // const handlers = context.handlers
 
   const renderNavBar = (links) => {
     return (
@@ -49,23 +48,23 @@ const Header = (props, context) => {
           <NavLink key={link.name} {...link} />
         ))}
       </ToolbarGroup>
-    );
+    )
   }
 
   let showToolbar =
     state.auth.profile && state.auth.profile.pendingProfile
       ? 'none'
-      : 'all';
+      : 'all'
 
   return (
     <div>
-      <TitleCard visible={state => !state.auth.authenticated}/>
+      <TitleCard visible={state => !state.auth.authenticated} />
       <div style={{display: state => showToolbar}}>
         <Toolbar
           style={{
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'center',
+            justifyContent: 'center'
           }}>
           {renderNavBar(navBarLinks)}
         </Toolbar>
@@ -75,7 +74,7 @@ const Header = (props, context) => {
           state => state.auth.profile && state.auth.profile.pendingProfile
         } />
     </div>
-  );
+  )
 }
 
 Header.contextTypes = {

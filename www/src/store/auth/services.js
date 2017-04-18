@@ -1,5 +1,5 @@
 import { Handlers, actions$, Actions, payloads$, store$ } from '../../rxdux'
-import { FirebaseAuth, FirebaseDb, FirebaseFbProvider } from '../../firebase'
+import { FirebaseAuth, FirebaseDb, FacebookProvider } from '../../firebase'
 import { transformUser } from './helpers'
 import { Entities } from '../constants'
 
@@ -43,16 +43,16 @@ payloads$(Actions.SIGNUP_EMAIL_REQUESTED)
     FirebaseAuth
       .createUserWithEmailAndPassword(fields.email, fields.password)
       .then(user => {
-        user.sendEmailVerification();
-        return user;
+        user.sendEmailVerification()
+        return user
       })
       .then(({uid, email}) => {
         FirebaseDb.ref('users/' + uid).set({
           email,
           emailPassword: true,
-          pendingProfile: true,
-        });
-        return uid;
+          pendingProfile: true
+        })
+        return uid
       })
       .then(() => Handlers.goToPath('/create_profile'))
       .then(() => Handlers.okUser(
@@ -64,7 +64,7 @@ payloads$(Actions.SIGNUP_EMAIL_REQUESTED)
 
 payloads$(Actions.SIGNUP_CREATE_PROFILE_REQUESTED)
   .subscribe((fields) => {
-    const user = FirebaseAuth.currentUser;
+    const user = FirebaseAuth.currentUser
     const userTypeSpecificTable =
       fields.profiletype === Entities.userTypes.VOLUNTEER
         ? 'volunteers'
@@ -72,14 +72,14 @@ payloads$(Actions.SIGNUP_CREATE_PROFILE_REQUESTED)
           ? 'refugees'
           : fields.profiletype === Entities.userTypes.ASYLUM_SEEKER
             ? 'asylum_seekers'
-            : null;
+            : null
 
     FirebaseDb
       .ref('users/' + user.uid)
       .update({
-        type:  fields.profiletype,
+        type: fields.profiletype,
         camp_admin: false,
-        pendingProfile: false,
+        pendingProfile: false
       })
       .then(() => FirebaseDb
         .ref('users/' + user.uid + '/camps/' + fields.camp)
@@ -92,23 +92,23 @@ payloads$(Actions.SIGNUP_CREATE_PROFILE_REQUESTED)
             .set(true)
         }
       })
-      .then(() => Handlers.goToPath('/'));
+      .then(() => Handlers.goToPath('/'))
   })
 
 payloads$(Actions.SIGNUP_FACEBOOK_REQUESTED)
   .subscribe(() => {
-    FirebaseAuth.signInWithPopup(FirebaseFbProvider)
+    FirebaseAuth.signInWithPopup(FacebookProvider)
       .then(result => FirebaseDb
           .ref('users/' + result.user.uid)
           .set({
             email: result.user.email,
-            pendingProfile: true,
+            pendingProfile: true
           })
       )
       .then(() => Handlers.goToPath('/create_profile'))
       .catch(err => {
-        console.log('panic!');
-        console.log(err);
+        console.log('panic!')
+        console.log(err)
         // TODO: solve case where an account exitsts
       })
   })
@@ -135,12 +135,12 @@ payloads$(Actions.FORGOT_REQUESTED)
 // signout user requested
 payloads$(Actions.SIGNOUT_REQUESTED)
   .subscribe(() => {
-    Handlers.goToPath('/login');
-    const user = transformUser(FirebaseAuth.currentUser);
+    Handlers.goToPath('/login')
+    const user = transformUser(FirebaseAuth.currentUser)
     FirebaseAuth
       .signOut()
       .then(() => Handlers.okUser('auth', 'Good bye', `${user.email}`))
-      .catch(err => Handlers.errorUser('auth', 'Sign Out', err));
+      .catch(err => Handlers.errorUser('auth', 'Sign Out', err))
   })
 
 // edit profile requested

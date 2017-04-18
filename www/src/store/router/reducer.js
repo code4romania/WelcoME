@@ -20,7 +20,7 @@ Handlers.routeResolved = () => dispatch(Actions.ROUTE_RESOLVED)
 
 // reducer
 const initialState = {
-  pathname: '/login',
+  pathname: '/login'
 }
 
 Reducers.router = (state = initialState, action) => {
