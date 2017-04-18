@@ -36,7 +36,7 @@ const pages = [
     name: 'create_profile',
     visible: state => state.auth.profile && state.auth.profile.pendingProfile,
     route: 'create_profile',
-    component: ProfileCreation,
+    component: ProfileCreation
   },
   {
     name: 'profile',

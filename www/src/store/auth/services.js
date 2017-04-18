@@ -1,31 +1,26 @@
-import { Handlers, actions$, Actions, payloads$ } from '../../rxdux'
-import { FirebaseAuth, FirebaseDb } from '../../firebase'
+import { Handlers, Actions, payloads$ } from '../../rxdux'
+import { FirebaseAuth, FirebaseDb, FacebookProvider, GoogleProvider } from '../../firebase'
 // import { Entities } from '../constants'
 
 // on user changed observe users/uid key for changes
 let lastUid = null
 FirebaseAuth.onAuthStateChanged(user => {
   const uid = user && user.uid
-  Handlers.userChanged(uid)
+  Handlers.clearFields()
   if (lastUid !== uid) {
     if (lastUid) {
       FirebaseDb.ref('/users/' + lastUid).off('value')
     }
     if (uid) {
-      FirebaseDb.ref('/users/' + uid).on('value', snapshot => Handlers.profileChanged(snapshot.val()))
+      FirebaseDb.ref('/users/' + uid).on('value', snapshot => Handlers.profileChanged({uid,...snapshot.val()}))
     }
     lastUid = uid
   }
   user && Handlers.okUser('auth', 'Welcome', `${user.email}`)
 }, err => Handlers.errorUser('auth', 'Sign In', err))
 
-// clean up forms fields when user changes
-actions$(Actions.USER_CHANGED)
-  .subscribe(() => Handlers.clearFields())
-
 // signout user requested
 payloads$(Actions.SIGNOUT_REQUESTED).subscribe(() => {
-  Handlers.goToPath('/login')
   const user = FirebaseAuth.currentUser
   FirebaseAuth.signOut().then(() => Handlers.okUser('auth', 'Good bye', `${user.email}`))
       .catch(err => Handlers.errorUser('auth', 'Sign Out', err))
@@ -57,7 +52,27 @@ payloads$(Actions.SIGNIN_EMAIL_REQUESTED)
       .catch(err => Handlers.errorUser('auth', 'Sign In', err))
   })
 
-// signup with email requested
+// signup with facebook
+payloads$(Actions.SIGN_FACEBOOK_REQUESTED).subscribe(() => {
+  FirebaseAuth.signInWithRedirect(FacebookProvider)
+      .then(() => Handlers.goToPath('/create_profile'))
+      .catch(err => Handlers.errorUser('auth', 'RedirectFb', err))
+})
+
+// signup with google
+payloads$(Actions.SIGN_GOOGLE_REQUESTED).subscribe(() => {
+  FirebaseAuth.signInWithRedirect(GoogleProvider)
+      .then(() => Handlers.goToPath('/create_profile'))
+      .catch(err => Handlers.errorUser('auth', 'RedirectGl', err))
+})
+
+FirebaseAuth.getRedirectResult()
+  .then(result => {
+
+  })
+  .catch(err => Handlers.errorUser('auth', 'Redirect', err))
+
+// modify profile
 payloads$(Actions.WRITE_TO_PROFILE).subscribe((fields) => {
   const user = FirebaseAuth.currentUser
   const uid = user && user.uid
@@ -65,10 +80,21 @@ payloads$(Actions.WRITE_TO_PROFILE).subscribe((fields) => {
     FirebaseDb.ref('/usersWrites/' + uid).push(fields)
   }
 })
+
+// forgot password requested
+payloads$(Actions.FORGOT_REQUESTED)
+  .subscribe(fields => {
+    FirebaseAuth
+      .sendPasswordResetEmail(fields.email)
+      .then(() => Handlers.goToPath('/login'))
+      .then(() => Handlers.okUser('signup', 'An email was sent at', `${fields.email} for resetting the password`))
+      .catch(err => Handlers.errorUser('auth', 'Reset password', err))
+  })
+
 /*
 
 // signup with facebook
-payloads$(Actions.SIGNUP_FACEBOOK_REQUESTED).subscribe(() => {
+payloads$(Actions.SIGN_FACEBOOK_REQUESTED).subscribe(() => {
   FirebaseAuth.signInWithPopup(FacebookProvider)
       .then(result => FirebaseDb
           .ref('users/' + result.user.uid)
@@ -150,16 +176,6 @@ payloads$(Actions.SIGNIN_EMAIL_REQUESTED)
       .signInWithEmailAndPassword(fields.email, fields.password)
       .then(() => Handlers.goToPath('/'))
       .catch(err => Handlers.errorUser('auth', 'Sign In', err))
-  })
-
-// forgot password requested
-payloads$(Actions.FORGOT_REQUESTED)
-  .subscribe(fields => {
-    FirebaseAuth
-      .sendPasswordResetEmail(fields.email)
-      .then(() => Handlers.goToPath('/login'))
-      .then(() => Handlers.okUser('signup', 'An email was sent at', `${fields.email} for resetting the password`))
-      .catch(err => Handlers.errorUser('auth', 'Reset password', err))
   })
 
 // edit profile requested

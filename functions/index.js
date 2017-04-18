@@ -8,19 +8,26 @@ exports.profileModified = functions.database.ref(`/usersWrites/{uid}`).onWrite(e
   const uid = event.params.uid
   const auth = admin.auth()
   const keys = event.data.val()
-  const fields = keys && Object.keys(keys).reduce((acc, key) => typeof keys[key] === 'object' ? Object.assign(acc, keys[key]) : acc, {})
+  const fields = keys && Object.keys(keys).reduce((acc, key) => typeof keys[key] === 'object' ? Object.assign(acc, keys[key]) : acc, {}) || {}
   const permitedKeys = ['firstName', 'lastName']
   Object.keys(fields).forEach(key => {
     if (!permitedKeys.includes(key)) {
       fields[key] = undefined
     }
   })
+
   auth.getUser(uid).then(user => {
+    const providers = user.providerData || []
+    const password = providers.find(prov => prov.providerId === 'password')
+    const facebook = providers.find(prov => prov.providerId === 'facebook.com')
+    const google = providers.find(prov => prov.providerId === 'google.com')
     Object.assign(fields, {
       email: user.email,
       emailVerified: user.emailVerified,
       createdAt: user.metadata.createdAt,
-      provider: user.providerData.providerId
+      password: !!password,
+      google: !!google,
+      facebook: !!facebook
     })
     console.log('Updated user:', user, fields)
     admin.database().ref(`/users/${uid}`).update(fields)

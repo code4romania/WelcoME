@@ -26,7 +26,7 @@ const fields = [
 const Profile = (props, { store }) => {
 
   // TODO clean up this
-  const { user, profile, profileLoaded } = store.auth;
+  const { user, profile, loaded } = store.auth;
   const data = profile || {}
   const userData1 = user.uid ? `${user.uid} - ${user.email}` : ''
   const userData2 = (user.uid
@@ -35,7 +35,7 @@ const Profile = (props, { store }) => {
   const userData3 = data.firstName ? `${data.firstName} - ${data.lastName}` : ''
   const userData4 = `${data.volunteer ? 'Volunteer' : 'Refugee'} - ${data.admin ? 'CampAdmin' : 'NoCampAdmin'}  - ${data.owner ? 'Owner' : 'NoOwner'}`
 
-  if (!profileLoaded) {
+  if (!loaded) {
     return null;
   }
 
