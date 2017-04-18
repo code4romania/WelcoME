@@ -7,25 +7,24 @@ import FlatButton from 'material-ui/FlatButton'
 import './BasicForm.css'
 
 const BasicForm = ({fields = [], links = [], ...props}, context) => {
+  const {forms} = context.store
 
-  const {forms} = context.store;
-
-  const handlers = context.handlers;
+  const handlers = context.handlers
 
   // helpers
-  const validate = props.validate(forms);
+  const validate = props.validate(forms)
 
   const onSubmit = e => {
-    e.preventDefault();
-    handlers[props.submitHandler](forms);
+    e.preventDefault()
+    handlers[props.submitHandler](forms)
   }
 
   const FieldHelper = field => {
     // helpers for field
     const touched =
-      forms[field.name] !== null && forms[field.name] !== undefined;
-    const value = forms[field.name] || '';
-    const error = validate[field.name];
+      forms[field.name] !== null && forms[field.name] !== undefined
+    const value = forms[field.name] || ''
+    const error = validate[field.name]
 
     return (
       <BasicFormField
@@ -34,10 +33,10 @@ const BasicForm = ({fields = [], links = [], ...props}, context) => {
         value={value}
         touched={touched}
         error={error} />
-    );
+    )
   }
 
-  const submitDisabled = !!Object.keys(validate).length;
+  const submitDisabled = !!Object.keys(validate).length
 
   return (
     <form onSubmit={onSubmit}>
@@ -58,7 +57,7 @@ const BasicForm = ({fields = [], links = [], ...props}, context) => {
         </CardActions>
       </Card>
     </form>
-  );
+  )
 }
 
 BasicForm.propTypes = {

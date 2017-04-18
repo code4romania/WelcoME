@@ -11,7 +11,7 @@ Handlers.requestSignup = fields => dispatch(Actions.SIGNUP_EMAIL_REQUESTED, fiel
 Handlers.requestFacebookSignup = () => dispatch(Actions.SIGN_FACEBOOK_REQUESTED)
 
 // user requesting Gl signup
-Handlers.requestGoogleSignup = () => dispatch(Actions.SIGNUP_GOOGLE_REQUESTED)
+Handlers.requestGoogleSignup = () => dispatch(Actions.SIGN_GOOGLE_REQUESTED)
 
 // user requesting to create a profile
 Handlers.requestCreateProfile = fields => dispatch(Actions.SIGNUP_CREATE_PROFILE_REQUESTED, fields)

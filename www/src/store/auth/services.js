@@ -7,12 +7,13 @@ let lastUid = null
 FirebaseAuth.onAuthStateChanged(user => {
   const uid = user && user.uid
   Handlers.clearFields()
+  Handlers.profileChanged({})
   if (lastUid !== uid) {
     if (lastUid) {
       FirebaseDb.ref('/users/' + lastUid).off('value')
     }
     if (uid) {
-      FirebaseDb.ref('/users/' + uid).on('value', snapshot => Handlers.profileChanged({uid,...snapshot.val()}))
+      FirebaseDb.ref('/users/' + uid).on('value', snapshot => Handlers.profileChanged({uid, ...snapshot.val()}))
     }
     lastUid = uid
   }

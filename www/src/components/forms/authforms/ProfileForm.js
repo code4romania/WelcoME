@@ -2,19 +2,18 @@ import React, {PropTypes} from 'react'
 import BasicForm from '../../forms/basicform/BasicForm'
 
 class ProfileForm extends React.Component {
-
-  componentDidMount() {
-    const {handlers, store} = this.context;
-    const editFields = {...store.auth.profile};
-    handlers.changeFields(editFields);
+  componentDidMount () {
+    const {handlers, store} = this.context
+    const editFields = {...store.auth}
+    handlers.changeFields(editFields)
   }
 
-  validate = values => {
+  validate (values) {
     const errors = {}
     return errors
   }
 
-  render() {
+  render () {
     return (
       <BasicForm
         fields={this.props.fields}
@@ -23,7 +22,7 @@ class ProfileForm extends React.Component {
         name='editprofile'
         validate={this.validate}
         submitHandler='requestEditProfile' />
-    );
+    )
   }
 }
 
@@ -34,7 +33,7 @@ ProfileForm.propTypes = {
 
 ProfileForm.contextTypes = {
   store: PropTypes.object.isRequired,
-  handlers: PropTypes.object.isRequired,
+  handlers: PropTypes.object.isRequired
 }
 
-export default ProfileForm;
+export default ProfileForm

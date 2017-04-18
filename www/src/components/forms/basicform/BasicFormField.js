@@ -3,15 +3,14 @@ import TextField from 'material-ui/TextField'
 import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
 import Toggle from 'material-ui/Toggle'
-import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
+import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton'
 
 import './BasicFormField.css'
 
 const BasicFormField = (props, { store, handlers }) => {
-
   // helpers
   const errorMessage =
-    (props.fieldType === 'select' || props.touched) && props.error;
+    (props.fieldType === 'select' || props.touched) && props.error
 
   const onChange = (event, index, value) =>
     handlers.changeFields({
@@ -44,7 +43,7 @@ const BasicFormField = (props, { store, handlers }) => {
           )
         }
       </SelectField>
-    );
+    )
   }
 
   const renderSwitchField = () => {
@@ -55,7 +54,7 @@ const BasicFormField = (props, { store, handlers }) => {
         label={props.label}
         onToggle={onChange}
         toggled={!!props.value} />
-    );
+    )
   }
 
   const renderTextField = () => {
@@ -70,7 +69,7 @@ const BasicFormField = (props, { store, handlers }) => {
         hintText={props.label}
         errorText={errorMessage}
         floatingLabelText={props.label} />
-    );
+    )
   }
 
   const renderRadioGroup = () => {
@@ -91,21 +90,21 @@ const BasicFormField = (props, { store, handlers }) => {
           )
         }
       </RadioButtonGroup>
-    );
+    )
   }
 
   const renderField = () => {
-    switch(props.fieldType) {
+    switch (props.fieldType) {
       case 'switch':
-        return renderSwitchField();
+        return renderSwitchField()
       case 'select':
-        return renderSelectField();
+        return renderSelectField()
       case 'textfield':
-        return renderTextField();
+        return renderTextField()
       case 'radiogroup':
-        return renderRadioGroup();
+        return renderRadioGroup()
       default:
-        return null;
+        return null
     }
   }
 
@@ -113,7 +112,7 @@ const BasicFormField = (props, { store, handlers }) => {
     <div>
       {renderField()}
     </div>
-  );
+  )
 }
 
 BasicFormField.propTypes = {

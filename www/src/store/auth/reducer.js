@@ -10,12 +10,9 @@ registerAction('SIGN_GOOGLE_REQUESTED')
 registerAction('WRITE_TO_PROFILE')
 registerAction('PROFILE_CHANGED')
 
-
 registerAction('SIGNUP_CREATE_PROFILE_REQUESTED')
 
-
 registerAction('EDIT_PROFILE_REQUESTED')
-
 
 // reducer
 const initialState = {
@@ -26,12 +23,11 @@ const initialState = {
 
 Reducers.auth = (state = initialState, action) => {
   switch (action.type) {
-    case Actions.PROFILE_CHANGED: 
+    case Actions.PROFILE_CHANGED:
       return {
-        ...state,
         loaded: true,
         ...action.payload
-      } 
+      }
     case Actions.EDIT_PROFILE_REQUESTED:
       return {
         ...state,

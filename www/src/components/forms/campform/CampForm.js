@@ -11,8 +11,8 @@ const fields = [
 ]
 
 const validate = values => {
-  const errors = {};
-  return errors;
+  const errors = {}
+  return errors
 }
 
 const CampForm = () => {
@@ -24,7 +24,7 @@ const CampForm = () => {
       name='updatecamp'
       validate={validate}
       submitHandler='updateCamp' />
-  );
+  )
 }
 
 CampForm.contextTypes = {

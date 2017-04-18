@@ -2,20 +2,20 @@ import React, {PropTypes} from 'react'
 import ProfileCreationForm from '../../forms/authforms/ProfileCreationForm'
 
 const ProfileCreation = (props, context) => {
-  const state = context.store;
-  const visible = props.visible ? props.visible(state) : true;
+  const state = context.store
+  const visible = props.visible ? props.visible(state) : true
   if (!visible) {
-    return null;
+    return null
   }
 
   return (
-    <ProfileCreationForm  />
-  );
+    <ProfileCreationForm />
+  )
 }
 
 ProfileCreation.propTypes = {
   // visibility function
-  visible: PropTypes.func,
+  visible: PropTypes.func
 }
 
 ProfileCreation.contextTypes = {

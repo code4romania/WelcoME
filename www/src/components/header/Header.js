@@ -7,31 +7,31 @@ import {Toolbar, ToolbarGroup} from 'material-ui/Toolbar'
 const navBarLinks = [
   {
     name: 'camps',
-    visible: state => state.auth.profile && state.auth.profile.owner && !(state.auth.profile && state.auth.profile.pendingProfile),
+    visible: state => state.auth.uid && state.auth.owner,
     text: 'Camps',
     route: '/camps'
   },
   {
     name: 'profile',
-    visible: state => state.auth.authenticated && !(state.auth.profile && state.auth.profile.pendingProfile),
+    visible: state => state.auth.uid,
     text: 'Profile',
     route: '/profile'
   },
   {
     name: 'signout',
-    visible: state => state.auth.authenticated && !(state.auth.profile && state.auth.profile.pendingProfile),
+    visible: state => state.auth.uid,
     text: 'Sign Out',
     action: 'requestSignout'
   },
   {
     name: 'login',
-    visible: state => !state.auth.authenticated && !(state.auth.profile && state.auth.profile.pendingProfile),
+    visible: state => !state.auth.uid,
     text: 'Login',
     route: '/login'
   },
   {
     name: 'signup',
-    visible: state => !state.auth.authenticated && !(state.auth.profile && state.auth.profile.pendingProfile),
+    visible: state => !state.auth.uid,
     text: 'New Here',
     route: '/signup'
   }

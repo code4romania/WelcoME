@@ -11,13 +11,13 @@ const links = [
 ]
 
 const validate = values => {
-  const errors = {};
+  const errors = {}
   if (!values.email) {
-    errors.email = 'Please enter an email.';
+    errors.email = 'Please enter an email.'
   } else if (!ValidationUtils.emailCheck(values.email)) {
-    errors.email = 'Invalid email address';
+    errors.email = 'Invalid email address'
   }
-  return errors;
+  return errors
 }
 
 const Forgot = (props) => {
@@ -30,7 +30,7 @@ const Forgot = (props) => {
       name='forgot'
       validate={validate}
       submitHandler='requestForgot' />
-  );
+  )
 }
 
 export default Forgot

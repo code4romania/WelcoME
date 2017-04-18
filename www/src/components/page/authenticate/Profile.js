@@ -7,36 +7,34 @@ const fields = [
     fieldType: 'textfield',
     label: 'Email',
     type: 'input',
-    disabled: true,
+    disabled: true
   },
   {
     name: 'firstName',
     fieldType: 'textfield',
     label: 'First Name',
-    type: 'input',
+    type: 'input'
   },
   {
     name: 'lastName',
     fieldType: 'textfield',
     label: 'Last Name',
-    type: 'input',
+    type: 'input'
   }
 ]
 
 const Profile = (props, { store }) => {
-
   // TODO clean up this
-  const { user, profile, loaded } = store.auth;
-  const data = profile || {}
+  const user = store.auth
   const userData1 = user.uid ? `${user.uid} - ${user.email}` : ''
   const userData2 = (user.uid
     ? `${user.verified ? 'Verified' : 'Not verified'}`
-    : 'Not authenticated') + '   Camp: ' + data.camp
-  const userData3 = data.firstName ? `${data.firstName} - ${data.lastName}` : ''
-  const userData4 = `${data.volunteer ? 'Volunteer' : 'Refugee'} - ${data.admin ? 'CampAdmin' : 'NoCampAdmin'}  - ${data.owner ? 'Owner' : 'NoOwner'}`
+    : 'Not authenticated') + '   Camp: ' + user.camp
+  const userData3 = user.firstName ? `${user.firstName} - ${user.lastName}` : ''
+  const userData4 = `${user.volunteer ? 'Volunteer' : 'Refugee'} - ${user.admin ? 'CampAdmin' : 'NoCampAdmin'}  - ${user.owner ? 'Owner' : 'NoOwner'}`
 
-  if (!loaded) {
-    return null;
+  if (!user.loaded) {
+    return null
   }
 
   return (
@@ -48,7 +46,7 @@ const Profile = (props, { store }) => {
       <h6> { userData4 }</h6>
       <ProfileForm fields={fields} />
     </div>
-  );
+  )
 }
 
 Profile.contextTypes = {
