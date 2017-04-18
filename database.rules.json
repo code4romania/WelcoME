@@ -51,6 +51,6 @@
           ".write": "root.child('owners').child(auth.uid).exists() || ($uid === auth.uid)"
         }
       }
-    },
+    }
   }
 }

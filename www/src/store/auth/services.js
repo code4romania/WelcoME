@@ -1,41 +1,89 @@
-import { Handlers, actions$, Actions, payloads$, store$ } from '../../rxdux'
-import { FirebaseAuth, FirebaseDb, FacebookProvider } from '../../firebase'
-import { transformUser } from './helpers'
-import { Entities } from '../constants'
+import { Handlers, actions$, Actions, payloads$ } from '../../rxdux'
+import { FirebaseAuth, FirebaseDb } from '../../firebase'
+// import { Entities } from '../constants'
 
-// auth and db global observers
-
-// here will unsubscribe and subscribe to all keys when user changes
-store$
-  .map(state => state.auth.user.uid)
-  .bufferCount(2, 1)
-  .filter(([lastUid, uid]) => uid !== lastUid)
-  .subscribe(([lastUid, uid]) => {
-    // unsubscribe old observers
+// on user changed observe users/uid key for changes
+let lastUid = null
+FirebaseAuth.onAuthStateChanged(user => {
+  const uid = user && user.uid
+  Handlers.userChanged(uid)
+  if (lastUid !== uid) {
     if (lastUid) {
-      Handlers.profileChanged()
       FirebaseDb.ref('/users/' + lastUid).off('value')
-      FirebaseDb.ref('/owners/' + lastUid).off('value')
-      FirebaseDb.ref('/admins/' + lastUid).off('value')
     }
-    // subscribe new observers
     if (uid) {
       FirebaseDb.ref('/users/' + uid).on('value', snapshot => Handlers.profileChanged(snapshot.val()))
-      FirebaseDb.ref('/owners/' + uid).on('value', snapshot => Handlers.profileKeysChanged({ owner: !!snapshot.val() }))
-      FirebaseDb.ref('/admins/' + uid).on('value', snapshot => Handlers.profileKeysChanged({ admin: !!snapshot.val() }))
     }
+    lastUid = uid
+  }
+  user && Handlers.okUser('auth', 'Welcome', `${user.email}`)
+}, err => Handlers.errorUser('auth', 'Sign In', err))
+
+// clean up forms fields when user changes
+actions$(Actions.USER_CHANGED)
+  .subscribe(() => Handlers.clearFields())
+
+// signout user requested
+payloads$(Actions.SIGNOUT_REQUESTED).subscribe(() => {
+  Handlers.goToPath('/login')
+  const user = FirebaseAuth.currentUser
+  FirebaseAuth.signOut().then(() => Handlers.okUser('auth', 'Good bye', `${user.email}`))
+      .catch(err => Handlers.errorUser('auth', 'Sign Out', err))
+})
+
+// signup with email requested
+payloads$(Actions.SIGNUP_EMAIL_REQUESTED)
+  .subscribe((fields) => {
+    FirebaseAuth
+      .createUserWithEmailAndPassword(fields.email, fields.password)
+      .then(user => {
+        user.sendEmailVerification()
+        return user
+      })
+      .then(() => Handlers.goToPath('/create_profile'))
+      .then(() => Handlers.okUser(
+        'signup',
+        'An email was sent at', `${fields.email} for verifying the password`,
+      ))
+      .catch(err => Handlers.errorUser('auth', 'Sign Up', err))
   })
 
-// on user changed sync it with store
-FirebaseAuth
-  .onAuthStateChanged(
-    user => {
-      user = transformUser(user)
-      Handlers.userChanged(user)
-      user && Handlers.okUser('auth', 'Welcome', `${user.email}`)
-    },
-    err => Handlers.errorUser('auth', 'Sign In', err)
-  )
+// login with email requested
+payloads$(Actions.SIGNIN_EMAIL_REQUESTED)
+  .subscribe(fields => {
+    FirebaseAuth
+      .signInWithEmailAndPassword(fields.email, fields.password)
+      .then(() => Handlers.goToPath('/'))
+      .catch(err => Handlers.errorUser('auth', 'Sign In', err))
+  })
+
+// signup with email requested
+payloads$(Actions.WRITE_TO_PROFILE).subscribe((fields) => {
+  const user = FirebaseAuth.currentUser
+  const uid = user && user.uid
+  if (uid) {
+    FirebaseDb.ref('/usersWrites/' + uid).push(fields)
+  }
+})
+/*
+
+// signup with facebook
+payloads$(Actions.SIGNUP_FACEBOOK_REQUESTED).subscribe(() => {
+  FirebaseAuth.signInWithPopup(FacebookProvider)
+      .then(result => FirebaseDb
+          .ref('users/' + result.user.uid)
+          .set({
+            email: result.user.email,
+            pendingProfile: true
+          })
+      )
+      .then(() => Handlers.goToPath('/create_profile'))
+      .catch(err => {
+        console.log('panic!')
+        console.log(err)
+        // TODO: solve case where an account exitsts
+      })
+})
 
 // signup with email requested
 payloads$(Actions.SIGNUP_EMAIL_REQUESTED)
@@ -95,24 +143,6 @@ payloads$(Actions.SIGNUP_CREATE_PROFILE_REQUESTED)
       .then(() => Handlers.goToPath('/'))
   })
 
-payloads$(Actions.SIGNUP_FACEBOOK_REQUESTED)
-  .subscribe(() => {
-    FirebaseAuth.signInWithPopup(FacebookProvider)
-      .then(result => FirebaseDb
-          .ref('users/' + result.user.uid)
-          .set({
-            email: result.user.email,
-            pendingProfile: true
-          })
-      )
-      .then(() => Handlers.goToPath('/create_profile'))
-      .catch(err => {
-        console.log('panic!')
-        console.log(err)
-        // TODO: solve case where an account exitsts
-      })
-  })
-
 // login with email requested
 payloads$(Actions.SIGNIN_EMAIL_REQUESTED)
   .subscribe(fields => {
@@ -132,17 +162,6 @@ payloads$(Actions.FORGOT_REQUESTED)
       .catch(err => Handlers.errorUser('auth', 'Reset password', err))
   })
 
-// signout user requested
-payloads$(Actions.SIGNOUT_REQUESTED)
-  .subscribe(() => {
-    Handlers.goToPath('/login')
-    const user = transformUser(FirebaseAuth.currentUser)
-    FirebaseAuth
-      .signOut()
-      .then(() => Handlers.okUser('auth', 'Good bye', `${user.email}`))
-      .catch(err => Handlers.errorUser('auth', 'Sign Out', err))
-  })
-
 // edit profile requested
 payloads$(Actions.EDIT_PROFILE_REQUESTED)
   .subscribe((fields) => {
@@ -153,6 +172,4 @@ payloads$(Actions.EDIT_PROFILE_REQUESTED)
       .catch(err => Handlers.errorUser('editProfile', 'Profile not updated..', err))
   })
 
-// clean up forms fields when user changes
-actions$(Actions.USER_CHANGED)
-  .subscribe(() => Handlers.clearFields())
+*/

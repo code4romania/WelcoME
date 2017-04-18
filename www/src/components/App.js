@@ -8,7 +8,7 @@ import './App.css'
 
 const App = (props, context) => {
   if (!context.store.auth.userLoaded) {
-    return <LoadingApp />;
+    return <LoadingApp />
   }
 
   return (
@@ -18,7 +18,7 @@ const App = (props, context) => {
       <Footer />
       <Toastr />
     </div>
-  );
+  )
 }
 
 App.contextTypes = {
