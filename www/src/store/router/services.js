@@ -2,7 +2,7 @@
 import {payloads$, Actions, Handlers} from '../../rxdux'
 import { Observable } from 'rxjs'
 import createHistory from 'history/createBrowserHistory'
-
+import getRoutes from './routes'
 const history = createHistory()
 
 // if route is requested history will navigate to it if route if different then current route
@@ -11,8 +11,6 @@ payloads$(Actions.ROUTE_REQUESTED)
   .subscribe(pathname => {
     if (pathname && (history.location.pathname !== pathname)) {
       history.push(pathname)
-    } else {
-      Handlers.routeResolved()
     }
   })
 
@@ -24,4 +22,4 @@ Observable
   .merge(Observable.of(history.location))
   // only distinct pathnames
   .distinctUntilChanged((route, oldroute) => route.pathname === oldroute.pathname)
-  .subscribe(route => Handlers.changeRoute(route))
+  .subscribe(route => Handlers.changeRoute(getRoutes(route)))

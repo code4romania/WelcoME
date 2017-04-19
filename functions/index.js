@@ -10,7 +10,7 @@ const Auth = require('./auth').default
 exports.accountModified = functions.database.ref(`/usersWrites/{uid}/account`).onWrite(Auth.accountModified)
 
 // when a profile is modified
-exports.profileModified = functions.database.ref(`/usersWrites/{uid}/profile`).onWrite(Auth.profileModified)
+exports.profileModified = functions.database.ref(`/usersWrites/{uid}`).onWrite(Auth.profileModified)
 
 // when a user is created
 exports.accountCreated = functions.auth.user().onCreate(Auth.accountCreated)

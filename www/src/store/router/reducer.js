@@ -4,7 +4,6 @@ import { registerAction, Reducers, Handlers, dispatch, Actions } from '../../rxd
 // actions
 registerAction('ROUTE_CHANGED')
 registerAction('ROUTE_REQUESTED')
-registerAction('ROUTE_RESOLVED')
 
 // handlers - action creators
 // *** UI will send a ROUTE_REQUESTED action, there is a routing service
@@ -14,32 +13,16 @@ registerAction('ROUTE_RESOLVED')
 Handlers.goToPath = pathname => dispatch(Actions.ROUTE_REQUESTED, pathname)
 // used from services
 Handlers.changeRoute = location => dispatch(Actions.ROUTE_CHANGED, location)
-// when is requested the route as current route service will cancel pendingPathname
-// because ROUTE_CHANGE doesn't happen twice
-Handlers.routeResolved = () => dispatch(Actions.ROUTE_RESOLVED)
 
 // reducer
-const initialState = {
-  pathname: '/'
-}
+const initialState = {}
 
 Reducers.router = (state = initialState, action) => {
   switch (action.type) {
-    case Actions.ROUTE_REQUESTED:
-      return {
-        ...state,
-        pendingPathname: action.payload
-      }
-    case Actions.ROUTE_RESOLVED:
-      return {
-        ...state,
-        pendingPathname: null
-      }
     case Actions.ROUTE_CHANGED:
       return {
-        ...state,
         ...action.payload,
-        pendingPathname: null
+        oldPathname: state.pathname + state.search
       }
     default:
       return state

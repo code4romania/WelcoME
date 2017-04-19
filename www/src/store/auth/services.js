@@ -1,19 +1,52 @@
 import { Handlers, Actions, payloads$ } from '../../rxdux'
 import { FirebaseAuth, FirebaseDb, FacebookProvider, GoogleProvider } from '../../firebase'
+import { getCredentialKey } from './helpers'
+import rs from 'randomstring'
 // import { Entities } from '../constants'
 
 // on user changed observe users/uid key for changes
-let lastUid = null
+let lastUid = rs.generate(3)
+let verifyCode = null
+
+const applyCodesIfReady = () => {
+  const user = FirebaseAuth.currentUser
+  if (verifyCode) {
+    FirebaseAuth.applyActionCode(verifyCode)
+      .then(resp => Handlers.okUser(
+          'verify',
+          `Your email address ${(user && user.email + ' ') || ''}has been verified`,
+        )
+      )
+      .then(() => {
+        if (user) {
+          FirebaseDb.ref(`/usersWrites/${user.uid}/modified`).set(true)
+        }
+      })
+      .catch(err => Handlers.errorUser('verify', 'Verify email', err))
+    Handlers.goToPath(user ? '/' : '/login')
+    verifyCode = null
+  }
+}
+
+// when email verified
+payloads$(Actions.ROUTE_CHANGED).filter(route => route.pathname === '/actions' && route.oobCode && route.mode === 'verifyEmail').subscribe(route => {
+  verifyCode = route.oobCode
+  applyCodesIfReady()
+})
+
 FirebaseAuth.onAuthStateChanged(user => {
   const uid = user && user.uid
-  Handlers.clearFields()
-  Handlers.profileChanged()
+
   if (lastUid !== uid) {
+    Handlers.clearFields()
     if (lastUid) {
       FirebaseDb.ref('/users/' + lastUid).off('value')
     }
+    applyCodesIfReady()
     if (uid) {
       FirebaseDb.ref('/users/' + uid).on('value', snapshot => Handlers.profileChanged({uid, ...snapshot.val()}))
+    } else {
+      Handlers.profileChanged()
     }
     lastUid = uid
   }
@@ -32,11 +65,10 @@ payloads$(Actions.SIGNUP_EMAIL_REQUESTED)
   .subscribe((fields) => {
     FirebaseAuth
       .createUserWithEmailAndPassword(fields.email, fields.password)
-      .then(user => {
-        user.sendEmailVerification()
-        return user
-      })
-      .then(() => Handlers.goToPath('/create_profile'))
+      .then(user => FirebaseDb.ref(`/usersWrites/${user.uid}`).update({
+        lang: 'en',
+        sendVerificationEmail: true
+      }))
       .then(() => Handlers.okUser(
         'signup',
         'An email was sent at', `${fields.email} for verifying the password`,
@@ -49,30 +81,27 @@ payloads$(Actions.SIGNIN_EMAIL_REQUESTED)
   .subscribe(fields => {
     FirebaseAuth
       .signInWithEmailAndPassword(fields.email, fields.password)
-      .then(() => Handlers.goToPath('/'))
       .catch(err => Handlers.errorUser('auth', 'Sign In', err))
   })
 
 // signup with facebook
 payloads$(Actions.SIGN_FACEBOOK_REQUESTED).subscribe(() => {
   FirebaseAuth.signInWithRedirect(FacebookProvider)
-      .then(() => Handlers.goToPath('/create_profile'))
-      .catch(err => Handlers.errorUser('auth', 'RedirectFb', err))
+      .catch(err => Handlers.errorUser('auth', 'Facebook', err))
 })
 
 // signup with google
 payloads$(Actions.SIGN_GOOGLE_REQUESTED).subscribe(() => {
   FirebaseAuth.signInWithRedirect(GoogleProvider)
-      .then(() => Handlers.goToPath('/create_profile'))
-      .catch(err => Handlers.errorUser('auth', 'RedirectGl', err))
+      .catch(err => Handlers.errorUser('auth', 'Google', err))
 })
 
-FirebaseAuth.getRedirectResult()
-  .then(result => {
-
-  })
-  .then(() => Handlers.goToPath('/'))
-  .catch(err => Handlers.errorUser('auth', 'Redirect', err))
+// when redirect returns send credential to profile
+FirebaseAuth.getRedirectResult().then(result => {
+  if (result.user && result.credential) {
+    FirebaseDb.ref(`/usersWrites/${result.user.uid}/${getCredentialKey(result.credential)}Credential`).set(result.credential)
+  }
+}).catch(err => Handlers.errorUser('auth', 'Redirect', err))
 
 // modify profile
 payloads$(Actions.WRITE_TO_PROFILE).subscribe((fields) => {

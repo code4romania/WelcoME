@@ -37,7 +37,7 @@ Handlers.profileChanged = profile => dispatch(Actions.PROFILE_CHANGED, profile)
 // messages to forms and alerts with auth types: isError, isOk, isWarning, isInfo
 // routes param is an array with the pathnames of the routes to show the message
 // error message
-Handlers.errorUser = (id, title, {message}, timeOut) =>
+Handlers.errorUser = (id, title, { message }, timeOut) =>
   id && title && Handlers.addToastr({
     id,
     title,

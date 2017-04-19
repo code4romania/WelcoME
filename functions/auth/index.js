@@ -1,5 +1,9 @@
 const admin = require('firebase-admin')
 
+const sendVerificationEmail = ({email, lang}) => {
+  console.log('Send verification email', email, lang)
+}
+
 // when account changes update users key
 const accountModified = event => {
   const uid = event.params.uid
@@ -10,70 +14,77 @@ const accountModified = event => {
 const profileModified = event => {
   const auth = admin.auth()
   const uid = event.params.uid
-  const keys = event.data.val()
-  if (!keys) {
+  const val = event.data.val()
+
+  // when key is cancelled do nothing
+  if (!val) {
     return
   }
 
-  const fields = keys && Object.keys(keys).reduce((acc, key) => typeof keys[key] === 'object' ? Object.assign(acc, keys[key]) : acc, {}) || {}
-  const permitedKeys = ['firstName', 'lastName']
-  Object.keys(fields).forEach(key => {
-    if (!permitedKeys.includes(key)) {
-      fields[key] = undefined
-    }
-  })
-
+  // find updated user
   auth.getUser(uid).then(user => {
     const providers = user.providerData || []
     const password = providers.find(prov => prov.providerId === 'password')
     const facebook = providers.find(prov => prov.providerId === 'facebook.com')
     const google = providers.find(prov => prov.providerId === 'google.com')
     let emailVerified = user.emailVerified
-
-    let updateUser = false
     if (!emailVerified && facebook) {
-      // if is facebook provider, I will update emailVerified to true, manually
+      // if is facebook provider, update emailVerified to true, manually
       emailVerified = true
-      updateUser = true
+      auth.updateUser(uid, {
+        emailVerified: true
+      })
     }
 
-    Object.assign(fields, {
+    // if send verification email
+    if (!emailVerified && val.sendVerificationEmail) {
+      return sendVerificationEmail({ email: user.email, lang: val.lang })
+    }
+
+    // accept only some keys in users profile
+    const permitedKeys = ['firstName', 'lastName', 'facebookCredential', 'googleCredential', 'lang']
+    Object.keys(val).forEach(key => {
+      if (!permitedKeys.includes(key)) {
+        delete val[key]
+      }
+    })
+
+    // integrate last account values from auth
+    Object.assign(val, {
       email: user.email,
       emailVerified,
+      password: !!password,
+      google: !!google,
+      facebook: !!facebook
+    })
+
+    console.log('Update uid:', user, val)
+    // update users key
+    const upd = {}
+    upd[`/users/${uid}`] = val
+    upd[`/usersWrites/${uid}`] = null
+    admin.database().ref().update(upd)
+  })
+}
+
+// when user is created update users key
+const accountCreated = event => {
+  const auth = admin.auth()
+  const user = event.data
+  const uid = user.uid
+  auth.getUser(uid).then(account => {
+    const providers = account.providerData || []
+    const password = providers.find(prov => prov.providerId === 'password')
+    const facebook = providers.find(prov => prov.providerId === 'facebook.com')
+    const google = providers.find(prov => prov.providerId === 'google.com')
+    admin.database().ref(`/users/${uid}`).set({
+      email: user.email,
+      emailVerified: !password,
       createdAt: user.metadata.createdAt,
       password: !!password,
       google: !!google,
       facebook: !!facebook
     })
-    console.log('Update uid:', user, fields)
-    admin.database().ref(`/users/${uid}`).update(fields)
-    return updateUser
-  }).then(updateUser => {
-    if (updateUser) {
-      console.log('Update facebook verified flag')
-      auth.updateUser(uid, {
-        emailVerified: true
-      })
-    }
-  })
-  .catch(err => console.log(err))
-}
-
-// when user is created update account key for modifying account
-const accountCreated = event => {
-  const user = event.data
-  const uid = user.uid
-  const providers = user.providerData || []
-  const password = providers.find(prov => prov.providerId === 'password')
-  const facebook = providers.find(prov => prov.providerId === 'facebook.com')
-  const google = providers.find(prov => prov.providerId === 'google.com')
-  admin.database().ref(`/usersWrites/${uid}/account`).set({
-    email: user.email,
-    emailVerified: !password,
-    createdAt: user.metadata.createdAt,
-    password: !!password,
-    google: !!google,
-    facebook: !!facebook
   })
 }
 
@@ -86,7 +97,7 @@ const accountDeleted = event => {
   admin.database().ref().update(del)
 }
 
-exports.Auth = {
+exports.default = {
   accountModified,
   profileModified,
   accountCreated,
