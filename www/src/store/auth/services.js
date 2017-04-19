@@ -1,5 +1,5 @@
 import { Handlers, Actions, payloads$ } from '../../rxdux'
-import { FirebaseAuth, FirebaseDb, FacebookProvider, GoogleProvider, Firebase } from '../../firebase'
+import Firebase, { FirebaseAuth, FirebaseDb, FacebookProvider, GoogleProvider } from '../../firebase'
 import { getCredentialKey } from './helpers'
 import rs from 'randomstring'
 
@@ -7,37 +7,29 @@ import rs from 'randomstring'
 
 // on user changed observe users/uid key for changes
 let lastUid = rs.generate(3)
-
-// when email verified
-payloads$(Actions.ROUTE_CHANGED).filter(route => route.pathname === '/actions' && route.email &&
-  route.oobCode && route.mode === 'verifyEmail').subscribe(route => {
-    Firebase.fetch('tryCode', {
-      mode: 'verifyEmail',
-      code: route.oobCode,
-      email: route.email
-    }).then(res => console.log(res))
-    .catch(err => console.log(err))
-   /* FirebaseDb.ref(`/usersWrites/${email}/verifyEmail`).set(verifyCode)
-    .then(resp => Handlers.okUser('verify', `Email address ${email} has been verified`))
-    .catch(err => Handlers.errorUser('verify', 'Verify email', err)) */
-  })
-
 FirebaseAuth.onAuthStateChanged(user => {
   const uid = user && user.uid
   if (lastUid !== uid) {
     Handlers.clearFields()
-    if (lastUid) {
-      FirebaseDb.ref('/users/' + lastUid).off('value')
-    }
-    if (uid) {
-      FirebaseDb.ref('/users/' + uid).on('value', snapshot => Handlers.profileChanged({uid, ...snapshot.val()}))
-    } else {
-      Handlers.profileChanged()
-    }
+    if (lastUid) FirebaseDb.ref('/users/' + lastUid).off('value')
+    if (uid) FirebaseDb.ref('/users/' + uid).on('value', snapshot => Handlers.profileChanged({uid, ...snapshot.val()}))
+    else Handlers.profileChanged()
     lastUid = uid
   }
   user && Handlers.okUser('auth', 'Welcome', `${user.email}`)
 }, err => Handlers.errorUser('auth', 'Sign In', err))
+
+// when email verified
+payloads$(Actions.ROUTE_CHANGED).filter(route => route.pathname === '/actions' && route.mode === 'verifyEmail' &&
+   route.email && route.oobCode).subscribe(route => {
+     Firebase.fetch('tryCode', {
+       mode: 'verifyEmail',
+       code: route.oobCode,
+       email: route.email
+     }).then(() => Handlers.okUser('verify', `Email address ${route.email} has been verified`))
+    .catch(err => Handlers.errorUser('verify', 'Verify email', err))
+     Handlers.goToPath(FirebaseAuth.currentUser ? '/' : '/login')
+   })
 
 // signout user requested
 payloads$(Actions.SIGNOUT_REQUESTED).subscribe(() => {
@@ -51,10 +43,12 @@ payloads$(Actions.SIGNUP_EMAIL_REQUESTED)
   .subscribe((fields) => {
     FirebaseAuth
       .createUserWithEmailAndPassword(fields.email, fields.password)
-      .then(user => FirebaseDb.ref(`/usersWrites/${user.uid}`).update({
-        lang: 'en',
-        sendVerificationEmail: true
-      }))
+      .then(user => Firebase.fetch('changeProfile', {
+        uid: user.uid,
+        profile: {
+          lang: 'en',
+          sendVerificationEmail: true
+        }}))
       .then(() => Handlers.okUser(
         'signup',
         'An email was sent at', `${fields.email} for verifying the password`,
@@ -85,16 +79,22 @@ payloads$(Actions.SIGN_GOOGLE_REQUESTED).subscribe(() => {
 // when redirect returns send credential to profile
 FirebaseAuth.getRedirectResult().then(result => {
   if (result.user && result.credential) {
-    FirebaseDb.ref(`/usersWrites/${result.user.uid}/${getCredentialKey(result.credential)}Credential`).set(result.credential)
+    const key = `${getCredentialKey(result.credential)}Credential`
+    Firebase.fetch('changeProfile', {
+      uid: result.user.uid,
+      profile: {
+        [key]: result.credential
+      }
+    })
   }
 }).catch(err => Handlers.errorUser('auth', 'Redirect', err))
 
 // modify profile
-payloads$(Actions.WRITE_TO_PROFILE).subscribe((fields) => {
+payloads$(Actions.WRITE_TO_PROFILE).subscribe((profile) => {
   const user = FirebaseAuth.currentUser
   const uid = user && user.uid
   if (uid) {
-    FirebaseDb.ref('/usersWrites/' + uid).push(fields)
+    Firebase.fetch('changeProfile', {uid, profile})
   }
 })
 

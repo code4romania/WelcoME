@@ -2,6 +2,7 @@
   "name": "welcome_functions",
   "description": "Cloud Functions for WelcoME",
   "dependencies": {
+    "cors": "^2.8.3",
     "firebase-admin": "^4.2.1",
     "firebase-functions": "^0.5",
     "nodemailer": "^4.0.1",

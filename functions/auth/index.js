@@ -7,9 +7,10 @@ const tryCode = (req, res) => {
 
   // when key is cancelled or empty do nothing
   if (!email || !code || !mode) {
-    return res.status(400).send('No message defined!')
+    return res.status(400).send('Bad request!')
   }
-  return res.status(200).send({a: 1, b: 3, c: { c1: 1, c2: 'aaaa', d1: new Date() }})
+
+  return res.end()
   /*
   const { verifyEmail } = val
   if (verifyEmail) {
@@ -25,14 +26,13 @@ const tryCode = (req, res) => {
   admin.database().ref(`/users/${uid}`).update(account) */
 }
 
-const profileModified = event => {
+const changeProfile = (req, res) => {
   const auth = admin.auth()
-  const uid = event.params.uid
-  const val = event.data.val()
+  const { uid, profile } = req.body
 
   // when key is cancelled or empty do nothing
-  if (!val || !Object.keys(val).length) {
-    return
+  if (!profile || !uid) {
+    return res.status(400).send('Bad request!')
   }
 
   // find updated user
@@ -42,30 +42,24 @@ const profileModified = event => {
     const facebook = providers.find(prov => prov.providerId === 'facebook.com')
     const google = providers.find(prov => prov.providerId === 'google.com')
     let emailVerified = user.emailVerified
+    let updateUserFlag = false
     if (!emailVerified && facebook) {
       // if is facebook provider, update emailVerified to true, manually
       emailVerified = true
-      auth.updateUser(uid, {
-        emailVerified: true
-      })
+      updateUserFlag = true
     }
-
-    // if send verification email
-    if (!emailVerified && val.sendVerificationEmail) {
-      sendVerificationEmail({ email: user.email, lang: val.lang })
-      return admin.database().ref(`/usersWrites/${uid}`).remove()
-    }
+    let sendVerificationToEmail = !emailVerified && profile.sendVerificationEmail ? user.email : null
 
     // accept only some keys in users profile
     const permitedKeys = ['firstName', 'lastName', 'facebookCredential', 'googleCredential', 'lang']
-    Object.keys(val).forEach(key => {
+    Object.keys(profile).forEach(key => {
       if (!permitedKeys.includes(key)) {
-        delete val[key]
+        delete profile[key]
       }
     })
 
     // integrate last account values from auth
-    Object.assign(val, {
+    Object.assign(profile, {
       email: user.email,
       emailVerified,
       password: !!password,
@@ -73,13 +67,19 @@ const profileModified = event => {
       facebook: !!facebook
     })
 
-    console.log('Update uid:', user, val)
+    console.log('Update uid:', user, profile)
+    return {
+      sendVerificationToEmail,
+      updateUserFlag
+    }
     // update users key
-    const upd = {}
-    upd[`/users/${uid}`] = val
-    upd[`/usersWrites/${uid}`] = null
-    admin.database().ref().update(upd)
-  }).catch(err => console.warn('User not found', err))
+  })
+  .then(resp => resp.updateUserFlag
+     ? auth.updateUser(uid, { emailVerified: true }).then(() => resp.sendVerificationToEmail)
+     : resp.sendVerificationToEmail)
+  .then(email => email ? sendVerificationEmail({ email, lang: profile.lang }) : admin.database().ref(`/users/${uid}`).update(profile))
+  .then(() => res.end())
+  .catch(err => res.status(400).send(err.message))
 }
 
 // when user is created update users key
@@ -106,15 +106,12 @@ const accountCreated = event => {
 // when user is deleted clean up database
 const accountDeleted = event => {
   const uid = event.data.uid
-  const del = {}
-  del[`/users/${uid}`] = null
-  del[`/usersWrites/${uid}`] = null
-  admin.database().ref().update(del)
+  admin.database().ref(`/users/${uid}`).remove()
 }
 
 exports.default = {
   tryCode,
-  profileModified,
+  changeProfile,
   accountCreated,
   accountDeleted
 }

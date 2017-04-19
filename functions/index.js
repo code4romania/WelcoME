@@ -1,16 +1,16 @@
 'use strict'
 const functions = require('firebase-functions')
 const admin = require('firebase-admin')
-
+const cors = require('cors')
 admin.initializeApp(functions.config().firebase)
 
 const Auth = require('./auth').default
 
 // when an account is modified
-exports.tryCode = functions.https.onRequest(Auth.tryCode)
+exports.tryCode = functions.https.onRequest((req, res) => cors()(req, res, () => Auth.tryCode(req, res)))
 
 // when a profile is modified
-exports.profileModified = functions.database.ref(`/usersWrites/{uid}`).onWrite(Auth.profileModified)
+exports.changeProfile = functions.https.onRequest((req, res) => cors()(req, res, () => Auth.changeProfile(req, res)))
 
 // when a user is created
 exports.accountCreated = functions.auth.user().onCreate(Auth.accountCreated)

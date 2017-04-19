@@ -21,7 +21,8 @@
     "react-dom": "^15.4.2",
     "react-tap-event-plugin": "^2.0.1",
     "route-parser": "0.0.5",
-    "rxjs": "^5.0.3"
+    "rxjs": "^5.0.3",
+    "whatwg-fetch": "^2.0.3"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -30,13 +31,12 @@
     "eject": "react-scripts eject",
     "deploy": "firebase deploy"
   },
-  "standard": {
-    "standard": {
-      "globals": [
-        "describe",
-        "it",
-        "expect"
-      ]
-    }
+  "standard": {    
+    "globals": [
+      "fetch",
+      "describe",
+      "it",
+      "expect"
+    ]   
   }
 }

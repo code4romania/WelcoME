@@ -19,7 +19,7 @@ const mailTransport = nodemailer.createTransport({
   from: gmailEmail
 })
 
-exports.sendVerificationEmail = ({email, lang}) => {
+exports.sendVerificationEmail = ({email, lang}) => new Promise((resolve, reject) => {
   console.log('Send verification email', mailTransport, email, lang)
   const mailOptions = {
     to: email
@@ -33,8 +33,9 @@ exports.sendVerificationEmail = ({email, lang}) => {
         Thanks,
         Your Welcome team
   `
-  return mailTransport.sendMail(mailOptions).then(() => {
+  mailTransport.sendMail(mailOptions).then(() => {
     console.log('New subscription confirmation email sent to:', email)
     mailTransport.close()
-  }).catch(err => console.warn('Error sending mail', err))
-}
+    resolve()
+  }).catch(err => reject(err))
+})
