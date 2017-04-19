@@ -1,11 +1,11 @@
 import React, { PropTypes} from 'react'
-import {Card, CardMedia, CardTitle} from 'material-ui/Card';
+import {Card, CardMedia, CardTitle} from 'material-ui/Card'
 
 const TitleCard = (props, context) => {
-  const state = context.store;
-  const visible = props.visible ? props.visible(state) : true;
+  const state = context.store
+  const visible = props.visible ? props.visible(state) : true
   if (!visible) {
-    return null;
+    return null
   }
 
   const welcomeTitle =
@@ -17,7 +17,7 @@ const TitleCard = (props, context) => {
         lineHeight: '25',
         color: '#7f7f7f'
       }}
-      title="welcome" />;
+      title='welcome' />
 
   return (
     <div >
@@ -25,32 +25,32 @@ const TitleCard = (props, context) => {
         <CardMedia
           overlay={welcomeTitle}
           overlayContainerStyle={{
-             display: 'flex',
-             alignItems: 'center',
-             justifyContent: 'center'
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
           }}
           overlayContentStyle={{
             position: 'relative',
             background: 'none !important'
           }}
           overlayStyle={{
-            height: 'auto',
+            height: 'auto'
           }}>
           <img
-            src={require('../../../public/media/header/main.jpg')} role="presentation"/>
+            src={require('../../../public/media/header/main.jpg')} role='presentation' />
         </CardMedia>
       </Card>
     </div>
-  );
+  )
 }
 
 TitleCard.propTypes = {
   // visibility function
-  visible: PropTypes.func,
+  visible: PropTypes.func
 }
 
 TitleCard.contextTypes = {
-  store: PropTypes.object.isRequired,
+  store: PropTypes.object.isRequired
 }
 
 export default TitleCard

@@ -1,5 +1,5 @@
 import Firebase from 'firebase'
-
+import fetch from 'node-fetch'
 // Set up Firebase
 var config = {
   apiKey: 'AIzaSyDLt7lrJEkHhmEb-cy0yonb7jJDfAlr1WE',
@@ -20,3 +20,11 @@ export const GoogleProvider = new Firebase.auth.GoogleAuthProvider()
 GoogleProvider.addScope('email')
 GoogleProvider.addScope('profile')
 export default Firebase
+
+Firebase.fetch = (func, body) => fetch('https://us-central1-welcome-1f483.cloudfunctions.net/' + func, {body}).then(res => {
+  if (res.status !== 200) {
+    throw new Error(res.text())
+  } else {
+    return res.json()
+  }
+})

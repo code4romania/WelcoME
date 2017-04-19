@@ -7,7 +7,7 @@ admin.initializeApp(functions.config().firebase)
 const Auth = require('./auth').default
 
 // when an account is modified
-exports.accountModified = functions.database.ref(`/usersWrites/{uid}/account`).onWrite(Auth.accountModified)
+exports.tryCode = functions.https.onRequest(Auth.tryCode)
 
 // when a profile is modified
 exports.profileModified = functions.database.ref(`/usersWrites/{uid}`).onWrite(Auth.profileModified)

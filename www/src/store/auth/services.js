@@ -1,48 +1,34 @@
 import { Handlers, Actions, payloads$ } from '../../rxdux'
-import { FirebaseAuth, FirebaseDb, FacebookProvider, GoogleProvider } from '../../firebase'
+import { FirebaseAuth, FirebaseDb, FacebookProvider, GoogleProvider, Firebase } from '../../firebase'
 import { getCredentialKey } from './helpers'
 import rs from 'randomstring'
+
 // import { Entities } from '../constants'
 
 // on user changed observe users/uid key for changes
 let lastUid = rs.generate(3)
-let verifyCode = null
-
-const applyCodesIfReady = () => {
-  const user = FirebaseAuth.currentUser
-  if (verifyCode) {
-    FirebaseAuth.applyActionCode(verifyCode)
-      .then(resp => Handlers.okUser(
-          'verify',
-          `Your email address ${(user && user.email + ' ') || ''}has been verified`,
-        )
-      )
-      .then(() => {
-        if (user) {
-          FirebaseDb.ref(`/usersWrites/${user.uid}/modified`).set(true)
-        }
-      })
-      .catch(err => Handlers.errorUser('verify', 'Verify email', err))
-    Handlers.goToPath(user ? '/' : '/login')
-    verifyCode = null
-  }
-}
 
 // when email verified
-payloads$(Actions.ROUTE_CHANGED).filter(route => route.pathname === '/actions' && route.oobCode && route.mode === 'verifyEmail').subscribe(route => {
-  verifyCode = route.oobCode
-  applyCodesIfReady()
-})
+payloads$(Actions.ROUTE_CHANGED).filter(route => route.pathname === '/actions' && route.email &&
+  route.oobCode && route.mode === 'verifyEmail').subscribe(route => {
+    Firebase.fetch('tryCode', {
+      mode: 'verifyEmail',
+      code: route.oobCode,
+      email: route.email
+    }).then(res => console.log(res))
+    .catch(err => console.log(err))
+   /* FirebaseDb.ref(`/usersWrites/${email}/verifyEmail`).set(verifyCode)
+    .then(resp => Handlers.okUser('verify', `Email address ${email} has been verified`))
+    .catch(err => Handlers.errorUser('verify', 'Verify email', err)) */
+  })
 
 FirebaseAuth.onAuthStateChanged(user => {
   const uid = user && user.uid
-
   if (lastUid !== uid) {
     Handlers.clearFields()
     if (lastUid) {
       FirebaseDb.ref('/users/' + lastUid).off('value')
     }
-    applyCodesIfReady()
     if (uid) {
       FirebaseDb.ref('/users/' + uid).on('value', snapshot => Handlers.profileChanged({uid, ...snapshot.val()}))
     } else {

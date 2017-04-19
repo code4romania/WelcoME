@@ -13,6 +13,7 @@
     "firebase": "^3.6.9",
     "history": "^4.5.1",
     "material-ui": "^0.17.0",
+    "node-fetch": "^1.6.3",
     "npm-git-install": "^0.2.0",
     "query-string": "^4.3.3",
     "randomstring": "^1.1.5",
