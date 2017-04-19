@@ -1,9 +1,12 @@
 {
-  "name": "functions",
-  "description": "Cloud Functions for Firebase",
+  "name": "welcome_functions",
+  "description": "Cloud Functions for WelcoME",
   "dependencies": {
     "firebase-admin": "^4.2.1",
     "firebase-functions": "^0.5"
   }, 
+  "scripts":{
+     "deploy": "firebase deploy --only functions"
+  },
   "private": true
 }

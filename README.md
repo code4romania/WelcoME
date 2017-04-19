@@ -1,29 +1,36 @@
-# welcome
+# WelcoME
 
-install:
-
+install web:
 `cd www && npm install`
 
-test: 
+install functions
+`cd functions && npm install`
 
+run web:
 `cd www && npm start`
+and go to:
+http://localhost:3000
+react guide:
+https://blog.tighten.co/react-101-building-a-gif-search-engine
+
+test web:
+`cd www && npm run test`
+
+test functions
+`cd functions && npm run test`
+
 
 deploy functions: 
+`cd functions && npm run deploy`
 
-`cd www && npm run func`
 
-build:
-
+build web:
 `cd www && npm run build`
 
-deploy firebase:
+deploy web:
+`cd www && npm run deploy`
 
-`firebase deploy`
 
-and go to:
+# Code linter
 
-http://localhost:3000
-
-react guide:
-
-https://blog.tighten.co/react-101-building-a-gif-search-engine
+https://github.com/feross/standard
