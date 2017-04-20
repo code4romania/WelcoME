@@ -7,6 +7,7 @@ registerAction('SIGNIN_EMAIL_REQUESTED')
 registerAction('SIGNUP_EMAIL_REQUESTED')
 registerAction('SIGN_FACEBOOK_REQUESTED')
 registerAction('SIGN_GOOGLE_REQUESTED')
+registerAction('RESET_PASSWORD_REQUESTED')
 registerAction('WRITE_TO_PROFILE')
 registerAction('PROFILE_CHANGED')
 

@@ -34,6 +34,8 @@ const validate = values => {
   }
   if (!values.password) {
     errors.password = 'Please enter a password.'
+  } else if (values.password.length < 6) {
+    errors.password = 'Min length of six chars.'
   }
   if (!values.passwordConfirm) {
     errors.passwordConfirm = 'Please enter a password confirmation.'

@@ -1,12 +1,11 @@
-// add cors and auth for https functions
-
+'use strict'
 const admin = require('firebase-admin')
 const cors = require('cors')({
   origin: ['http://localhost:3000'],
   optionsSuccessStatus: 200
 })
 
-exports = {
+module.exports = {
   withoutAuth: func => (req, res) => cors(req, res, () => func(req, res)),
 
   withAuth: func => (req, res) => cors(req, res, () => new Promise((resolve, reject) => {

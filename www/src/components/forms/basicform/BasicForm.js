@@ -17,14 +17,14 @@ const BasicForm = ({fields = [], links = [], ...props}, context) => {
 
   const onSubmit = e => {
     e.preventDefault()
-    handlers[props.submitHandler](forms)
+    props.submitHandler ? handlers[props.submitHandler](forms) : props.submitCustomHandler()
   }
 
   const FieldHelper = field => {
     // helpers for field
     const touched =
       forms[field.name] !== null && forms[field.name] !== undefined
-    const value = forms[field.name] || ''
+    const value = field.value || forms[field.name] || ''
     const error = validate[field.name]
 
     return (
@@ -65,7 +65,8 @@ BasicForm.propTypes = {
   // title of the form
   title: PropTypes.string,
   // on submit what handler to use
-  submitHandler: PropTypes.string.isRequired,
+  submitHandler: PropTypes.string,
+  submitCustomHandler: PropTypes.func,
   // validation function
   validate: PropTypes.func,
   // submit button text

@@ -3,7 +3,23 @@ const admin = require('firebase-admin')
 const { withAuth, withoutAuth } = require('./helpers')
 
 const updateProfile = require('./updateprofile')
+const { sendResetEmail } = require('./sendemails')
 const { verifyEmailCode } = require('./verifycodes')
+
+const sendReset = withoutAuth((req, res) => {
+  const { email } = req.body
+  if (!email) {
+    return res.end()
+  }
+  admin.auth().getUserByEmail(email)
+    .then(user => admin.database().ref(`users/${user.uid}`).once('value'))
+    .then(snapshot => {
+      const user = snapshot.val()
+      return sendResetEmail({ uid: user.uid, email, lang: user.lang })
+    })
+    .then(() => res.end())
+    .catch(() => res.end())
+})
 
 // not auth function for verifying email or resetting password
 const tryCode = withoutAuth((req, res) => {
@@ -64,8 +80,9 @@ const accountDeleted = event => {
   admin.database().ref(`/users/${uid}`).remove()
 }
 
-exports = {
+module.exports = {
   tryCode,
+  sendReset,
   changeProfile,
   accountDeleted
 }

@@ -2,6 +2,7 @@ import React from 'react'
 import Route from './Route'
 import Home from './Home'
 import Login from './authenticate/Login'
+import ResetPassword from './authenticate/ResetPassword'
 import Forgot from './authenticate/Forgot'
 import Signup from './authenticate/Signup'
 import ProfileCreation from './authenticate/ProfileCreation'
@@ -19,6 +20,12 @@ const pages = [
     visible: state => !state.auth.uid,
     route: '/login',
     component: Login
+  },
+  {
+    name: 'resetPassword',
+    visible: state => !state.auth.uid && state.router.oobCode && state.router.email,
+    route: '/resetPassword',
+    component: ResetPassword
   },
   {
     name: 'signup',

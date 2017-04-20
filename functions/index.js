@@ -10,16 +10,13 @@ admin.initializeApp({
 const {
   tryCode,
   changeProfile,
+  sendReset,
   accountDeleted
 } = require('./auth')
 
-// when an account is modified
-// without authentication
-exports.tryCode = functions.https.onRequest(tryCode)
-
-// when a profile is modified
-// authenticated
-exports.changeProfile = functions.https.onRequest(changeProfile)
-
-// when a user is deleted
-exports.accountDeleted = functions.auth.user().onDelete(accountDeleted)
+module.exports = {
+  tryCode: functions.https.onRequest(tryCode),
+  sendReset: functions.https.onRequest(sendReset),
+  changeProfile: functions.https.onRequest(changeProfile),
+  accountDeleted: functions.auth.user().onDelete(accountDeleted)
+}

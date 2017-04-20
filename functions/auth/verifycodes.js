@@ -1,6 +1,7 @@
+'use strict'
 const admin = require('firebase-admin')
 
-exports.verifyEmailCode = ({ uid }) => new Promise((resolve, reject) => {
+module.exports.verifyEmailCode = ({ uid }) => new Promise((resolve, reject) => {
   admin.auth().updateUser(uid, {
     emailVerified: true
   })

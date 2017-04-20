@@ -95,11 +95,11 @@ payloads$(Actions.SIGN_GOOGLE_REQUESTED).subscribe(() => {
 // when redirect returns send credential to profile
 FirebaseAuth.getRedirectResult().then(result => {
   if (result.user && result.credential) {
+    Handlers.goToPath('/')
     FirebaseFetch('changeProfile', {
       [`${getCredentialKey(result.credential)}Credential`]: result.credential
     }, result.user)
   }
-  Handlers.goToPath('/')
 }).catch(err => Handlers.errorUser('auth', 'Redirect', err))
 
 // modify profile
@@ -109,57 +109,13 @@ payloads$(Actions.WRITE_TO_PROFILE)
 // forgot password requested
 payloads$(Actions.FORGOT_REQUESTED)
   .subscribe(fields => {
-    FirebaseAuth
-      .sendPasswordResetEmail(fields.email)
+    FirebaseFetch('sendReset', {email: fields.email})
       .then(() => Handlers.goToPath('/login'))
       .then(() => Handlers.okUser('signup', 'An email was sent at', `${fields.email} for resetting the password`))
       .catch(err => Handlers.errorUser('auth', 'Reset password', err))
   })
 
 /*
-
-// signup with facebook
-payloads$(Actions.SIGN_FACEBOOK_REQUESTED).subscribe(() => {
-  FirebaseAuth.signInWithPopup(FacebookProvider)
-      .then(result => FirebaseDb
-          .ref('users/' + result.user.uid)
-          .set({
-            email: result.user.email,
-            pendingProfile: true
-          })
-      )
-      .then(() => Handlers.goToPath('/create_profile'))
-      .catch(err => {
-        console.log('panic!')
-        console.log(err)
-        // TODO: solve case where an account exitsts
-      })
-})
-
-// signup with email requested
-payloads$(Actions.SIGNUP_EMAIL_REQUESTED)
-  .subscribe((fields) => {
-    FirebaseAuth
-      .createUserWithEmailAndPassword(fields.email, fields.password)
-      .then(user => {
-        user.sendEmailVerification()
-        return user
-      })
-      .then(({uid, email}) => {
-        FirebaseDb.ref('users/' + uid).set({
-          email,
-          emailPassword: true,
-          pendingProfile: true
-        })
-        return uid
-      })
-      .then(() => Handlers.goToPath('/create_profile'))
-      .then(() => Handlers.okUser(
-        'signup',
-        'An email was sent at', `${fields.email} for verifying the password`,
-      ))
-      .catch(err => Handlers.errorUser('auth', 'Sign Up', err))
-  })
 
 payloads$(Actions.SIGNUP_CREATE_PROFILE_REQUESTED)
   .subscribe((fields) => {
@@ -192,15 +148,6 @@ payloads$(Actions.SIGNUP_CREATE_PROFILE_REQUESTED)
         }
       })
       .then(() => Handlers.goToPath('/'))
-  })
-
-// login with email requested
-payloads$(Actions.SIGNIN_EMAIL_REQUESTED)
-  .subscribe(fields => {
-    FirebaseAuth
-      .signInWithEmailAndPassword(fields.email, fields.password)
-      .then(() => Handlers.goToPath('/'))
-      .catch(err => Handlers.errorUser('auth', 'Sign In', err))
   })
 
 // edit profile requested

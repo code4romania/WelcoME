@@ -3,7 +3,7 @@ const admin = require('firebase-admin')
 
 const { sendVerificationEmail } = require('./sendemails.js')
 
-exports = ({ profile, uid }) => new Promise((resolve, reject) => {
+module.exports = ({ profile, uid }) => new Promise((resolve, reject) => {
   const auth = admin.auth()
   const permitedKeys = ['firstName', 'lastName', 'facebookCredential', 'googleCredential', 'lang']
   const scope = {}
