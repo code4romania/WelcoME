@@ -1,5 +1,11 @@
 // Place your settings in this file to overwrite default and user settings.
 {
     "editor.tabSize": 2,
-    "standard.autoFixOnSave": true
+    "standard.autoFixOnSave": true,
+    "javascript.validate.enable": false,
+    "files.exclude": {
+        "node_modules/": true,
+        "coverage/": true,
+        "build/": true
+    }
 }

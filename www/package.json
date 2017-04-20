@@ -31,12 +31,12 @@
     "eject": "react-scripts eject",
     "deploy": "firebase deploy"
   },
-  "standard": {    
+  "standard": {
     "globals": [
       "fetch",
       "describe",
       "it",
       "expect"
-    ]   
+    ]
   }
 }

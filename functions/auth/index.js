@@ -27,7 +27,9 @@ const tryCode = withoutAuth((req, res) => {
         emailVerified: true
       })
       // update users uid key
-      .then(() => admin.database().ref(`users/${val.uid}/emailVerified`).set(true))
+      .then(() => admin.database().ref(`users/${val.uid}`).update({
+        emailVerified: true
+      }))
       // remove key
       .then(() => admin.database().ref(`codes/${email}/${mode}`).remove())
       .then(() => {

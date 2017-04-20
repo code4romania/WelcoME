@@ -11,7 +11,7 @@ const crypto = require('crypto')
 const getHash = text => {
   const hash = crypto.createHash('sha256')
   hash.update(text)
-  return hash.digest('base64')
+  return hash.digest('hex')
 }
 
 const mailTransport = nodemailer.createTransport({
