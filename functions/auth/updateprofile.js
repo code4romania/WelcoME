@@ -27,6 +27,8 @@ module.exports = ({ profile, uid }) => new Promise((resolve, reject) => {
         delete newProfile[key]
       }
     })
+    if (!facebook) newProfile.facebookCredential = null
+    if (!google) newProfile.googleCredential = null
 
     Object.assign(newProfile, {
       uid,

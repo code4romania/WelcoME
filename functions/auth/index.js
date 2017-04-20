@@ -4,7 +4,7 @@ const { withAuth, withoutAuth } = require('./helpers')
 
 const updateProfile = require('./updateprofile')
 const { sendResetEmail } = require('./sendemails')
-const { verifyEmailCode } = require('./verifycodes')
+const { verifyEmailCode, resetPasswordCode } = require('./verifycodes')
 
 const sendReset = withoutAuth((req, res) => {
   const { email } = req.body
@@ -41,20 +41,16 @@ const tryCode = withoutAuth((req, res) => {
         })
         .then(() => updateProfile({profile: {}, uid: val.uid}))
         .then(() => res.json({ uid: val.uid, customToken: scope.customToken, email: val.email }))
-        .catch(() => res.status(400).send('Update error!'))
+        .catch(() => res.status(400).send('Token expired!'))
     } else if (mode === 'resetPassword') {
-      const uid = '111'
-
-      if (extra.password && (extra.password.length >= 6)) {
-        admin.auth().updateUser(uid, {
-          password: extra.password
-        }).then(() => {
-          res.send({
-            email
-          })
-        }).catch(() => res.status(400).send('Update error!'))
-      }
-      return res.end()
+      resetPasswordCode({ uid: val.uid, password: extra.password })
+        .then(customToken => {
+          scope.customToken = customToken
+          return admin.database().ref(`codes/${email}/${mode}`).remove()
+        })
+        .then(() => updateProfile({profile: {}, uid: val.uid}))
+        .then(() => res.json({ uid: val.uid, customToken: scope.customToken }))
+        .catch(() => res.status(400).send('Token expired!'))
     } else {
       res.status(400).send('Bad request!')
     }

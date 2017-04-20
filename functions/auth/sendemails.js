@@ -39,7 +39,7 @@ const getEmailTemplate = ({email, code, hashedEmail, template}) => (({
   `,
   resetPassword: `   Hello ${email},
         Follow this link to reset your password.       
-        ${root}/resetPassword/?oobCode=${code}&email=${hashedEmail}
+        ${root}/resetPassword?oobCode=${code}&email=${hashedEmail}
         
         If you didn’t ask to reset this address, you can ignore this email.
         Thanks,

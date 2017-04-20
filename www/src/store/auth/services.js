@@ -25,6 +25,24 @@ store$.map(state => state.auth.uid).bufferCount(2, 1)
   .filter(([lastUid, uid]) => lastUid && !uid)
   .subscribe(([lastUid, uid]) => FirebaseAuth.currentUser && Handlers.requestSignout())
 
+payloads$(Actions.RESET_PASSWORD_REQUESTED)
+  .subscribe(fields => {
+    FirebaseFetch('tryCode', {
+      mode: 'resetPassword',
+      code: fields.oobCode,
+      email: fields.email,
+      extra: { password: fields.password }
+    })
+    .then(res => {
+      Handlers.okUser('verify', `Password has been changed.`)
+      const user = FirebaseAuth.currentUser
+      Handlers.goToPath('/')
+      return user
+        ? FirebaseAuth.signOut().then(() => FirebaseAuth.signInWithCustomToken(res.customToken))
+        : FirebaseAuth.signInWithCustomToken(res.customToken)
+    })
+    .catch(err => Handlers.errorUser('reset', 'Reset password', err))
+  })
 // when email verified
 payloads$(Actions.ROUTE_CHANGED)
   .filter(route => route.pathname === '/actions' && route.mode === 'verifyEmail' && route.email && route.oobCode)
@@ -35,7 +53,7 @@ payloads$(Actions.ROUTE_CHANGED)
       email: route.email
     })
     .then(res => {
-      Handlers.okUser('verify', `Email address ${res.email} has been verified. Logging in...`)
+      Handlers.okUser('verify', `Email address ${res.email} has been verified.`)
       const user = FirebaseAuth.currentUser
       Handlers.goToPath('/')
       return user
