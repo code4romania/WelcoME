@@ -11,14 +11,12 @@ import './index.css'
 
 injectTapEventPlugin()
 
-const muiTheme = getMuiTheme({
-  fontFamily: 'Roboto'
-})
-
 // inject state and handlers into context of React components
 store$.subscribe(store => render(
   <Provider store={store} handlers={handlers}>
-    <MuiThemeProvider muiTheme={muiTheme}>
+    <MuiThemeProvider muiTheme={getMuiTheme({
+      fontFamily: 'Roboto'
+    })}>
       <App />
     </MuiThemeProvider>
   </Provider>,

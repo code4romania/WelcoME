@@ -1,6 +1,6 @@
-import React from 'react';
-import App from './App';
+import React from 'react'
+import App from './App'
 
 it('ok', () => {
-  
-});
+
+})

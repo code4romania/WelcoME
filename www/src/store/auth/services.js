@@ -1,5 +1,5 @@
 import { Handlers, Actions, payloads$ } from '../../rxdux'
-import Firebase, { FirebaseAuth, FirebaseDb, FacebookProvider, GoogleProvider } from '../../firebase'
+import { FirebaseFetch, FirebaseAuth, FirebaseDb, FacebookProvider, GoogleProvider } from '../../firebase'
 import { getCredentialKey } from './helpers'
 import rs from 'randomstring'
 
@@ -21,7 +21,7 @@ FirebaseAuth.onAuthStateChanged(user => {
 // when email verified
 payloads$(Actions.ROUTE_CHANGED).filter(route => route.pathname === '/actions' && route.mode === 'verifyEmail' &&
    route.email && route.oobCode).subscribe(route => {
-     Firebase.fetch('tryCode', {
+     FirebaseFetch('tryCode', {
        mode: 'verifyEmail',
        code: route.oobCode,
        email: route.email
@@ -42,15 +42,16 @@ payloads$(Actions.SIGNUP_EMAIL_REQUESTED)
   .subscribe((fields) => {
     FirebaseAuth
       .createUserWithEmailAndPassword(fields.email, fields.password)
-      .then(user => Firebase.fetch('changeProfile', {
+      .then(user => FirebaseFetch('changeProfile', {
         uid: user.uid,
         profile: {
+          // TODO here we send actual language from UI
           lang: 'en',
           sendVerificationEmail: true
-        }}))
+        }}, user))
       .then(() => Handlers.okUser(
         'signup',
-        'An email was sent at', `${fields.email} for verifying the password`,
+        'An email was sent at', `${fields.email}. Follow the link to enable your account.`,
       ))
       .catch(err => Handlers.errorUser('auth', 'Sign Up', err))
   })
@@ -79,12 +80,12 @@ payloads$(Actions.SIGN_GOOGLE_REQUESTED).subscribe(() => {
 FirebaseAuth.getRedirectResult().then(result => {
   if (result.user && result.credential) {
     const key = `${getCredentialKey(result.credential)}Credential`
-    Firebase.fetch('changeProfile', {
+    FirebaseFetch('changeProfile', {
       uid: result.user.uid,
       profile: {
         [key]: result.credential
       }
-    })
+    }, result.user)
   }
 }).catch(err => Handlers.errorUser('auth', 'Redirect', err))
 
@@ -93,7 +94,7 @@ payloads$(Actions.WRITE_TO_PROFILE).subscribe((profile) => {
   const user = FirebaseAuth.currentUser
   const uid = user && user.uid
   if (uid) {
-    Firebase.fetch('changeProfile', {uid, profile})
+    FirebaseFetch('changeProfile', {uid, profile}, user)
   }
 })
 

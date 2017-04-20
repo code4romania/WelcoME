@@ -20,21 +20,24 @@ const mailTransport = nodemailer.createTransport({
 })
 
 exports.sendVerificationEmail = ({email, lang}) => new Promise((resolve, reject) => {
-  console.log('Send verification email', mailTransport, email, lang)
+  console.log('Sending verification email', email, lang)
   const mailOptions = {
     to: email
   }
   const code = rs.generate(20)
   mailOptions.subject = 'Verify email for WelcoME!'
+
   mailOptions.text = `   Hello ${email},
         Follow this link to verify your email address.
+       
         ${root}/actions?mode=verifyEmail&oobCode=${code}&email=${email}
+        
         If you didn’t ask to verify this address, you can ignore this email.
         Thanks,
         Your Welcome team
   `
   mailTransport.sendMail(mailOptions).then(() => {
-    console.log('New subscription confirmation email sent to:', email)
+    console.log('Email verify sent to:', email)
     mailTransport.close()
     resolve()
   }).catch(err => reject(err))
