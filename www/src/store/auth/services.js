@@ -4,7 +4,6 @@ import { getCredentialKey } from './helpers'
 import rs from 'randomstring'
 
 // import { Entities } from '../constants'
-
 // on user changed observe users/uid key for changes
 let lastUid = rs.generate(3)
 FirebaseAuth.onAuthStateChanged(user => {
