@@ -1,5 +1,6 @@
 import CSSCore from 'fbjs/lib/CSSCore'
-import React, {Component, PropTypes, isValidElement} from 'react' //  eslint-disable-line no-unused-vars
+import React, {Component, isValidElement} from 'react'
+import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import ProgressBar from './ProgressBar'
 import Icon from './Icon'

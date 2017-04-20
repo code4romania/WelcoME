@@ -1,9 +1,9 @@
-import React, {Component, PropTypes} from 'react'
+import React, {Component} from 'react'
+import PropTypes from 'prop-types'
 import cn from 'classnames'
 import ToastrBox from './ToastrBox'
 import './Toastr.css'
 class Toastr extends Component {
-
   _renderToastrBox (item) {
     // Default options from props, but item can override them with own.
     const mergedItem = {

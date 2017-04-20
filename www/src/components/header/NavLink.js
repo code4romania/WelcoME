@@ -1,34 +1,34 @@
-import React, {PropTypes} from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import FlatButton from 'material-ui/FlatButton'
 
 import './NavLink.css'
 
 const NavLink = (props, context) => {
-
   // get state and handlers from context
-  const handlers = context.handlers;
+  const handlers = context.handlers
 
-  const state = context.store;
+  const state = context.store
 
-  const visible = props.visible ? props.visible(state) : true;
+  const visible = props.visible ? props.visible(state) : true
 
-  const text = props.text || props.children;
+  const text = props.text || props.children
 
   // helpers
   const onClick = event => {
-    event.preventDefault();
-    props.route ? handlers.goToPath(props.route) : handlers[props.action]();
+    event.preventDefault()
+    props.route ? handlers.goToPath(props.route) : handlers[props.action]()
   }
 
   const getClassName = () => {
     return state.router.pathname === props.route
       ? 'active-link'
-      : 'inactive-link';
+      : 'inactive-link'
   }
 
   // only for visible ones
   if (!visible) {
-    return null;
+    return null
   }
 
   // li with a
@@ -37,7 +37,7 @@ const NavLink = (props, context) => {
       className={getClassName()}
       onClick={onClick}
       label={text} />
-  );
+  )
 }
 
 NavLink.muiName = 'FlatButton'

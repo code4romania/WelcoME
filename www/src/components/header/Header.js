@@ -1,4 +1,5 @@
-import React, { PropTypes} from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import NavLink from './NavLink'
 import TitleCard from './TitleCard'
 import ProfileCreation from '../page/authenticate/ProfileCreation'

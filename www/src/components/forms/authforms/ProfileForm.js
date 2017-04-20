@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import BasicForm from '../../forms/basicform/BasicForm'
 
 class ProfileForm extends React.Component {

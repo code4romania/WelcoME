@@ -1,4 +1,5 @@
-import React, { PropTypes} from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import {List} from 'material-ui/List'
 import {Card, CardActions, CardText} from 'material-ui/Card'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
@@ -11,27 +12,26 @@ import Divider from 'material-ui/Divider'
 import './Camps.css'
 
 const Camps = (props, {store, handlers}) => {
-
-  const { selectedCamp } = store.camps;
+  const { selectedCamp } = store.camps
 
   const camps = Object
     .keys(store.camps.camps)
-    .map(cid => ({ cid, ...store.camps.camps[cid] }));
+    .map(cid => ({ cid, ...store.camps.camps[cid] }))
 
   const users = Object
     .keys(store.camps.userList)
-    .map(uid => ({ uid, ...store.camps.users[uid] }));
+    .map(uid => ({ uid, ...store.camps.users[uid] }))
 
   const renderAddCamp = () => {
     return (
       <FloatingActionButton
         title='Add camp'
-        className="floatingActionButton"
+        className='floatingActionButton'
         onClick={() => handlers.addEmptyCamp()}
         mini>
         <ContentAdd />
       </FloatingActionButton>
-    );
+    )
   }
 
   const renderCampList = (camps) => {
@@ -45,21 +45,21 @@ const Camps = (props, {store, handlers}) => {
             handlers.changeFields({
               cid: camp.cid,
               name: camp.name
-            });
-            handlers.selectCamp(camp.cid);
+            })
+            handlers.selectCamp(camp.cid)
           }}
           onDeselectCamp={() => {
-            handlers.clearFields();
-            handlers.selectCamp();
+            handlers.clearFields()
+            handlers.selectCamp()
           }}
           hasRemove={camp.cid !== 'default'}
           {...camp} />
-    );
+    )
   }
 
   const renderCampMembers = () => {
     if (!selectedCamp || !users.length) {
-      return null;
+      return null
     }
 
     return (
@@ -72,16 +72,16 @@ const Camps = (props, {store, handlers}) => {
           />)}
         </List>
       </div>
-    );
+    )
   }
 
   const renderCampEditForm = () => {
     return selectedCamp
       ? <div>
-          <Divider />
-          <CampForm />
-        </div>
-      : null;
+        <Divider />
+        <CampForm />
+      </div>
+      : null
   }
 
   return (

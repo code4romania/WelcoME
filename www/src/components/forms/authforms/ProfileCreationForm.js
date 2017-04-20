@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import BasicFormLink from '../basicform/BasicFormLink'
 import BasicFormField from '../basicform/BasicFormField'
 import {Card, CardText} from 'material-ui/Card'

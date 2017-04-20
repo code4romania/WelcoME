@@ -1,5 +1,5 @@
-import React, { PropTypes } from 'react'
-
+import React from 'react'
+import PropTypes from 'prop-types'
 import './BasicFormLink.css'
 
 const BasicFormLink = (props, { handlers }) => {
@@ -12,7 +12,7 @@ const BasicFormLink = (props, { handlers }) => {
       }}>
       { props.text }
     </a>
-  );
+  )
 }
 
 BasicFormLink.propTypes = {
