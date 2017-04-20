@@ -1,5 +1,11 @@
 {
   "rules": {
+    "usersWrites": {
+      "$uid": {
+        ".read": false,
+        ".write": "$uid === auth.uid"
+      }
+    },
     "users": {
       "$uid": {
         ".read": true,
@@ -51,6 +57,6 @@
           ".write": "root.child('owners').child(auth.uid).exists() || ($uid === auth.uid)"
         }
       }
-    }
+    }, 
   }
 }

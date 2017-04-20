@@ -1,7 +1,7 @@
 'use strict'
 const admin = require('firebase-admin')
 const cors = require('cors')({
-  origin: ['http://localhost:3000'],
+  origin: ['http://localhost:3000', 'https://welcome-1f483.firebaseapp.com'],
   optionsSuccessStatus: 200
 })
 
