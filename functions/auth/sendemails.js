@@ -27,15 +27,8 @@ const mailTransport = nodemailer.createTransport({
   from: gmailEmail
 })
 
-exports.sendVerificationEmail = ({email, lang, uid}) => new Promise((resolve, reject) => {
-  console.log('Sending verification email', email, lang)
-  const mailOptions = {
-    to: email
-  }
-  const code = rs.generate(20)
-  const hashedEmail = getHash(email)
-  mailOptions.subject = 'Verify email for WelcoME!'
-  mailOptions.text = `   Hello ${email},
+// TODO - email templating by name and language
+const getEmailTemplate = ({email, code, hashedEmail}) => `   Hello ${email},
         Follow this link to verify your email address.
        
         ${root}/actions?mode=verifyEmail&oobCode=${code}&email=${hashedEmail}
@@ -44,11 +37,22 @@ exports.sendVerificationEmail = ({email, lang, uid}) => new Promise((resolve, re
         Thanks,
         Your Welcome team
   `
+
+exports.sendVerificationEmail = ({email, lang, uid}) => new Promise((resolve, reject) => {
+  console.log('Sending verification email', email, lang)
+  const mailOptions = {
+    to: email
+  }
+  const code = rs.generate(20)
+  const hashedEmail = getHash(email)
+  mailOptions.subject = 'Verify email for WelcoME!'
+  mailOptions.text = getEmailTemplate({ template: 'verifyEmail', lang, email, code, hashedEmail })
   admin.database().ref(`/codes/${hashedEmail}/verifyEmail`).set({code, uid, email})
   .then(() => mailTransport.sendMail(mailOptions))
   .then(() => {
     console.log('Email verify sent to:', email)
-    mailTransport.close()
-    resolve()
-  }).catch(err => reject(err))
+    return mailTransport.close()
+  })
+  .then(resolve)
+  .catch(reject)
 })
