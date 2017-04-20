@@ -1,7 +1,7 @@
 'use strict'
 const admin = require('firebase-admin')
-const withAuth = require('./helpers').yes
-const withoutAuth = require('./helpers').no
+const withAuth = require('./helpers').withAuth
+const withoutAuth = require('./helpers').withoutAuth
 
 const sendVerificationEmail = require('./sendemails').sendVerificationEmail
 
@@ -39,8 +39,8 @@ const tryCode = withoutAuth((req, res) => {
 
 const changeProfile = withAuth((req, res) => {
   const auth = admin.auth()
-  const { uid, profile } = req.body
-
+  const profile = req.body
+  const uid = req.user.uid
   // when key is cancelled or empty do nothing
   if (!profile || !uid) {
     return res.status(400).send('Bad request!')

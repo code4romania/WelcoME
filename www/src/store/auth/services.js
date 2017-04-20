@@ -43,12 +43,10 @@ payloads$(Actions.SIGNUP_EMAIL_REQUESTED)
     FirebaseAuth
       .createUserWithEmailAndPassword(fields.email, fields.password)
       .then(user => FirebaseFetch('changeProfile', {
-        uid: user.uid,
-        profile: {
           // TODO here we send actual language from UI
-          lang: 'en',
-          sendVerificationEmail: true
-        }}, user))
+        lang: 'en',
+        sendVerificationEmail: true
+      }, user))
       .then(() => Handlers.okUser(
         'signup',
         'An email was sent at', `${fields.email}. Follow the link to enable your account.`,
@@ -81,10 +79,7 @@ FirebaseAuth.getRedirectResult().then(result => {
   if (result.user && result.credential) {
     const key = `${getCredentialKey(result.credential)}Credential`
     FirebaseFetch('changeProfile', {
-      uid: result.user.uid,
-      profile: {
-        [key]: result.credential
-      }
+      [key]: result.credential
     }, result.user)
   }
 }).catch(err => Handlers.errorUser('auth', 'Redirect', err))
@@ -94,7 +89,7 @@ payloads$(Actions.WRITE_TO_PROFILE).subscribe((profile) => {
   const user = FirebaseAuth.currentUser
   const uid = user && user.uid
   if (uid) {
-    FirebaseFetch('changeProfile', {uid, profile}, user)
+    FirebaseFetch('changeProfile', profile, user)
   }
 })
 
