@@ -1,5 +1,3 @@
-/* global it, expect, test */
-
 import React from 'react'
 import ReactDOM from 'react-dom'
 import App from './components/App'

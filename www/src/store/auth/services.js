@@ -11,10 +11,9 @@ FirebaseAuth.onAuthStateChanged(user => {
   const uid = user && user.uid
   if (lastUid !== uid) {
     Handlers.clearFields()
-    if (lastUid) FirebaseDb.ref('/users/' + lastUid).off('value')
-    if (uid) FirebaseDb.ref('/users/' + uid).on('value', snapshot => Handlers.profileChanged({uid, ...snapshot.val()}))
-    else Handlers.profileChanged()
+    lastUid && FirebaseDb.ref('/users/' + lastUid).off('value')
     lastUid = uid
+    uid ? FirebaseDb.ref('/users/' + uid).on('value', snapshot => Handlers.profileChanged({uid, ...snapshot.val()})) : Handlers.profileChanged()
   }
   user && Handlers.okUser('auth', 'Welcome', `${user.email}`)
 }, err => Handlers.errorUser('auth', 'Sign In', err))
