@@ -1,51 +1,73 @@
 'use strict'
 const admin = require('firebase-admin')
-const withAuth = require('./helpers').withAuth
-const withoutAuth = require('./helpers').withoutAuth
+const { withAuth, withoutAuth } = require('./helpers').default
 
 const sendVerificationEmail = require('./sendemails').sendVerificationEmail
 
-// when account changes update users key
+// not auth function for verifying email or resetting password
 const tryCode = withoutAuth((req, res) => {
-  const { email, code, mode } = req.body
-
-  // when key is cancelled or empty do nothing
+  const { email, code, mode, extra = {} } = req.body
+  // some validations
   if (!email || !code || !mode) {
     return res.status(400).send('Bad request!')
   }
-  if (mode === 'verifyEmail') {
-    console.log('Verify email', email, code)
-    return res.end()
-  } else if (mode === 'resetPassword') {
-    return res.end()
-  } else {
-    return res.status(400).send('Bad request!')
-  }
+  console.log('Try code arrived', email, code, mode)
+  // grab the key
+  admin.database().ref(`codes/${email}/${mode}`).once(snapshot => {
+    const val = snapshot.val()
+    // verify key
+    if (!val || !val.uid || (val.code !== code)) {
+      return res.status(400).send('Token expired!')
+    }
 
-  /*
-  const { verifyEmail } = val
-  if (verifyEmail) {
-  admin.database().ref(`/codes/${email}/verifyEmail`).once(snapshot => {
-    const code = snapshot.val()
-    if (code === verifyEmail) {
+    if (mode === 'verifyEmail') {
+      // verify email code arrived
+      // update account
+      admin.auth().updateUser(val.uid, {
+        emailVerified: true
+      })
+      // update users uid key
+      .then(() => admin.database().ref(`users/${val.uid}/emailVerified`).set(true))
+      // remove key
+      .then(() => admin.database().ref(`codes/${email}/${mode}`).remove())
+      .then(() => {
+        console.log('Email verified!', email)
+        res.end()
+      }).catch(() => res.status(400).send('Update error!'))
+    } else if (mode === 'resetPassword') {
+      // reset password code arrived
+      const uid = '111'
 
+      if (extra.password && (extra.password.length >= 6)) {
+        admin.auth().updateUser(uid, {
+          password: extra.password
+        }).then(() => {
+          res.end()
+        }).catch(() => res.status(400).send('Update error!'))
+      }
+      return res.end()
     } else {
-
+      res.status(400).send('Bad request!')
     }
   })
-  }
-  admin.database().ref(`/users/${uid}`).update(account) */
 })
 
+// change user profile and account
+// authentication required
 const changeProfile = withAuth((req, res) => {
+  const permitedKeys = ['firstName', 'lastName', 'facebookCredential', 'googleCredential', 'lang']
+
   const auth = admin.auth()
   const profile = req.body
-  const uid = req.user.uid
-  // when key is cancelled or empty do nothing
-  if (!profile || !uid) {
+  // get uid from authorization token
+  const uid = req.user && req.user.uid
+
+  // some validations
+  if (!profile || !uid || !Object.keys(profile).length) {
     return res.status(400).send('Bad request!')
   }
 
+  // object for doing some async work
   const obj = {
     flags: {
       updateUser: false
@@ -53,29 +75,31 @@ const changeProfile = withAuth((req, res) => {
     profile: Object.assign({}, profile)
   }
 
-  // find updated user
+  // find the updated user account
   auth.getUser(uid).then(user => {
     const providers = user.providerData || []
     const password = providers.find(prov => prov.providerId === 'password')
     const facebook = providers.find(prov => prov.providerId === 'facebook.com')
     const google = providers.find(prov => prov.providerId === 'google.com')
 
-    // if is facebook provider, update emailVerified to true, manually
+    // if is facebook provider, update emailVerified to true, manually, and dont send email for verification
     let emailVerified = user.emailVerified
     if (!emailVerified && facebook) {
       emailVerified = true
       obj.flags.updateUser = true
     }
+
+    // if email verification needed
     obj.flags.sendVerificationEmail = !emailVerified && profile.sendVerificationEmail ? user.email : null
 
-    // accept only some keys in users profile
-    const permitedKeys = ['firstName', 'lastName', 'facebookCredential', 'googleCredential', 'lang']
+    // truncate non permitted user keys in profile
     Object.keys(profile).forEach(key => {
       if (!permitedKeys.includes(key)) {
         delete obj.profile[key]
       }
     })
-    // integrate last account values from auth
+
+    // integrate profile with last account values from firebase
     Object.assign(obj.profile, {
       email: user.email,
       emailVerified,
@@ -84,26 +108,32 @@ const changeProfile = withAuth((req, res) => {
       facebook: !!facebook
     })
   })
+  // update some things in the user account if needed
   .then(() => obj.flags.updateUser && auth.updateUser(uid, { emailVerified: true }))
+  // send verification email if needed
   .then(() => obj.flags.sendVerificationEmail && sendVerificationEmail({
+    uid,
     email: obj.flags.sendVerificationEmail,
     lang: profile.lang
   }))
+  // write all modifs in the users uid key
   .then(() => admin.database().ref(`/users/${uid}`).update(obj.profile))
   .then(() => res.end())
   .catch(err => res.status(400).send(err.message))
 })
 
-// when user is created update users key
+// when user is created create users key for the first time
 const accountCreated = event => {
   const auth = admin.auth()
   const user = event.data
   const uid = user.uid
+  // get user data from firebase account
   auth.getUser(uid).then(account => {
     const providers = account.providerData || []
     const password = providers.find(prov => prov.providerId === 'password')
     const facebook = providers.find(prov => prov.providerId === 'facebook.com')
     const google = providers.find(prov => prov.providerId === 'google.com')
+    // write users uid key with initial data
     admin.database().ref(`/users/${uid}`).set({
       email: user.email,
       emailVerified: !password,
@@ -118,6 +148,7 @@ const accountCreated = event => {
 // when user is deleted clean up database
 const accountDeleted = event => {
   const uid = event.data.uid
+  // remove users uid key
   admin.database().ref(`/users/${uid}`).remove()
 }
 

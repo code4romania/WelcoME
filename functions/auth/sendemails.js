@@ -1,10 +1,18 @@
 'use strict'
 const functions = require('firebase-functions')
+const admin = require('firebase-admin')
 const nodemailer = require('nodemailer')
 const rs = require('randomstring')
 const gmailEmail = functions.config().gmail.email
 const gmailPassword = functions.config().gmail.password
 const root = functions.config().gmail.root
+const crypto = require('crypto')
+
+const getHash = text => {
+  const hash = crypto.createHash('sha256')
+  hash.update(text)
+  return hash.digest('base64')
+}
 
 const mailTransport = nodemailer.createTransport({
   service: 'Gmail',
@@ -19,24 +27,26 @@ const mailTransport = nodemailer.createTransport({
   from: gmailEmail
 })
 
-exports.sendVerificationEmail = ({email, lang}) => new Promise((resolve, reject) => {
+exports.sendVerificationEmail = ({email, lang, uid}) => new Promise((resolve, reject) => {
   console.log('Sending verification email', email, lang)
   const mailOptions = {
     to: email
   }
   const code = rs.generate(20)
+  const hashedEmail = getHash(email)
   mailOptions.subject = 'Verify email for WelcoME!'
-
   mailOptions.text = `   Hello ${email},
         Follow this link to verify your email address.
        
-        ${root}/actions?mode=verifyEmail&oobCode=${code}&email=${email}
+        ${root}/actions?mode=verifyEmail&oobCode=${code}&email=${hashedEmail}
         
         If you didn’t ask to verify this address, you can ignore this email.
         Thanks,
         Your Welcome team
   `
-  mailTransport.sendMail(mailOptions).then(() => {
+  admin.database().ref(`/codes/${hashedEmail}/verifyEmail`).set({code, uid})
+  .then(() => mailTransport.sendMail(mailOptions))
+  .then(() => {
     console.log('Email verify sent to:', email)
     mailTransport.close()
     resolve()
