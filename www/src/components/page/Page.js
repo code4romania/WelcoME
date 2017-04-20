@@ -16,19 +16,19 @@ const pages = [
   },
   {
     name: 'login',
-    visible: state => !state.auth.authenticated && !(state.auth.profile && state.auth.profile.pendingProfile),
+    visible: state => !state.auth.uid,
     route: '/login',
     component: Login
   },
   {
     name: 'signup',
-    visible: state => !state.auth.authenticated && !(state.auth.profile && state.auth.profile.pendingProfile),
+    visible: state => !state.auth.uid,
     route: '/signup',
     component: Signup
   },
   {
     name: 'forgot',
-    visible: state => !state.auth.authenticated && !(state.auth.profile && state.auth.profile.pendingProfile),
+    visible: state => !state.auth.uid,
     route: '/forgot',
     component: Forgot
   },
@@ -40,7 +40,7 @@ const pages = [
   },
   {
     name: 'profile',
-    visible: state => state.auth.authenticated && !(state.auth.profile && state.auth.profile.pendingProfile),
+    visible: state => state.auth.uid,
     route: '/profile',
     component: Profile
   },

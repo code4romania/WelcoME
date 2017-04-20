@@ -44,7 +44,7 @@ exports.sendVerificationEmail = ({email, lang, uid}) => new Promise((resolve, re
         Thanks,
         Your Welcome team
   `
-  admin.database().ref(`/codes/${hashedEmail}/verifyEmail`).set({code, uid})
+  admin.database().ref(`/codes/${hashedEmail}/verifyEmail`).set({code, uid, email})
   .then(() => mailTransport.sendMail(mailOptions))
   .then(() => {
     console.log('Email verify sent to:', email)

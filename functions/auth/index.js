@@ -16,7 +16,7 @@ const tryCode = withoutAuth((req, res) => {
   admin.database().ref(`codes/${email}/${mode}`).once('value', snapshot => {
     const val = snapshot.val()
     // verify key
-    if (!val || !val.uid || (val.code !== code)) {
+    if (!val || !val.uid || (val.code !== code) || !val.email) {
       return res.status(400).send('Token expired!')
     }
 
@@ -32,10 +32,15 @@ const tryCode = withoutAuth((req, res) => {
       }))
       // remove key
       .then(() => admin.database().ref(`codes/${email}/${mode}`).remove())
-      .then(() => {
+      .then(() => admin.auth().createCustomToken(val.uid))
+      .then(customToken => {
         console.log('Email verified!', email)
-        res.end()
-      }).catch(() => res.status(400).send('Update error!'))
+        res.json({ uid: val.uid, customToken, email: val.email })
+      }).catch(err => {
+        console.error(err)
+        res.status(400).send('Update error!')
+      }
+      )
     } else if (mode === 'resetPassword') {
       // reset password code arrived
       const uid = '111'
@@ -44,7 +49,9 @@ const tryCode = withoutAuth((req, res) => {
         admin.auth().updateUser(uid, {
           password: extra.password
         }).then(() => {
-          res.end()
+          res.send({
+            email
+          })
         }).catch(() => res.status(400).send('Update error!'))
       }
       return res.end()
@@ -103,6 +110,7 @@ const changeProfile = withAuth((req, res) => {
 
     // integrate profile with last account values from firebase
     Object.assign(obj.profile, {
+      uid,
       email: user.email,
       emailVerified,
       password: !!password,
@@ -124,34 +132,16 @@ const changeProfile = withAuth((req, res) => {
   .catch(err => res.status(400).send(err.message))
 })
 
-// when user is created create users key for the first time
-const accountCreated = event => {
-  const auth = admin.auth()
-  const user = event.data
-  const uid = user.uid
-  // get user data from firebase account
-  auth.getUser(uid).then(account => {
-    const providers = account.providerData || []
-    const password = providers.find(prov => prov.providerId === 'password')
-    const facebook = providers.find(prov => prov.providerId === 'facebook.com')
-    const google = providers.find(prov => prov.providerId === 'google.com')
-    // write users uid key with initial data
-    admin.database().ref(`/users/${uid}`).set({
-      email: user.email,
-      emailVerified: !password,
-      createdAt: user.metadata.createdAt,
-      password: !!password,
-      google: !!google,
-      facebook: !!facebook
-    })
-  })
-}
-
 // when user is deleted clean up database
 const accountDeleted = event => {
   const uid = event.data.uid
   // remove users uid key
   admin.database().ref(`/users/${uid}`).remove()
+}
+
+// when user is created create users key for the first time
+const accountCreated = event => {
+
 }
 
 exports.default = {

@@ -29,7 +29,7 @@ const Profile = (props, { store }) => {
   const user = store.auth
   const userData1 = user.uid ? `${user.uid} - ${user.email}` : ''
   const userData2 = (user.uid
-    ? `${user.verified ? 'Verified' : 'Not verified'}`
+    ? `${user.emailVerified ? 'Verified' : 'Not verified'}`
     : 'Not authenticated') + '   Camp: ' + user.camp
   const userData3 = user.firstName ? `${user.firstName} - ${user.lastName}` : ''
   const userData4 = `${user.volunteer ? 'Volunteer' : 'Refugee'} - ${user.admin ? 'CampAdmin' : 'NoCampAdmin'}  - ${user.owner ? 'Owner' : 'NoOwner'}`

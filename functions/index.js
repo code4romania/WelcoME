@@ -1,13 +1,16 @@
 'use strict'
 const functions = require('firebase-functions')
 const admin = require('firebase-admin')
-
-admin.initializeApp(functions.config().firebase)
+var serviceAccount = require('./cert.json')
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: 'https://welcome-1f483.firebaseio.com'
+})
 
 const {
   tryCode,
   changeProfile,
-  accountCreated,
+  /* accountCreated, */
   accountDeleted
 } = require('./auth').default
 
@@ -20,8 +23,7 @@ exports.tryCode = functions.https.onRequest(tryCode)
 exports.changeProfile = functions.https.onRequest(changeProfile)
 
 // when a user is created
-exports.accountCreated = functions.auth.user().onCreate(accountCreated)
+// exports.accountCreated = functions.auth.user().onCreate(accountCreated)
 
 // when a user is deleted
 exports.accountDeleted = functions.auth.user().onDelete(accountDeleted)
-

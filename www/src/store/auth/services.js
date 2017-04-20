@@ -1,4 +1,4 @@
-import { Handlers, Actions, payloads$ } from '../../rxdux'
+import { Handlers, Actions, payloads$, store$ } from '../../rxdux'
 import { FirebaseFetch, FirebaseAuth, FirebaseDb, FacebookProvider, GoogleProvider } from '../../firebase'
 import { getCredentialKey } from './helpers'
 import rs from 'randomstring'
@@ -13,28 +13,45 @@ FirebaseAuth.onAuthStateChanged(user => {
     Handlers.clearFields()
     lastUid && FirebaseDb.ref('/users/' + lastUid).off('value')
     lastUid = uid
-    uid ? FirebaseDb.ref('/users/' + uid).on('value', snapshot => Handlers.profileChanged({uid, ...snapshot.val()})) : Handlers.profileChanged()
+    uid
+      ? FirebaseDb.ref('/users/' + uid).on('value', snapshot => Handlers.profileChanged(snapshot.val()))
+      : Handlers.profileChanged()
   }
   user && Handlers.okUser('auth', 'Welcome', `${user.email}`)
 }, err => Handlers.errorUser('auth', 'Sign In', err))
 
+// user is cancelled from DB, have to force signout
+store$.map(state => state.auth.uid).bufferCount(2, 1)
+  .filter(([lastUid, uid]) => lastUid && !uid)
+  .subscribe(([lastUid, uid]) => FirebaseAuth.currentUser && Handlers.requestSignout())
+
 // when email verified
-payloads$(Actions.ROUTE_CHANGED).filter(route => route.pathname === '/actions' && route.mode === 'verifyEmail' &&
-   route.email && route.oobCode).subscribe(route => {
-     FirebaseFetch('tryCode', {
-       mode: 'verifyEmail',
-       code: route.oobCode,
-       email: route.email
-     }).then(() => Handlers.okUser('verify', `Email address ${route.email} has been verified`))
+payloads$(Actions.ROUTE_CHANGED)
+  .filter(route => route.pathname === '/actions' && route.mode === 'verifyEmail' && route.email && route.oobCode)
+  .subscribe(route => {
+    FirebaseFetch('tryCode', {
+      mode: 'verifyEmail',
+      code: route.oobCode,
+      email: route.email
+    })
+    .then(res => {
+      Handlers.okUser('verify', `Email address ${res.email} has been verified. Logging in...`)
+      const user = FirebaseAuth.currentUser
+      Handlers.goToPath('/')
+      return user
+        ? FirebaseAuth.signOut().then(() => FirebaseAuth.signInWithCustomToken(res.customToken))
+        : FirebaseAuth.signInWithCustomToken(res.customToken)
+    })
     .catch(err => Handlers.errorUser('verify', 'Verify email', err))
-     Handlers.goToPath(FirebaseAuth.currentUser ? '/' : '/login')
-   })
+  })
 
 // signout user requested
 payloads$(Actions.SIGNOUT_REQUESTED).subscribe(() => {
   const user = FirebaseAuth.currentUser
-  FirebaseAuth.signOut().then(() => Handlers.okUser('auth', 'Good bye', `${user.email}`))
-      .catch(err => Handlers.errorUser('auth', 'Sign Out', err))
+  user && FirebaseAuth.signOut().then(() => {
+    Handlers.okUser('auth', 'Good bye', `${user.email}`)
+    Handlers.goToPath('/')
+  }).catch(err => Handlers.errorUser('auth', 'Sign Out', err))
 })
 
 // signup with email requested
@@ -43,7 +60,7 @@ payloads$(Actions.SIGNUP_EMAIL_REQUESTED)
     FirebaseAuth
       .createUserWithEmailAndPassword(fields.email, fields.password)
       .then(user => FirebaseFetch('changeProfile', {
-          // TODO here we send actual language from UI
+        // TODO here we send actual language from UI
         lang: 'en',
         sendVerificationEmail: true
       }, user))
@@ -59,6 +76,7 @@ payloads$(Actions.SIGNIN_EMAIL_REQUESTED)
   .subscribe(fields => {
     FirebaseAuth
       .signInWithEmailAndPassword(fields.email, fields.password)
+      .then(() => Handlers.goToPath('/'))
       .catch(err => Handlers.errorUser('auth', 'Sign In', err))
   })
 
@@ -77,21 +95,16 @@ payloads$(Actions.SIGN_GOOGLE_REQUESTED).subscribe(() => {
 // when redirect returns send credential to profile
 FirebaseAuth.getRedirectResult().then(result => {
   if (result.user && result.credential) {
-    const key = `${getCredentialKey(result.credential)}Credential`
     FirebaseFetch('changeProfile', {
-      [key]: result.credential
+      [`${getCredentialKey(result.credential)}Credential`]: result.credential
     }, result.user)
   }
+  Handlers.goToPath('/')
 }).catch(err => Handlers.errorUser('auth', 'Redirect', err))
 
 // modify profile
-payloads$(Actions.WRITE_TO_PROFILE).subscribe((profile) => {
-  const user = FirebaseAuth.currentUser
-  const uid = user && user.uid
-  if (uid) {
-    FirebaseFetch('changeProfile', profile, user)
-  }
-})
+payloads$(Actions.WRITE_TO_PROFILE)
+  .subscribe((profile) => FirebaseFetch('changeProfile', profile, FirebaseAuth.currentUser))
 
 // forgot password requested
 payloads$(Actions.FORGOT_REQUESTED)
