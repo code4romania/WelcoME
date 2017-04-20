@@ -13,7 +13,7 @@ const tryCode = withoutAuth((req, res) => {
   }
   console.log('Try code arrived', email, code, mode)
   // grab the key
-  admin.database().ref(`codes/${email}/${mode}`).once(snapshot => {
+  admin.database().ref(`codes/${email}/${mode}`).once('value', snapshot => {
     const val = snapshot.val()
     // verify key
     if (!val || !val.uid || (val.code !== code)) {
