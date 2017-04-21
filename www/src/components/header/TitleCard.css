@@ -1,0 +1,25 @@
+.imgLogo {
+  width: 100%;
+  max-height: 450px;
+  object-fit: cover;
+  align-items: center;
+  justify-content: center;
+}
+
+.titleCard {
+  position: absolute;
+  margin: auto; 
+  margin-left: 42%; 
+  top: 0;
+  bottom: 0;
+}
+
+.titleCard > h2 {
+  color: #ffde32;
+  margin-bottom: 14px;
+}
+
+.container-logo {
+  position: relative;
+  justify-content: center;
+}

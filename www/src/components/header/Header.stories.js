@@ -1,14 +1,19 @@
 import React from 'react'
 import { storiesOf, action } from '@kadira/storybook'
-import { withKnobs, text, boolean } from '@kadira/storybook-addon-knobs'
+import { withKnobs, text, boolean, number } from '@kadira/storybook-addon-knobs'
 import centered from '@kadira/react-storybook-decorator-centered'
 import TitleCard from './TitleCard'
+import Menu from './Menu'
 import NavLink from './NavLink'
 
 storiesOf('header.TitleCard', module)
-  .add('TitleCard', () => (
-    <TitleCard />
-  ))
+  .addDecorator(withKnobs)
+  .add('TitleCard', () => {
+    const title = text('Text', 'WelcoME')
+    return (
+      <TitleCard title={title} />
+    )
+  })
 
 storiesOf('header.NavLink', module)
   .addDecorator(withKnobs)
@@ -40,5 +45,21 @@ storiesOf('header.NavLink', module)
     const title = text('Text', 'Active')
     return (
       <NavLink action={action('button-click')} visible={visible} active={active} text={title} />
+    )
+  })
+
+storiesOf('header.Menu', module)
+  .addDecorator(withKnobs)
+  .add('Menu', () => {
+    const active = number('Active Element', 2)
+    const links = Array.from(Array(number('Elements', 7)).keys()).map(el => ({
+      key: el,
+      text: `Link ${el + 1}`,
+      visible: true,
+      active: (el + 1) === active,
+      action: action(`Clicked ${el + 1}`)
+    }))
+    return (
+      <Menu links={links} />
     )
   })

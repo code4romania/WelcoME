@@ -1,40 +1,15 @@
 import React from 'react'
-import { Card, CardMedia, CardTitle } from 'react-md/lib/Cards'
+import { CardTitle } from 'react-md/lib/Cards'
+import imgSrc from '../../../public/media/header/main.jpg'
+import './TitleCard.css'
 
-const TitleCard = () => {
-  const welcomeTitle =
-    <CardTitle
-      style={{
-        fontFamily: 'Roboto',
-        fontWeight: '800',
-        textSize: '17px',
-        lineHeight: '25',
-        color: '#7f7f7f'
-      }}
-      title='welcome' />
-
+const TitleCard = ({title}) => {
   return (
-    <div >
-      <Card>
-        <CardMedia
-          overlay={welcomeTitle}
-          overlayContainerStyle={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center'
-          }}
-          overlayContentStyle={{
-            position: 'relative',
-            background: 'none !important'
-          }}
-          overlayStyle={{
-            height: 'auto'
-          }}>
-          <img
-            src={require('../../../public/media/header/main.jpg')} role='presentation' />
-        </CardMedia>
-      </Card>
+    <div className='container-logo'>
+      <img className='imgLogo' src={imgSrc} alt='logo' />
+      <CardTitle className='titleCard' title={title} />
     </div>
   )
 }
 export default TitleCard
+ 

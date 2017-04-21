@@ -1,16 +1,12 @@
 import React from 'react'
-// import TitleCard from '../header/TitleCard.js'
-import NavLink from '../header/NavLink.js'
-/* import Header from '../header/Header.js'
-import Page from '../page/Page'
-import Footer from '../footer/Footer'
-import LoadingApp from './LoadingApp'
-import Toastr from '../toastr/Toastr' */
+import TitleCard from '../header/TitleCard'
+import Menu from '../header/Menu'
 
-const NotAuthApp = () => {
+const NotAuthApp = ({title, links}) => {
   return (
     <div>
-      <NavLink visible active text='aaaa' action={() => console.log('cccc')} />
+      <TitleCard title={title} />
+      <Menu links={links} />
     </div>
   )
 }

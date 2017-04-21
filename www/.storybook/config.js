@@ -1,6 +1,7 @@
 import { configure, setAddon } from '@kadira/storybook';
 import  infoAddon  from '@kadira/react-storybook-addon-info'
 import 'react-md/dist/react-md.deep_purple-pink.min.css'
+import '../src/index.css'
 const req = require.context('../src/components', true, /.stories.js$/)
 setAddon(infoAddon);
 function loadStories() {
