@@ -40,7 +40,6 @@ const navBarLinks = [
 
 const Header = (props, context) => {
   const state = context.store
-  // const handlers = context.handlers
 
   const renderNavBar = (links) => {
     return (
@@ -59,7 +58,7 @@ const Header = (props, context) => {
 
   return (
     <div>
-      <TitleCard visible={state => !state.auth.authenticated} />
+      <TitleCard visible={state => !state.auth.uid} />
       <div style={{display: state => showToolbar}}>
         <Toolbar
           style={{

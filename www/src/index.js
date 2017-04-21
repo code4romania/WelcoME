@@ -3,7 +3,7 @@ import { render } from 'react-dom'
 import injectTapEventPlugin from 'react-tap-event-plugin'
 import { store$, handlers } from './store'
 import Provider from './rxdux/Provider'
-import App from './components/App'
+import AppContext from './components/app/AppContext'
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
@@ -17,7 +17,7 @@ store$.subscribe(store => render(
     <MuiThemeProvider muiTheme={getMuiTheme({
       fontFamily: 'Roboto'
     })}>
-      <App />
+      <AppContext />
     </MuiThemeProvider>
   </Provider>,
   document.getElementById('app')
