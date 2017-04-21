@@ -4,10 +4,11 @@ import Menu from '../header/Menu'
 import Pages from '../pages/Pages'
 import './NotAuthApp.css'
 
-const NotAuthApp = ({title, links, pages}) => {
+const NotAuthApp = ({logo, links, pages}) => {
+  const {title, action} = logo
   return (
     <div>
-      <TitleCard title={title} />
+      <TitleCard title={title} action={action} />
       <div className='notauth-div'>
         <Menu links={links} />
       </div>

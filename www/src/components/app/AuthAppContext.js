@@ -21,19 +21,18 @@ const AuthAppContext = (props, context) => {
     action: () => handlers.goToPath('/profile'),
     active: state.router.pathname === '/profile'
   }])
+
   const pages = state => ([{
-    key: 'home',
     Page: Home,
     visible: state.router.pathname === '/',
     props: {
-
+      key: 'home'
     }
   }, {
-    key: 'profile',
     Page: Profile,
     visible: state.router.pathname === '/profile',
     props: {
-
+      key: 'profile'
     }
   }])
   return (

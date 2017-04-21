@@ -5,12 +5,17 @@ import SignIn from '../pages/notauth/SignIn'
 import SignUp from '../pages/notauth/SignUp'
 import Reset from '../pages/notauth/Reset'
 import Forget from '../pages/notauth/Forget'
+import Home from '../pages/notauth/Home'
 
 const NotAuthAppContext = (props, context) => {
   const state = context.store
   const handlers = context.handlers
 
-  const title = 'WelcoME'
+  const logo = {
+    title: 'WelcoME',
+    action: () => handlers.goToPath('/')
+  }
+
   const links = state => ([{
     key: 'signin',
     text: 'SignIn',
@@ -25,37 +30,39 @@ const NotAuthAppContext = (props, context) => {
     active: state.router.pathname === '/signup'
   }])
   const pages = state => ([{
-    key: 'signin',
+    Page: Home,
+    visible: state.router.pathname === '/',
+    props: {
+      key: 'home'
+    }
+  }, {
     Page: SignIn,
     visible: state.router.pathname === '/signin',
     props: {
-
+      key: 'signin'
     }
   }, {
-    key: 'signup',
     Page: SignUp,
     visible: state.router.pathname === '/signup',
     props: {
-
+      key: 'signup'
     }
   }, {
-    key: 'forget',
     Page: Forget,
     visible: state.router.pathname === '/forget',
     props: {
-
+      key: 'forget'
     }
   }, {
-    key: 'reset',
     Page: Reset,
     visible: state.router.pathname === '/resetPassword',
     props: {
-
+      key: 'reset'
     }
   }])
   return (
     <div>
-      <NotAuthApp title={title} links={links(state)} pages={pages(state)} />
+      <NotAuthApp logo={logo} links={links(state)} pages={pages(state)} />
     </div>
   )
 }
