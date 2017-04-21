@@ -4,7 +4,7 @@ import { render } from 'react-dom'
 import { store$, handlers } from './store'
 import Provider from './rxdux/Provider'
 import AppContext from './components/app/AppContext'
-
+import 'react-md/dist/react-md.deep_purple-pink.min.css'
 import './index.css'
 
 // inject state and handlers into context of React components

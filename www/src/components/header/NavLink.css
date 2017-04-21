@@ -1,8 +1,8 @@
-.active-link, .inactive-link {
-  color: #ffffff;
-  margin-top: 7;
+.md-btn.active-link, .md-btn.inactive-link {
+  margin-top: 7px;
 }
 
-.active-link {
+.md-btn.active-link {
+  color: #ffffff;
   background-color: #a4c639;
 }

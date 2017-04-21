@@ -1,24 +1,44 @@
 import React from 'react'
 import { storiesOf, action } from '@kadira/storybook'
-import {muiTheme} from 'storybook-addon-material-ui'
 import { withKnobs, text, boolean } from '@kadira/storybook-addon-knobs'
+import centered from '@kadira/react-storybook-decorator-centered'
 import TitleCard from './TitleCard'
 import NavLink from './NavLink'
 
 storiesOf('header.TitleCard', module)
-  .addDecorator(muiTheme())
   .add('TitleCard', () => (
     <TitleCard />
   ))
 
 storiesOf('header.NavLink', module)
-  .addDecorator(muiTheme())
   .addDecorator(withKnobs)
-  .add('NavLink', () => {
+  .addWithInfo('description', `
+    Navigation button
+  `, () => {
     const visible = boolean('Visible', true)
     const active = boolean('Active', true)
-    const title = text('Text', 'Test')
+    const title = text('Text', 'Normal')
     return (
       <NavLink action={action('button-click')} visible={visible} active={active} text={title} />
     )
   }, { inline: true, propTables: [NavLink] })
+
+storiesOf('header.NavLink', module)
+  .addDecorator(withKnobs)
+  .addDecorator(centered)
+  .add('normal', () => {
+    const visible = boolean('Visible', true)
+    const active = boolean('Active', false)
+    const title = text('Text', 'Inactive')
+    return (
+      <NavLink action={action('button-click')} visible={visible} active={active} text={title} />
+    )
+  })
+  .add('active', () => {
+    const visible = boolean('Visible', true)
+    const active = boolean('Active', true)
+    const title = text('Text', 'Active')
+    return (
+      <NavLink action={action('button-click')} visible={visible} active={active} text={title} />
+    )
+  })

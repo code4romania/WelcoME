@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card, CardMedia, CardTitle } from 'react-mdl'
+import { Card, CardMedia, CardTitle } from 'react-md/lib/Cards'
 
 const TitleCard = () => {
   const welcomeTitle =
