@@ -1,13 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import App from './App.js'
-
+import AuthApp from './AuthApp.js'
+import NotAuthApp from './NotAuthApp.js'
+import Toastr from '../toastr/Toastr'
 const AppContext = (props, context) => {
-  /* const state = context.store || {
-    auth: {}
-  } */
-
-  return <App />
+  const { auth } = context.store
+  return (
+    <div>
+      { auth.uid ? <AuthApp /> : <NotAuthApp /> }
+      <Toastr />
+    </div>
+  )
 }
 
 AppContext.contextTypes = {

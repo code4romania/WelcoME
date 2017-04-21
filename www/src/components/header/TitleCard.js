@@ -1,14 +1,7 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import {Card, CardMedia, CardTitle} from 'material-ui/Card'
+import { Card, CardMedia, CardTitle } from 'react-mdl'
 
-const TitleCard = (props, context) => {
-  const state = context.store
-  const visible = props.visible ? props.visible(state) : true
-  if (!visible) {
-    return null
-  }
-
+const TitleCard = () => {
   const welcomeTitle =
     <CardTitle
       style={{
@@ -44,14 +37,4 @@ const TitleCard = (props, context) => {
     </div>
   )
 }
-
-TitleCard.propTypes = {
-  // visibility function
-  visible: PropTypes.func
-}
-
-TitleCard.contextTypes = {
-  store: PropTypes.object.isRequired
-}
-
 export default TitleCard

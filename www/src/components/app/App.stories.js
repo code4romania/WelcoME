@@ -3,27 +3,25 @@ import { storiesOf } from '@kadira/storybook'
 import {muiTheme} from 'storybook-addon-material-ui'
 
 // Import some examples from material-ui
-import App from './App'
+import NotAuthApp from './NotAuthApp'
 
 storiesOf('core.Application', module)
 // Add the `muiTheme` decorator to provide material-ui support to your stories.
 // If you do not specify any arguments it starts with two default themes
 // You can also configure `muiTheme` as a global decorator.
     .addDecorator(muiTheme())
-    .addDecorator((story) => (
-      <div style={{textAlign: 'center'}}>
-        {story()}
-      </div>
-  ))
-    .addWithInfo('App',
+
+    .addWithInfo('NotAuthApp',
   `
-      This is the basic usage with the button with providing a label to show the text.
-      Since, the story source code is wrapped inside a div, info addon can't figure out propTypes on it's own.
-      So, we need to give relevant React component classes manually using \`propTypes\` option as shown below:
+      Layout for not authenticated users
       ~~~js
-        text
+        Landing: /
+        SignIn : /signin
+        SignUp : /signup
+        Forgot : /forgot
+        ResetPassword : /resetPassword
       ~~~
     `, () => (
-      <App />
+      <NotAuthApp />
         ),
-  { inline: true, propTables: [App] })
+  { inline: true, propTables: [NotAuthApp] })
