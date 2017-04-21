@@ -1,27 +1,19 @@
 import React from 'react'
-/* import Header from '../header/Header.js'
-import Page from '../page/Page'
-import Footer from '../footer/Footer'
-import LoadingApp from './LoadingApp'
-import Toastr from '../toastr/Toastr' */
+import TitleCard from '../header/TitleCard'
+import Menu from '../header/Menu'
+import Pages from '../pages/Pages'
+import './AuthApp.css'
 
-const AuthApp = ({auth}) => {
-  if (auth) {
-    return <div> Auth 1 </div>
-  } else {
-    return <div> NotAuth </div>
-  }
-  /* if (!state.auth.loaded) {
-    return <LoadingApp />
-  }
+const AuthApp = ({title, links, pages}) => {
   return (
     <div>
-      <Header />
-      <Page />
-      <Footer />
-      <Toastr />
+      <TitleCard title={title} />
+      <div className='auth-div'>
+        <Menu links={links} />
+      </div>
+      <Pages pages={pages} />
     </div>
-  ) */
+  )
 }
 
 export default AuthApp

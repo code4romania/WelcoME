@@ -15,6 +15,23 @@ storiesOf('header.TitleCard', module)
     )
   })
 
+storiesOf('header.Menu', module)
+  .addDecorator(withKnobs)
+  .addDecorator(centered)
+  .add('Menu', () => {
+    const active = number('Active Element', 2)
+    const links = Array.from(Array(number('Elements', 7)).keys()).map(el => ({
+      key: el,
+      text: `Link ${el + 1}`,
+      visible: true,
+      active: (el + 1) === active,
+      action: action(`Clicked ${el + 1}`)
+    }))
+    return (
+      <Menu links={links} />
+    )
+  })
+
 storiesOf('header.NavLink', module)
   .addDecorator(withKnobs)
   .addWithInfo('description', `
@@ -45,21 +62,5 @@ storiesOf('header.NavLink', module)
     const title = text('Text', 'Active')
     return (
       <NavLink action={action('button-click')} visible={visible} active={active} text={title} />
-    )
-  })
-
-storiesOf('header.Menu', module)
-  .addDecorator(withKnobs)
-  .add('Menu', () => {
-    const active = number('Active Element', 2)
-    const links = Array.from(Array(number('Elements', 7)).keys()).map(el => ({
-      key: el,
-      text: `Link ${el + 1}`,
-      visible: true,
-      active: (el + 1) === active,
-      action: action(`Clicked ${el + 1}`)
-    }))
-    return (
-      <Menu links={links} />
     )
   })

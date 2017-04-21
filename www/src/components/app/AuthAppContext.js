@@ -1,27 +1,51 @@
 import React from 'react'
-/* import Header from '../header/Header.js'
-import Page from '../page/Page'
-import Footer from '../footer/Footer'
-import LoadingApp from './LoadingApp'
-import Toastr from '../toastr/Toastr' */
+import PropTypes from 'prop-types'
+import AuthApp from './AuthApp.js'
+import Home from '../pages/auth/Home'
+import Profile from '../pages/auth/Profile'
 
-const AuthApp = ({auth}) => {
-  if (auth) {
-    return <div> Auth 1 </div>
-  } else {
-    return <div> NotAuth </div>
-  }
-  /* if (!state.auth.loaded) {
-    return <LoadingApp />
-  }
+const AuthAppContext = (props, context) => {
+  const state = context.store
+  const handlers = context.handlers
+
+  const links = state => ([{
+    key: 'home',
+    text: 'Home',
+    visible: state.auth.uid,
+    action: () => handlers.goToPath('/'),
+    active: state.router.pathname === '/'
+  }, {
+    key: 'profile',
+    text: 'Profile',
+    visible: state.auth.uid,
+    action: () => handlers.goToPath('/profile'),
+    active: state.router.pathname === '/profile'
+  }])
+  const pages = state => ([{
+    key: 'home',
+    Page: Home,
+    visible: state.router.pathname === '/',
+    props: {
+
+    }
+  }, {
+    key: 'profile',
+    Page: Profile,
+    visible: state.router.pathname === '/profile',
+    props: {
+
+    }
+  }])
   return (
     <div>
-      <Header />
-      <Page />
-      <Footer />
-      <Toastr />
+      <AuthApp links={links(state)} pages={pages(state)} />
     </div>
-  ) */
+  )
 }
 
-export default AuthApp
+AuthAppContext.contextTypes = {
+  store: PropTypes.object.isRequired,
+  handlers: PropTypes.object.isRequired
+}
+
+export default AuthAppContext
