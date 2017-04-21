@@ -10,6 +10,7 @@ import AuthApp from './AuthApp'
 storiesOf('core.Application', module)
   .addDecorator(withKnobs)
   .add('NotAuthApp', () => {
+    const loaded = boolean('Loaded', false)
     const logo = {
       title: text('Title', 'WelcoME'),
       action: action('clicked logo')
@@ -30,7 +31,7 @@ storiesOf('core.Application', module)
       }
     }]
     return (
-      <NotAuthApp logo={logo} links={links} pages={pages} />
+      <NotAuthApp loaded={loaded} logo={logo} links={links} pages={pages} />
     )
   })
   .add('AuthApp', () => {

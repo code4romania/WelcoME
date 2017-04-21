@@ -10,7 +10,7 @@ import Home from '../pages/notauth/Home'
 const NotAuthAppContext = (props, context) => {
   const state = context.store
   const handlers = context.handlers
-
+  const loaded = state.auth.loaded
   const logo = {
     title: 'WelcoME',
     action: () => handlers.goToPath('/')
@@ -55,14 +55,14 @@ const NotAuthAppContext = (props, context) => {
     }
   }, {
     Page: Reset,
-    visible: state.router.pathname === '/resetPassword',
+    visible: (state.router.pathname === '/resetPassword') && state.router.oobCode && state.router.email,
     props: {
       key: 'reset'
     }
   }])
   return (
     <div>
-      <NotAuthApp logo={logo} links={links(state)} pages={pages(state)} />
+      <NotAuthApp loaded={loaded} logo={logo} links={links(state)} pages={pages(state)} />
     </div>
   )
 }
