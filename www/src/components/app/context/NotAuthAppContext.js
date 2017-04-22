@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import NotAuthApp from '../NotAuthApp.js'
 import SignInContext from '../../pages/notauth/context/SignInContext'
 import SignUpContext from '../../pages/notauth/context/SignUpContext'
-import Reset from '../../pages/notauth/Reset'
+import ResetContext from '../../pages/notauth/context/ResetContext'
 import ForgotContext from '../../pages/notauth/context/ForgotContext'
 import HomeContext from '../../pages/notauth/context/HomeContext'
 
@@ -54,8 +54,8 @@ const NotAuthAppContext = (props, context) => {
       key: 'forgot'
     }
   }, {
-    Page: Reset,
-    visible: (state.router.pathname === '/resetPassword') && state.router.oobCode && state.router.email,
+    Page: ResetContext,
+    visible: !!((state.router.pathname === '/resetPassword') && state.router.oobCode && state.router.email),
     props: {
       key: 'reset'
     }
