@@ -1,13 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import AuthApp from '../AuthApp.js'
-import Home from '../../pages/auth/Home'
-import Profile from '../../pages/auth/Profile'
+import HomeContext from '../../pages/auth/context/HomeContext'
+import ProfileContext from '../../pages/auth/context/ProfileContext'
 
 const AuthAppContext = (props, context) => {
   const state = context.store
   const handlers = context.handlers
-
+  const loaded = state.auth.loaded
   const links = state => ([{
     key: 'home',
     text: 'Home',
@@ -28,22 +28,17 @@ const AuthAppContext = (props, context) => {
   }])
 
   const pages = state => ([{
-    Page: Home,
-    visible: state.router.pathname === '/',
-    props: {
-      key: 'home'
-    }
+    Page: HomeContext,
+    visible: state.router.pathname === '/'
   }, {
-    Page: Profile,
-    visible: state.router.pathname === '/profile',
-    props: {
-      key: 'profile'
-    }
+    Page: ProfileContext,
+    visible: state.router.pathname === '/profile'
   }])
+  let key = 0
   return (
     <div>
-      <AuthApp links={links(state)}
-        pages={pages(state).map(page => ({...page, visible: state.auth.loaded && page.visible}))} />
+      <AuthApp loaded={loaded} links={links(state)}
+        pages={pages(state).map(page => ({key: key++, ...page, loaded}))} />
     </div>
   )
 }

@@ -23,6 +23,8 @@ Handlers.requestSignout = () => dispatch(Actions.SIGNOUT_REQUESTED)
 Handlers.requestCreateProfile = fields => dispatch(Actions.SIGNUP_CREATE_PROFILE_REQUESTED, fields)
 // profile data changed
 Handlers.profileChanged = profile => dispatch(Actions.PROFILE_CHANGED, profile)
+// profile data changed
+Handlers.loadedChanged = loaded => dispatch(Actions.LOADED_CHANGED, loaded)
 // user write to his profile or profile changed
 Handlers.writeToProfile = fields => dispatch(Actions.WRITE_TO_PROFILE, fields)
 
@@ -34,7 +36,7 @@ Handlers.requestEditProfile = fields => dispatch(Actions.EDIT_PROFILE_REQUESTED,
 // messages to forms and alerts with auth types: isError, isOk, isWarning, isInfo
 // routes param is an array with the pathnames of the routes to show the message
 // error message
-Handlers.errorUser = (id, title, { message }, timeOut) =>
+Handlers.errorUser = (id, title, { message }, timeOut) => {
   id && title && Handlers.addToastr({
     id,
     title,
@@ -44,8 +46,10 @@ Handlers.errorUser = (id, title, { message }, timeOut) =>
       showCloseButton: true,
       timeOut: timeOut || 17000
     }})
+  Handlers.loadedChanged(true)
+}
 // success
-Handlers.okUser = (id, title, message, timeOut) =>
+Handlers.okUser = (id, title, message, timeOut) => {
   id && title && Handlers.addToastr({
     id,
     title,
@@ -55,3 +59,4 @@ Handlers.okUser = (id, title, message, timeOut) =>
       showCloseButton: true,
       timeOut: timeOut || 12000
     }})
+}

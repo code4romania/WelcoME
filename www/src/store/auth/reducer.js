@@ -8,6 +8,8 @@ registerAction('SIGNUP_EMAIL_REQUESTED')
 registerAction('SIGN_FACEBOOK_REQUESTED')
 registerAction('SIGN_GOOGLE_REQUESTED')
 registerAction('RESET_PASSWORD_REQUESTED')
+registerAction('LOADED_CHANGED')
+
 registerAction('WRITE_TO_PROFILE')
 registerAction('PROFILE_CHANGED')
 
@@ -29,7 +31,16 @@ Reducers.auth = (state = initialState, action) => {
         loaded: true,
         ...action.payload
       }
+    case Actions.LOADED_CHANGED:
+      return {
+        ...state,
+        loaded: !!action.payload
+      }
+    case Actions.SIGNIN_EMAIL_REQUESTED:
+    case Actions.SIGNUP_EMAIL_REQUESTED:
     case Actions.EDIT_PROFILE_REQUESTED:
+    case Actions.FORGOT_REQUESTED:
+    case Actions.SIGNOUT_REQUESTED:
       return {
         ...state,
         loaded: false

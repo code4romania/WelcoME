@@ -137,6 +137,7 @@ payloads$(Actions.FORGOT_REQUESTED)
   .subscribe(fields => {
     Handlers.goToPath('/signin')
     FirebaseFetch('sendReset', {email: fields.email})
+      .then(() => Handlers.loadedChanged(true))
       .then(() => Handlers.okUser('signup', 'An email was sent at', `${fields.email} for resetting the password`))
       .catch(err => Handlers.errorUser('auth', 'Reset password', err))
   })

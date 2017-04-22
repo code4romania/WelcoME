@@ -4,8 +4,8 @@ import './Pages.css'
 const Pages = ({pages}) => {
   return (
     <div>
-      {pages.map(({Page, props, visible}) => (
-        visible ? <Page {...props} /> : null
+      {pages.map(({Page, visible, key}) => (
+        visible ? <Page key={key} /> : null
       ))}
     </div>
   )
@@ -16,6 +16,7 @@ Pages.propTypes = {
     Page: PropTypes.oneOfType([PropTypes.element, PropTypes.func]).isRequired,
     props: PropTypes.object,
     visible: PropTypes.bool
+
   })).isRequired
 }
 export default Pages
