@@ -15,6 +15,7 @@ const NotAuthApp = ({logo, links, pages, loaded}) => {
         <Menu links={links} />
       </div>
       <Pages pages={pages} />
+
     </div>
   )
 }

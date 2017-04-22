@@ -2,10 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import NotAuthApp from '../NotAuthApp.js'
 import SignIn from '../../pages/notauth/SignIn'
-import SignUp from '../../pages/notauth/SignUp'
+import SignUpContext from '../../pages/notauth/context/SignUpContext'
 import Reset from '../../pages/notauth/Reset'
 import Forget from '../../pages/notauth/Forget'
-import Home from '../../pages/notauth/Home'
+import HomeContext from '../../pages/notauth/context/HomeContext'
 
 const NotAuthAppContext = (props, context) => {
   const state = context.store
@@ -30,7 +30,7 @@ const NotAuthAppContext = (props, context) => {
     active: state.router.pathname === '/signup'
   }])
   const pages = state => ([{
-    Page: Home,
+    Page: HomeContext,
     visible: state.router.pathname === '/',
     props: {
       key: 'home'
@@ -42,7 +42,7 @@ const NotAuthAppContext = (props, context) => {
       key: 'signin'
     }
   }, {
-    Page: SignUp,
+    Page: SignUpContext,
     visible: state.router.pathname === '/signup',
     props: {
       key: 'signup'

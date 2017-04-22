@@ -1,0 +1,18 @@
+
+.form-not-auth { 
+  margin: 10px;
+  padding: 15px;
+}
+.full-width {
+  width: 100%;
+}
+.md-cell.elem1-not-auth {
+  margin:0;
+  margin-bottom: 5px;
+  padding-left: 3px;
+  padding-right: 3px;
+  width: 100%;
+}
+.elem1-not-auth .md-text-field-inline-indicator {
+  margin-right: 3px;
+}

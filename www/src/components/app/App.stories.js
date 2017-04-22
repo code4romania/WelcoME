@@ -1,7 +1,7 @@
 import React from 'react'
 import { storiesOf, action } from '@kadira/storybook'
 import { withKnobs, text, boolean, number } from '@kadira/storybook-addon-knobs'
-import SignIn from '../pages/notauth/SignIn'
+import SignUpContext from '../pages/notauth/context/SignUpContext'
 import Profile from '../pages/auth/Profile'
 // Import some examples from material-ui
 import NotAuthApp from './NotAuthApp'
@@ -24,7 +24,7 @@ storiesOf('core.Application', module)
       action: action(`Clicked ${el + 1}`)
     }))
     const pages = [{
-      Page: SignIn,
+      Page: SignUpContext,
       visible: boolean('Page Visible', true),
       props: {
         key: 1
