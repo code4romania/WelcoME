@@ -28,17 +28,19 @@ const AuthAppContext = (props, context) => {
   }])
 
   const pages = state => ([{
+    key: 'home',
     Page: HomeContext,
     visible: state.router.pathname === '/'
   }, {
+    key: 'profile',
     Page: ProfileContext,
     visible: state.router.pathname === '/profile'
   }])
-  let key = 0
+
   return (
     <div>
       <AuthApp loaded={loaded} links={links(state)}
-        pages={pages(state).map(page => ({key: key++, ...page, loaded}))} />
+        pages={pages(state)} />
     </div>
   )
 }

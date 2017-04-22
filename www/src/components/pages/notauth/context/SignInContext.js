@@ -29,6 +29,7 @@ const SignInContext = (p, context) => {
 
   const valid = state.forms.email && state.forms.password && isEmpty(errors)
   return <SignIn
+    loaded={state.auth.loaded}
     email={email}
     password={password}
     enableSignIn={!!valid}

@@ -19,6 +19,7 @@ const ResetContext = (p, context) => {
   }
   const valid = state.forms.password && isEmpty(errors)
   return <Reset
+    loaded={state.auth.loaded}
     password={password}
     enableReset={!!valid}
     requestReset={() => handlers.requestReset({

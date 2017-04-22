@@ -19,6 +19,7 @@ const ForgotContext = (p, context) => {
   }
   const valid = state.forms.email && isEmpty(errors)
   return <Forgot
+    loaded={state.auth.loaded}
     email={email}
     enableForgot={!!valid}
     requestForgot={() => handlers.requestForgot({email: state.forms.email})}

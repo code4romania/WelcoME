@@ -36,6 +36,7 @@ const SignUpContext = (p, context) => {
   }
   const valid = state.forms.email && state.forms.password && state.forms.passwordRepeat && isEmpty(errors)
   return <SignUp
+    loaded={state.auth.loaded}
     email={email}
     password={password}
     passwordRepeat={passwordRepeat}

@@ -36,8 +36,11 @@ Reducers.auth = (state = initialState, action) => {
         ...state,
         loaded: !!action.payload
       }
+
     case Actions.SIGNIN_EMAIL_REQUESTED:
     case Actions.SIGNUP_EMAIL_REQUESTED:
+    case Actions.SIGN_FACEBOOK_REQUESTED:
+    case Actions.SIGN_GOOGLE_REQUESTED:
     case Actions.EDIT_PROFILE_REQUESTED:
     case Actions.FORGOT_REQUESTED:
     case Actions.SIGNOUT_REQUESTED:

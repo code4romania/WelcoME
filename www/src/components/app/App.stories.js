@@ -43,6 +43,7 @@ storiesOf('core.Application', module)
 
     const pages = [{
       Page: () => <SignUp
+        loaded={loaded}
         email={email}
         password={password}
         passwordRepeat={passwordRepeat}

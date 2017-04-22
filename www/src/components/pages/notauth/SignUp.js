@@ -4,7 +4,7 @@ import TextField from 'react-md/lib/TextFields'
 import PropTypes from 'prop-types'
 import Button from 'react-md/lib/Buttons/Button'
 import { Grid, Row, Col } from 'react-flexbox-grid'
-const SignUp = ({enableSignUp, email, password, passwordRepeat, requestFacebook, requestSignUp, onChangeKey}) => {
+const SignUp = ({enableSignUp, email, password, passwordRepeat, requestFacebook, requestSignUp, onChangeKey, loaded}) => {
   return (
     <Grid fluid>
       <Row>
@@ -13,7 +13,7 @@ const SignUp = ({enableSignUp, email, password, passwordRepeat, requestFacebook,
           <Card className='form-not-auth'>
             <Row middle='xs' center='xs' >
               <Col>
-                <Button onClick={requestFacebook} raised primary iconBefore={false}
+                <Button disabled={!loaded} onClick={requestFacebook} raised primary iconBefore={false}
                   label='SignUp With Facebook' iconClassName='fa fa-facebook' />
               </Col>
             </Row>
@@ -68,7 +68,7 @@ const SignUp = ({enableSignUp, email, password, passwordRepeat, requestFacebook,
             <Row style={{marginTop: 20}} />
             <Row middle='xs' center='xs'>
               <Col>
-                <Button disabled={!enableSignUp} onClick={requestSignUp} raised
+                <Button disabled={!loaded || !enableSignUp} onClick={requestSignUp} raised
                   iconBefore={false} label='SignUp With Email' iconClassName='fa fa-envelope' />
               </Col>
             </Row>
@@ -92,7 +92,8 @@ SignUp.propTypes = {
   requestFacebook: PropTypes.func.isRequired,
   requestSignUp: PropTypes.func.isRequired,
   onChangeKey: PropTypes.func.isRequired,
-  enableSignUp: PropTypes.bool
+  enableSignUp: PropTypes.bool,
+  loaded: PropTypes.bool
 }
 
 export default SignUp

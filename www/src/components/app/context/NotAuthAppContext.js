@@ -30,26 +30,30 @@ const NotAuthAppContext = (props, context) => {
     active: state.router.pathname === '/signup'
   }])
   const pages = state => ([{
+    key: 'home',
     Page: HomeContext,
     visible: state.router.pathname === '/'
   }, {
+    key: 'signin',
     Page: SignInContext,
     visible: state.router.pathname === '/signin'
   }, {
+    key: 'signup',
     Page: SignUpContext,
     visible: state.router.pathname === '/signup'
   }, {
+    key: 'forgot',
     Page: ForgotContext,
     visible: state.router.pathname === '/forgot'
   }, {
+    key: 'reset',
     Page: ResetContext,
     visible: !!((state.router.pathname === '/resetPassword') && state.router.oobCode && state.router.email)
   }])
-  let key = 0
   return (
     <div>
       <NotAuthApp loaded={loaded} logo={logo} links={links(state)}
-        pages={pages(state).map(page => ({key: key++, ...page, loaded}))} />
+        pages={pages(state)} />
     </div>
   )
 }

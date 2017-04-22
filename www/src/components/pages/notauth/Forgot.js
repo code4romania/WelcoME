@@ -4,7 +4,7 @@ import TextField from 'react-md/lib/TextFields'
 import PropTypes from 'prop-types'
 import Button from 'react-md/lib/Buttons/Button'
 import { Grid, Row, Col } from 'react-flexbox-grid'
-const Forgot = ({enableForgot, email, requestForgot, onChangeKey}) => {
+const Forgot = ({enableForgot, email, requestForgot, onChangeKey, loaded}) => {
   return (
     <Grid fluid>
       <Row>
@@ -30,7 +30,7 @@ const Forgot = ({enableForgot, email, requestForgot, onChangeKey}) => {
             <Row style={{marginTop: 20}} />
             <Row middle='xs' center='xs'>
               <Col>
-                <Button disabled={!enableForgot} onClick={requestForgot} raised
+                <Button disabled={!loaded || !enableForgot} onClick={requestForgot} raised
                   iconBefore={false} label='Search' iconClassName='fa fa-search' />
               </Col>
             </Row>
@@ -51,7 +51,8 @@ Forgot.propTypes = {
   email: PropTypes.shape(fieldShape).isRequired,
   requestForgot: PropTypes.func.isRequired,
   onChangeKey: PropTypes.func.isRequired,
-  enableForgot: PropTypes.bool
+  enableForgot: PropTypes.bool,
+  loaded: PropTypes.bool
 }
 
 export default Forgot
