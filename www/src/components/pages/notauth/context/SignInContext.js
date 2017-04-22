@@ -34,6 +34,7 @@ const SignInContext = (p, context) => {
     password={password}
     enableSignIn={!!valid}
     requestFacebook={handlers.requestFacebook}
+    requestGoogle={handlers.requestGoogle}
     goForgot={() => handlers.goToPath('/forgot')}
     requestSignIn={() => handlers.requestSignIn({email: state.forms.email, password: state.forms.password})}
     onChangeKey={(key, value) => handlers.changeFields({[key]: value})}

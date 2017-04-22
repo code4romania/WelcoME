@@ -4,7 +4,7 @@ import TextField from 'react-md/lib/TextFields'
 import PropTypes from 'prop-types'
 import Button from 'react-md/lib/Buttons/Button'
 import { Grid, Row, Col } from 'react-flexbox-grid'
-const SignUp = ({enableSignUp, email, password, passwordRepeat, requestFacebook, requestSignUp, onChangeKey, loaded}) => {
+const SignUp = ({enableSignUp, email, password, passwordRepeat, requestFacebook, requestGoogle, requestSignUp, onChangeKey, loaded}) => {
   return (
     <Grid fluid>
       <Row>
@@ -12,9 +12,14 @@ const SignUp = ({enableSignUp, email, password, passwordRepeat, requestFacebook,
         <Col xs={12} sm={10} md={8} lg={6}>
           <Card className='form-not-auth'>
             <Row middle='xs' center='xs' >
-              <Col>
-                <Button disabled={!loaded} onClick={requestFacebook} raised primary iconBefore={false}
-                  label='SignUp With Facebook' iconClassName='fa fa-facebook' />
+              <Col xs={5}>
+                <Button disabled={!loaded} onClick={requestFacebook} raised secondary
+                  iconBefore={false} label='SignUp With Facebook' iconClassName='fa fa-facebook' />
+              </Col>
+              <Col xs={2} />
+              <Col xs={5}>
+                <Button disabled={!loaded} onClick={requestGoogle} raised primary
+                  iconBefore={false} label='SignUp With Google' iconClassName='fa fa-facebook' />
               </Col>
             </Row>
             <Row style={{marginTop: 12, marginBottom: 12}} middle='xs' center='xs' >
@@ -90,6 +95,7 @@ SignUp.propTypes = {
   password: PropTypes.shape(fieldShape).isRequired,
   passwordRepeat: PropTypes.shape(fieldShape).isRequired,
   requestFacebook: PropTypes.func.isRequired,
+  requestGoogle: PropTypes.func.isRequired,
   requestSignUp: PropTypes.func.isRequired,
   onChangeKey: PropTypes.func.isRequired,
   enableSignUp: PropTypes.bool,

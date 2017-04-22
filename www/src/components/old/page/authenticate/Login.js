@@ -46,7 +46,7 @@ const Login = (props, context) => {
 
   const onSignUpWithGl = e => {
     e.preventDefault()
-    handlers.requestGoogleSignup()
+    handlers.requestGoogle()
   }
   return (
     <div>
