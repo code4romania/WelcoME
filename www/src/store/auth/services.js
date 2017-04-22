@@ -40,7 +40,10 @@ payloads$(Actions.RESET_PASSWORD_REQUESTED)
         ? FirebaseAuth.signOut().then(() => FirebaseAuth.signInWithCustomToken(res.customToken))
         : FirebaseAuth.signInWithCustomToken(res.customToken)
     })
-    .catch(err => Handlers.errorUser('reset', 'Reset password', err))
+    .catch(err => {
+      Handlers.errorUser('reset', 'Reset password', err)
+      Handlers.goToPath('/signin')
+    })
   })
 // when email verified
 payloads$(Actions.ROUTE_CHANGED)
@@ -127,8 +130,8 @@ payloads$(Actions.WRITE_TO_PROFILE)
 // forgot password requested
 payloads$(Actions.FORGOT_REQUESTED)
   .subscribe(fields => {
+    Handlers.goToPath('/signin')
     FirebaseFetch('sendReset', {email: fields.email})
-      .then(() => Handlers.goToPath('/signin'))
       .then(() => Handlers.okUser('signup', 'An email was sent at', `${fields.email} for resetting the password`))
       .catch(err => Handlers.errorUser('auth', 'Reset password', err))
   })
