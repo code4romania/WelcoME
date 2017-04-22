@@ -6,6 +6,22 @@ import SignUp from './SignUp'
 import SignIn from './SignIn'
 import Forgot from './Forgot'
 import Reset from './Reset'
+const email = {
+  key: 'email',
+  label: 'Email',
+  value: 'aaa@gmail.co',
+  error: 'Email not valid'
+}
+const password = {
+  label: 'Password',
+  value: 'TestPass1'
+}
+const passwordRepeat = {
+  label: 'Repeat password',
+  type: 'password',
+  value: 'TestPass2',
+  error: 'Passwords don\'t match'
+}
 
 storiesOf('notAuthPages', module)
   .addDecorator(withKnobs)
@@ -15,28 +31,14 @@ storiesOf('notAuthPages', module)
     )
   })
   .add('SignUp', () => {
-    const email = {
-      key: 'email',
-      label: 'Email',
-      value: 'aaa@gmail.co',
-      error: 'Email not valid'
-    }
-    const password = {
-      label: 'Password',
-      value: 'TestPass1'
-    }
-    const passwordRepeat = {
-      label: 'Repeat password',
-      type: 'password',
-      value: 'TestPass2',
-      error: 'Passwords don\'t match'
-    }
+    const loaded = boolean('Loaded', true)
     return (
       <SignUp
+        loaded={loaded}
         email={email}
         password={password}
         passwordRepeat={passwordRepeat}
-        enableSignUp={boolean('Enable', true)}
+        enableSignUp={boolean('Enable SignUp', true)}
         requestSignUp={action('Request Sign Up Email')}
         requestFacebook={action('Request Facebook')}
         onChangeKey={action('Changed key')}
@@ -44,21 +46,13 @@ storiesOf('notAuthPages', module)
     )
   })
   .add('SignIn', () => {
-    const email = {
-      key: 'email',
-      label: 'Email',
-      value: 'aaa@gmail.co',
-      error: 'Email not valid'
-    }
-    const password = {
-      label: 'Password',
-      value: 'TestPass1'
-    }
+    const loaded = boolean('Loaded', true)
     return (
       <SignIn
+        loaded={loaded}
         email={email}
         password={password}
-        enableSignIn={boolean('Enable', true)}
+        enableSignIn={boolean('Enable SignIn', true)}
         requestSignIn={action('Request Sign In Email')}
         goForgot={action('Go To Forgot ')}
         requestFacebook={action('Request Facebook')}
@@ -67,22 +61,19 @@ storiesOf('notAuthPages', module)
     )
   })
   .add('Forgot', () => {
-    const email = {
-      key: 'email',
-      label: 'Email',
-      value: 'aaa@gmail.co',
-      error: 'Email not valid'
-    }
+    const loaded = boolean('Loaded', true)
     return (
       <Forgot
+        loaded={loaded}
         email={email}
-        enableForgot={boolean('Enable', true)}
+        enableForgot={boolean('Enable Forgot', true)}
         requestForgot={action('Request Forgot Email')}
         onChangeKey={action('Changed key')}
     />
     )
   })
   .add('Reset Password', () => {
+    const loaded = boolean('Loaded', true)
     const password = {
       key: 'password',
       label: 'Password',
@@ -90,8 +81,9 @@ storiesOf('notAuthPages', module)
     }
     return (
       <Reset
+        loaded={loaded}
         password={password}
-        enableReset={boolean('Enable', true)}
+        enableReset={boolean('Enable Reset', true)}
         requestReset={action('Request Reset Password')}
         onChangeKey={action('Changed key')}
     />

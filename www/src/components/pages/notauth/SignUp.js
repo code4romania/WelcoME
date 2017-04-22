@@ -19,7 +19,7 @@ const SignUp = ({enableSignUp, email, password, passwordRepeat, requestFacebook,
               <Col xs={2} />
               <Col xs={5}>
                 <Button disabled={!loaded} onClick={requestGoogle} raised primary
-                  iconBefore={false} label='SignUp With Google' iconClassName='fa fa-facebook' />
+                  iconBefore={false} label='SignUp With Google' iconClassName='fa fa-google' />
               </Col>
             </Row>
             <Row style={{marginTop: 12, marginBottom: 12}} middle='xs' center='xs' >
