@@ -65,6 +65,11 @@ payloads$(Actions.ROUTE_CHANGED)
     .catch(err => Handlers.errorUser('verify', 'Verify email', err))
   })
 
+// when route to reset password have to sign out
+payloads$(Actions.ROUTE_CHANGED)
+  .filter(route => route.pathname === '/resetPassword' && route.email && route.oobCode)
+  .subscribe(route => FirebaseAuth.currentUser && FirebaseAuth.signOut())
+
 // signout user requested
 payloads$(Actions.SIGNOUT_REQUESTED).subscribe(() => {
   const user = FirebaseAuth.currentUser

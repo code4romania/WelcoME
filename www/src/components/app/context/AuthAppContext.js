@@ -11,19 +11,19 @@ const AuthAppContext = (props, context) => {
   const links = state => ([{
     key: 'home',
     text: 'Home',
-    visible: state.auth.uid,
+    visible: !!state.auth.uid,
     action: () => handlers.goToPath('/'),
     active: state.router.pathname === '/'
   }, {
     key: 'profile',
     text: 'Profile',
-    visible: state.auth.uid,
+    visible: !!state.auth.uid,
     action: () => handlers.goToPath('/profile'),
     active: state.router.pathname === '/profile'
   }, {
     key: 'signout',
     text: 'SignOut',
-    visible: state.auth.uid,
+    visible: !!state.auth.uid,
     action: () => handlers.requestSignout()
   }])
 
