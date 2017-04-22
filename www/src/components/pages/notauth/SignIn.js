@@ -4,7 +4,7 @@ import TextField from 'react-md/lib/TextFields'
 import PropTypes from 'prop-types'
 import Button from 'react-md/lib/Buttons/Button'
 import { Grid, Row, Col } from 'react-flexbox-grid'
-const SignIn = ({enableSignInEmail, email, password, signInWithFacebook, signInWithEmail, onChangeKey, goForgot}) => {
+const SignIn = ({enableSignInEmail, email, password, requestFacebook, requestSignIn, onChangeKey, goForgot}) => {
   return (
     <Grid fluid>
       <Row>
@@ -13,7 +13,7 @@ const SignIn = ({enableSignInEmail, email, password, signInWithFacebook, signInW
           <Card className='form-not-auth'>
             <Row middle='xs' center='xs' >
               <Col>
-                <Button onClick={signInWithEmail} raised primary
+                <Button onClick={requestSignIn} raised primary
                   iconBefore={false} label='SignIn With Facebook' iconClassName='fa fa-facebook' />
               </Col>
             </Row>
@@ -56,7 +56,7 @@ const SignIn = ({enableSignInEmail, email, password, signInWithFacebook, signInW
             </Row>
             <Row middle='xs' center='xs'>
               <Col>
-                <Button disabled={!enableSignInEmail} onClick={signInWithEmail} raised
+                <Button disabled={!enableSignInEmail} onClick={requestSignIn} raised
                   iconBefore={false} label='SignIn With Email' iconClassName='fa fa-envelope' />
               </Col>
             </Row>
@@ -76,11 +76,11 @@ const fieldShape = {
 SignIn.propTypes = {
   email: PropTypes.shape(fieldShape).isRequired,
   password: PropTypes.shape(fieldShape).isRequired,
-  signInWithFacebook: PropTypes.func.isRequired,
-  signInWithEmail: PropTypes.func.isRequired,
+  requestFacebook: PropTypes.func.isRequired,
+  requestSignIn: PropTypes.func.isRequired,
   goForgot: PropTypes.func.isRequired,
   onChangeKey: PropTypes.func.isRequired,
-  valid: PropTypes.bool
+  enableSignInEmail: PropTypes.bool
 }
 
 export default SignIn

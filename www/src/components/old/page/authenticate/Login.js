@@ -68,7 +68,7 @@ const Login = (props, context) => {
         submitText='Sign-in with Email'
         name='login'
         validate={validate}
-        submitHandler='requestLogin' />
+        submitHandler='requestSignIn' />
     </div>
   )
 }

@@ -4,7 +4,7 @@ import NotAuthApp from '../NotAuthApp.js'
 import SignInContext from '../../pages/notauth/context/SignInContext'
 import SignUpContext from '../../pages/notauth/context/SignUpContext'
 import Reset from '../../pages/notauth/Reset'
-import Forgot from '../../pages/notauth/Forgot'
+import ForgotContext from '../../pages/notauth/context/ForgotContext'
 import HomeContext from '../../pages/notauth/context/HomeContext'
 
 const NotAuthAppContext = (props, context) => {
@@ -48,10 +48,10 @@ const NotAuthAppContext = (props, context) => {
       key: 'signup'
     }
   }, {
-    Page: Forgot,
-    visible: state.router.pathname === '/forget',
+    Page: ForgotContext,
+    visible: state.router.pathname === '/forgot',
     props: {
-      key: 'forget'
+      key: 'forgot'
     }
   }, {
     Page: Reset,

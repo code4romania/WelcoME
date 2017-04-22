@@ -23,7 +23,7 @@ storiesOf('notAuthPages', module)
       label: 'Password',
       value: 'TestPass1'
     }
-    const password2 = {
+    const passwordRepeat = {
       label: 'Repeat password',
       type: 'password',
       value: 'TestPass2',
@@ -33,8 +33,8 @@ storiesOf('notAuthPages', module)
       <SignUp
         email={email}
         password={password}
-        password2={password2}
-        enableSignUpEmail={boolean('Enable', true)}
+        passwordRepeat={passwordRepeat}
+        enableSignUp={boolean('Enable', true)}
         signUpWithEmail={action('Request Email')}
         signUpWithFacebook={action('Request Facebook')}
         onChangeKey={action('Changed key')}
@@ -57,8 +57,8 @@ storiesOf('notAuthPages', module)
         email={email}
         password={password}
         enableSignInEmail={boolean('Enable', true)}
-        signInWithEmail={action('Sign In Email')}
-        signInWithFacebook={action('Request Facebook')}
+        requestSignIn={action('Sign In Email')}
+        requestFacebook={action('Request Facebook')}
         onChangeKey={action('Changed key')}
     />
     )

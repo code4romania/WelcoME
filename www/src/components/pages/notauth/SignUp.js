@@ -4,7 +4,7 @@ import TextField from 'react-md/lib/TextFields'
 import PropTypes from 'prop-types'
 import Button from 'react-md/lib/Buttons/Button'
 import { Grid, Row, Col } from 'react-flexbox-grid'
-const SignUp = ({enableSignUpEmail, email, password, password2, signUpWithFacebook, signUpWithEmail, onChangeKey}) => {
+const SignUp = ({enableSignUp, email, password, passwordRepeat, signUpWithFacebook, signUpWithEmail, onChangeKey}) => {
   return (
     <Grid fluid>
       <Row>
@@ -52,23 +52,23 @@ const SignUp = ({enableSignUpEmail, email, password, password2, signUpWithFacebo
               </Col>
               <Col xs={12} sm={12} md={4} lg={4}>
                 <TextField
-                  id='password2'
+                  id='passwordRepeat'
                   fullWidth
                   required
-                  onChange={val => onChangeKey('password2', val)}
-                  value={password2.value}
+                  onChange={val => onChangeKey('passwordRepeat', val)}
+                  value={passwordRepeat.value}
                   type='password'
-                  label={password2.label}
-                  placeholder={password2.placeholder || password2.label}
-                  error={!!password2.error}
-                  errorText={password2.error}
+                  label={passwordRepeat.label}
+                  placeholder={passwordRepeat.placeholder || passwordRepeat.label}
+                  error={!!passwordRepeat.error}
+                  errorText={passwordRepeat.error}
                 />
               </Col>
             </Row>
             <Row style={{marginTop: 20}} />
             <Row middle='xs' center='xs'>
               <Col>
-                <Button disabled={!enableSignUpEmail} onClick={signUpWithEmail} raised
+                <Button disabled={!enableSignUp} onClick={signUpWithEmail} raised
                   iconBefore={false} label='SignUp With Email' iconClassName='fa fa-envelope' />
               </Col>
             </Row>
@@ -88,11 +88,11 @@ const fieldShape = {
 SignUp.propTypes = {
   email: PropTypes.shape(fieldShape).isRequired,
   password: PropTypes.shape(fieldShape).isRequired,
-  password2: PropTypes.shape(fieldShape).isRequired,
+  passwordRepeat: PropTypes.shape(fieldShape).isRequired,
   signUpWithFacebook: PropTypes.func.isRequired,
   signUpWithEmail: PropTypes.func.isRequired,
   onChangeKey: PropTypes.func.isRequired,
-  valid: PropTypes.bool
+  enableSignUp: PropTypes.bool
 }
 
 export default SignUp

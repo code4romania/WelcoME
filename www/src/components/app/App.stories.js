@@ -34,7 +34,7 @@ storiesOf('core.Application', module)
       label: 'Password',
       value: 'TestPass1'
     }
-    const password2 = {
+    const passwordRepeat = {
       label: 'Repeat password',
       type: 'password',
       value: 'TestPass2',
@@ -45,8 +45,8 @@ storiesOf('core.Application', module)
       Page: () => <SignUp
         email={email}
         password={password}
-        password2={password2}
-        enableSignUpEmail={boolean('Enable', true)}
+        passwordRepeat={passwordRepeat}
+        enableSignUp={boolean('Enable', true)}
         signUpWithEmail={action('Request Email')}
         signUpWithFacebook={action('Request Facebook')}
         onChangeKey={(key, value) => action('Request Facebook', {[key]: value})}
@@ -60,8 +60,6 @@ storiesOf('core.Application', module)
       <NotAuthApp loaded={loaded} logo={logo} links={links} pages={pages} />
     )
   })
-
-
 
   .add('AuthApp', () => {
     const active = number('Active Element', 2)

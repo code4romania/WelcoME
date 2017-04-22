@@ -14,8 +14,8 @@ const SignUpContext = (p, context) => {
   if (state.forms.password && (state.forms.password.length < 6)) {
     errors.password = 'Min length of six chars'
   }
-  if (state.forms.password && state.forms.password2 && (state.forms.password !== state.forms.password2)) {
-    errors.password2 = 'Passwords do not match'
+  if (state.forms.password && state.forms.passwordRepeat && (state.forms.password !== state.forms.passwordRepeat)) {
+    errors.passwordRepeat = 'Passwords do not match'
   }
 
   const email = {
@@ -29,17 +29,17 @@ const SignUpContext = (p, context) => {
     value: state.forms.password || '',
     error: errors.password || ''
   }
-  const password2 = {
+  const passwordRepeat = {
     label: 'Repeat password',
-    value: state.forms.password2 || '',
-    error: errors.password2 || ''
+    value: state.forms.passwordRepeat || '',
+    error: errors.passwordRepeat || ''
   }
-  const valid = state.forms.email && state.forms.password && state.forms.password2 && isEmpty(errors)
+  const valid = state.forms.email && state.forms.password && state.forms.passwordRepeat && isEmpty(errors)
   return <SignUp
     email={email}
     password={password}
-    password2={password2}
-    enableSignUpEmail={valid}
+    passwordRepeat={passwordRepeat}
+    enableSignUp={valid}
     signUpWithFacebook={handlers.requestFacebookSignup}
     signUpWithEmail={() => handlers.requestSignup({email: state.forms.email, password: state.forms.password})}
     onChangeKey={(key, value) => handlers.changeFields({[key]: value})}
