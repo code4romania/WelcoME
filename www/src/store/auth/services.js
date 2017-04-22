@@ -74,6 +74,7 @@ payloads$(Actions.SIGNOUT_REQUESTED).subscribe(() => {
 // signup with email requested
 payloads$(Actions.SIGNUP_EMAIL_REQUESTED)
   .subscribe((fields) => {
+    console.log(fields.email, fields.password)
     FirebaseAuth
       .createUserWithEmailAndPassword(fields.email, fields.password)
       .then(user => FirebaseFetch('changeProfile', {

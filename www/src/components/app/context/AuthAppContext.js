@@ -20,6 +20,11 @@ const AuthAppContext = (props, context) => {
     visible: state.auth.uid,
     action: () => handlers.goToPath('/profile'),
     active: state.router.pathname === '/profile'
+  }, {
+    key: 'signout',
+    text: 'SignOut',
+    visible: state.auth.uid,
+    action: () => handlers.requestSignout()
   }])
 
   const pages = state => ([{
