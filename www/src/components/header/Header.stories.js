@@ -3,7 +3,9 @@ import { storiesOf, action } from '@kadira/storybook'
 import { withKnobs, text, boolean, number } from '@kadira/storybook-addon-knobs'
 import centered from '@kadira/react-storybook-decorator-centered'
 import TitleCard from './TitleCard'
+import Logo from './Logo'
 import Menu from './Menu'
+import User from './User'
 import NavLink from './NavLink'
 
 storiesOf('header.TitleCard', module)
@@ -12,6 +14,23 @@ storiesOf('header.TitleCard', module)
     const title = text('Text', 'WelcoME')
     return (
       <TitleCard title={title} />
+    )
+  })
+storiesOf('header.User', module)
+  .addDecorator(withKnobs)
+  .addDecorator(centered)
+  .add('User', () => {
+    const username = text('Username', 'Toni Braxi')
+    return (
+      <User clickProfile={action('Clicked go profile')} clickSignout={action('Clicked signout')} username={username} />
+    )
+  })
+storiesOf('header.Logo', module)
+  .addDecorator(withKnobs)
+  .addDecorator(centered)
+  .add('Logo', () => {
+    return (
+      <Logo clickLogo={action('Clicked on logo')} />
     )
   })
 

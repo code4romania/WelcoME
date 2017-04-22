@@ -9,6 +9,11 @@ const AuthAppContext = (props, context) => {
   const state = context.store
   const handlers = context.handlers
   const loaded = state.auth.loaded
+  const user = {
+    username: state.auth.email,
+    clickProfile: () => handlers.goToPath('/profile'),
+    clickSignout: () => handlers.requestSignout()
+  }
   const links = state => ([{
     key: 'camps',
     text: 'Camps',
@@ -21,17 +26,6 @@ const AuthAppContext = (props, context) => {
     visible: !!state.auth.uid,
     action: () => handlers.goToPath('/posts'),
     active: state.router.pathname === '/posts'
-  }, {
-    key: 'profile',
-    text: 'Profile',
-    visible: !!state.auth.uid,
-    action: () => handlers.goToPath('/profile'),
-    active: state.router.pathname === '/profile'
-  }, {
-    key: 'signout',
-    text: 'SignOut',
-    visible: !!state.auth.uid,
-    action: () => handlers.requestSignout()
   }])
 
   const pages = state => ([{
@@ -51,7 +45,7 @@ const AuthAppContext = (props, context) => {
   return (
     <div>
       <AuthApp loaded={loaded} links={links(state)}
-        pages={pages(state)} />
+        pages={pages(state)} user={user} clickLogo={() => handlers.goToPath('/posts')} />
     </div>
   )
 }
