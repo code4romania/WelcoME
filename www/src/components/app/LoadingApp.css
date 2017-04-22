@@ -1,0 +1,16 @@
+.loading-div {
+  text-align: center;
+}
+
+.md-progress--linear.progress-loading {  
+  background: #1d4bb7;
+}
+
+.md-progress.progress-loading {
+  margin-top: 0px;
+  margin-bottom: -3px;
+}
+
+.progress-loading > .md-progress--linear-active {
+  background: #32c331;
+}

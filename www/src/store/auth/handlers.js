@@ -24,7 +24,7 @@ Handlers.requestCreateProfile = fields => dispatch(Actions.SIGNUP_CREATE_PROFILE
 // profile data changed
 Handlers.profileChanged = profile => dispatch(Actions.PROFILE_CHANGED, profile)
 // profile data changed
-Handlers.loadedChanged = loaded => dispatch(Actions.LOADED_CHANGED, loaded)
+Handlers.profileKeysChanged = fields => dispatch(Actions.PROFILE_KEYS_CHANGED, fields)
 // user write to his profile or profile changed
 Handlers.writeToProfile = fields => dispatch(Actions.WRITE_TO_PROFILE, fields)
 
@@ -46,7 +46,9 @@ Handlers.errorUser = (id, title, { message }, timeOut) => {
       showCloseButton: true,
       timeOut: timeOut || 17000
     }})
-  Handlers.loadedChanged(true)
+  Handlers.profileKeysChanged({
+    loaded: true
+  })
 }
 // success
 Handlers.okUser = (id, title, message, timeOut) => {

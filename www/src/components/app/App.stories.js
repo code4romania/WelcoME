@@ -6,6 +6,7 @@ import Profile from '../pages/auth/Profile'
 // Import some examples from material-ui
 import NotAuthApp from './NotAuthApp'
 import AuthApp from './AuthApp'
+import LoadingApp from './LoadingApp'
 
 storiesOf('core.Application', module)
   .addDecorator(withKnobs)
@@ -81,5 +82,10 @@ storiesOf('core.Application', module)
     }]
     return (
       <AuthApp links={links} pages={pages} loaded={loaded} />
+    )
+  })
+  .add('LoadingApp', () => {
+    return (
+      <LoadingApp />
     )
   })

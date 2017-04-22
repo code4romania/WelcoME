@@ -8,7 +8,7 @@ registerAction('SIGNUP_EMAIL_REQUESTED')
 registerAction('SIGN_FACEBOOK_REQUESTED')
 registerAction('SIGN_GOOGLE_REQUESTED')
 registerAction('RESET_PASSWORD_REQUESTED')
-registerAction('LOADED_CHANGED')
+registerAction('PROFILE_KEYS_CHANGED')
 
 registerAction('WRITE_TO_PROFILE')
 registerAction('PROFILE_CHANGED')
@@ -18,23 +18,20 @@ registerAction('SIGNUP_CREATE_PROFILE_REQUESTED')
 registerAction('EDIT_PROFILE_REQUESTED')
 
 // reducer
-const initialState = {
-  // userLoaded stands for initial fetching of auth state status from Firebase
-  uid: null,
-  loaded: false
-}
+const initialState = {}
 
 Reducers.auth = (state = initialState, action) => {
   switch (action.type) {
     case Actions.PROFILE_CHANGED:
       return {
+        ...action.payload,
         loaded: true,
-        ...action.payload
+        appLoaded: true
       }
-    case Actions.LOADED_CHANGED:
+    case Actions.PROFILE_KEYS_CHANGED:
       return {
         ...state,
-        loaded: !!action.payload
+        ...action.payload
       }
 
     case Actions.SIGNIN_EMAIL_REQUESTED:
