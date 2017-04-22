@@ -3,9 +3,12 @@ import { render } from 'react-dom'
 
 import { store$, handlers } from './store'
 import Provider from './rxdux/Provider'
-import AppContext from './components/app/AppContext'
+import AppContext from './components/app/context/AppContext'
 import 'react-md/dist/react-md.deep_purple-pink.min.css'
 import './index.css'
+
+import injectTapEventPlugin from 'react-tap-event-plugin'
+injectTapEventPlugin()
 
 // inject state and handlers into context of React components
 store$.subscribe(store => render(

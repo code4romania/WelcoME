@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import AuthApp from './AuthApp.js'
-import Home from '../pages/auth/Home'
-import Profile from '../pages/auth/Profile'
+import AuthApp from '../AuthApp.js'
+import Home from '../../pages/auth/Home'
+import Profile from '../../pages/auth/Profile'
 
 const AuthAppContext = (props, context) => {
   const state = context.store

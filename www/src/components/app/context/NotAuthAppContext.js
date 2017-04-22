@@ -1,11 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import NotAuthApp from './NotAuthApp.js'
-import SignIn from '../pages/notauth/SignIn'
-import SignUp from '../pages/notauth/SignUp'
-import Reset from '../pages/notauth/Reset'
-import Forget from '../pages/notauth/Forget'
-import Home from '../pages/notauth/Home'
+import NotAuthApp from '../NotAuthApp.js'
+import SignIn from '../../pages/notauth/SignIn'
+import SignUp from '../../pages/notauth/SignUp'
+import Reset from '../../pages/notauth/Reset'
+import Forget from '../../pages/notauth/Forget'
+import Home from '../../pages/notauth/Home'
 
 const NotAuthAppContext = (props, context) => {
   const state = context.store

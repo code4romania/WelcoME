@@ -3,16 +3,16 @@ import { render } from 'react-dom'
 
 import { store$, handlers } from './store'
 import Provider from './rxdux/Provider'
-import App from './components/App'
+import AppContext from './components/app/context/AppContext'
 import injectTapEventPlugin from 'react-tap-event-plugin'
-import 'react-mdl/extra/material.css'
-import 'react-mdl/extra/material.js'
+import 'react-md/dist/react-md.deep_purple-pink.min.css'
+import './index.css'
 
 injectTapEventPlugin()
 it('renders without crashing', () => {
   const div = document.createElement('div')
   store$.subscribe(store => render(
     <Provider store={store} handlers={handlers}>
-      <App />
+      <AppContext />
     </Provider>, div))
 })
