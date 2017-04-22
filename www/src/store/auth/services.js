@@ -35,7 +35,7 @@ payloads$(Actions.RESET_PASSWORD_REQUESTED)
     .then(res => {
       Handlers.okUser('verify', `Password has been changed.`)
       const user = FirebaseAuth.currentUser
-      Handlers.goToPath('/')
+      Handlers.goToPath('/posts')
       return user
         ? FirebaseAuth.signOut().then(() => FirebaseAuth.signInWithCustomToken(res.customToken))
         : FirebaseAuth.signInWithCustomToken(res.customToken)
@@ -56,12 +56,11 @@ payloads$(Actions.ROUTE_CHANGED)
     })
     .then(res => {
       Handlers.okUser('verify', `Email address ${res.email} has been verified.`)
-      const user = FirebaseAuth.currentUser
-      Handlers.goToPath('/')
-      return user
+      return FirebaseAuth.currentUser
         ? FirebaseAuth.signOut().then(() => FirebaseAuth.signInWithCustomToken(res.customToken))
         : FirebaseAuth.signInWithCustomToken(res.customToken)
     })
+    .then(() => Handlers.goToPath('/posts'))
     .catch(err => Handlers.errorUser('verify', 'Verify email', err))
   })
 
@@ -75,7 +74,7 @@ payloads$(Actions.SIGNOUT_REQUESTED).subscribe(() => {
   const user = FirebaseAuth.currentUser
   user && FirebaseAuth.signOut().then(() => {
     Handlers.okUser('auth', 'Good bye', `${user.email}`)
-    Handlers.goToPath('/')
+    Handlers.goToPath('/signin')
   }).catch(err => Handlers.errorUser('auth', 'Sign Out', err))
 })
 
@@ -102,7 +101,7 @@ payloads$(Actions.SIGNIN_EMAIL_REQUESTED)
   .subscribe(fields => {
     FirebaseAuth
       .signInWithEmailAndPassword(fields.email, fields.password)
-      .then(() => Handlers.goToPath('/'))
+      .then(() => Handlers.goToPath('/posts'))
       .catch(err => Handlers.errorUser('auth', 'Sign In', err))
   })
 
@@ -121,7 +120,7 @@ payloads$(Actions.SIGN_GOOGLE_REQUESTED).subscribe(() => {
 // when redirect returns send credential to profile
 FirebaseAuth.getRedirectResult().then(result => {
   if (result.user && result.credential) {
-    Handlers.goToPath('/')
+    Handlers.goToPath('/posts')
     FirebaseFetch('changeProfile', {
       [`${getCredentialKey(result.credential)}Credential`]: result.credential
     }, result.user)

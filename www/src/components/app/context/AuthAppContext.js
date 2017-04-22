@@ -1,19 +1,26 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import AuthApp from '../AuthApp.js'
-import HomeContext from '../../pages/auth/context/HomeContext'
+import PostsContext from '../../pages/auth/context/PostsContext'
 import ProfileContext from '../../pages/auth/context/ProfileContext'
+import CampsContext from '../../pages/auth/context/CampsContext'
 
 const AuthAppContext = (props, context) => {
   const state = context.store
   const handlers = context.handlers
   const loaded = state.auth.loaded
   const links = state => ([{
-    key: 'home',
-    text: 'Home',
+    key: 'camps',
+    text: 'Camps',
+    visible: !!state.auth.uid && state.auth.admin,
+    action: () => handlers.goToPath('/camps'),
+    active: state.router.pathname === '/camps'
+  }, {
+    key: 'posts',
+    text: 'Posts',
     visible: !!state.auth.uid,
-    action: () => handlers.goToPath('/'),
-    active: state.router.pathname === '/'
+    action: () => handlers.goToPath('/posts'),
+    active: state.router.pathname === '/posts'
   }, {
     key: 'profile',
     text: 'Profile',
@@ -28,9 +35,13 @@ const AuthAppContext = (props, context) => {
   }])
 
   const pages = state => ([{
-    key: 'home',
-    Page: HomeContext,
-    visible: state.router.pathname === '/'
+    key: 'camps',
+    Page: CampsContext,
+    visible: state.router.pathname === '/camps'
+  }, {
+    key: 'posts',
+    Page: PostsContext,
+    visible: state.router.pathname === '/posts'
   }, {
     key: 'profile',
     Page: ProfileContext,
