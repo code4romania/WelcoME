@@ -41,7 +41,7 @@ const Login = (props, context) => {
   const handlers = context.handlers
   const onSignUpWithFb = e => {
     e.preventDefault()
-    handlers.requestFacebookSignup()
+    handlers.requestFacebook()
   }
 
   const onSignUpWithGl = e => {

@@ -20,7 +20,7 @@ const ForgotContext = (p, context) => {
   const valid = state.forms.email && isEmpty(errors)
   return <Forgot
     email={email}
-    enableForgot={valid}
+    enableForgot={!!valid}
     requestForgot={() => handlers.requestForgot({email: state.forms.email})}
     onChangeKey={(key, value) => handlers.changeFields({[key]: value})}
     />

@@ -47,8 +47,8 @@ storiesOf('core.Application', module)
         password={password}
         passwordRepeat={passwordRepeat}
         enableSignUp={boolean('Enable', true)}
-        signUpWithEmail={action('Request Email')}
-        signUpWithFacebook={action('Request Facebook')}
+        requestSignUp={action('Request Email')}
+        requestFacebook={action('Request Facebook')}
         onChangeKey={(key, value) => action('Request Facebook', {[key]: value})}
       />,
       visible: boolean('Page Visible', true),

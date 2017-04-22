@@ -12,7 +12,7 @@ const Forgot = ({enableForgot, email, requestForgot, onChangeKey}) => {
         <Col xs={12} sm={10} md={8} lg={6}>
           <Card className='form-not-auth'>
             <Row>
-              <Col xs={12}>
+              <Col xs={12} sm={12} md={12} lg={12}>
                 <TextField
                   id='email'
                   fullWidth

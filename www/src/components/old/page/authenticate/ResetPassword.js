@@ -27,7 +27,7 @@ const validate = values => {
 const ResetPassword = (props, context) => {
   const state = context.store
   const handlers = context.handlers
-  const resetHandler = () => handlers.requestResetPassword({
+  const resetHandler = () => handlers.requestReset({
     ...state.forms,
     oobCode: state.router.oobCode,
     email: state.router.email

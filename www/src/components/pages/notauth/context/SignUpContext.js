@@ -39,9 +39,9 @@ const SignUpContext = (p, context) => {
     email={email}
     password={password}
     passwordRepeat={passwordRepeat}
-    enableSignUp={valid}
-    signUpWithFacebook={handlers.requestFacebookSignup}
-    signUpWithEmail={() => handlers.requestSignup({email: state.forms.email, password: state.forms.password})}
+    enableSignUp={!!valid}
+    requestFacebook={handlers.requestFacebook}
+    requestSignUp={() => handlers.requestSignUp({email: state.forms.email, password: state.forms.password})}
     onChangeKey={(key, value) => handlers.changeFields({[key]: value})}
     />
 }

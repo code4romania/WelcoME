@@ -1,9 +1,11 @@
 import React from 'react'
 import { storiesOf, action } from '@kadira/storybook'
-import { withKnobs, text, boolean, number } from '@kadira/storybook-addon-knobs'
+import { withKnobs, boolean } from '@kadira/storybook-addon-knobs'
 import Home from './Home'
 import SignUp from './SignUp'
 import SignIn from './SignIn'
+import Forgot from './Forgot'
+import Reset from './Reset'
 
 storiesOf('notAuthPages', module)
   .addDecorator(withKnobs)
@@ -35,8 +37,8 @@ storiesOf('notAuthPages', module)
         password={password}
         passwordRepeat={passwordRepeat}
         enableSignUp={boolean('Enable', true)}
-        signUpWithEmail={action('Request Email')}
-        signUpWithFacebook={action('Request Facebook')}
+        requestSignUp={action('Request Sign Up Email')}
+        requestFacebook={action('Request Facebook')}
         onChangeKey={action('Changed key')}
     />
     )
@@ -56,9 +58,41 @@ storiesOf('notAuthPages', module)
       <SignIn
         email={email}
         password={password}
-        enableSignInEmail={boolean('Enable', true)}
-        requestSignIn={action('Sign In Email')}
+        enableSignIn={boolean('Enable', true)}
+        requestSignIn={action('Request Sign In Email')}
+        goForgot={action('Go To Forgot ')}
         requestFacebook={action('Request Facebook')}
+        onChangeKey={action('Changed key')}
+    />
+    )
+  })
+  .add('Forgot', () => {
+    const email = {
+      key: 'email',
+      label: 'Email',
+      value: 'aaa@gmail.co',
+      error: 'Email not valid'
+    }
+    return (
+      <Forgot
+        email={email}
+        enableForgot={boolean('Enable', true)}
+        requestForgot={action('Request Forgot Email')}
+        onChangeKey={action('Changed key')}
+    />
+    )
+  })
+  .add('Reset Password', () => {
+    const password = {
+      key: 'password',
+      label: 'Password',
+      value: 'SomePass1'
+    }
+    return (
+      <Reset
+        password={password}
+        enableReset={boolean('Enable', true)}
+        requestReset={action('Request Reset Password')}
         onChangeKey={action('Changed key')}
     />
     )

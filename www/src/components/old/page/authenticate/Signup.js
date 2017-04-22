@@ -52,7 +52,7 @@ const Signup = (props, context) => {
 
   const onSignUpWithFb = e => {
     e.preventDefault()
-    handlers.requestFacebookSignup()
+    handlers.requestFacebook()
   }
 
   const onSignUpWithGl = e => {
@@ -79,7 +79,7 @@ const Signup = (props, context) => {
         submitText='Sign-up with Email'
         name='signup'
         validate={validate}
-        submitHandler='requestSignup' />
+        submitHandler='requestSignUp' />
 
     </div>
   )
