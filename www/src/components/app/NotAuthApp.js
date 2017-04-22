@@ -10,7 +10,7 @@ const NotAuthApp = ({logo, links, pages, loaded}) => {
   return (
     <div>
       <TitleCard title={title} action={action} />
-      {!loaded ? <LinearProgress id='progress-auth' className='progress-auth' /> : null}
+      {!loaded ? <LinearProgress id='progress-notauth' className='progress-notauth' /> : null}
       <div className='notauth-div'>
         <Menu links={links} />
       </div>

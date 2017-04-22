@@ -9,14 +9,14 @@ let lastUid = rs.generate(3)
 FirebaseAuth.onAuthStateChanged(user => {
   const uid = user && user.uid
   if (lastUid !== uid) {
-    Handlers.clearFields()
+    uid && Handlers.clearFields()
     lastUid && FirebaseDb.ref('/users/' + lastUid).off('value')
     lastUid = uid
     uid
       ? FirebaseDb.ref('/users/' + uid).on('value', snapshot => Handlers.profileChanged(snapshot.val()))
       : Handlers.profileChanged()
   }
-  user && Handlers.okUser('auth', 'Welcome', `${user.email}`)
+  uid && Handlers.okUser('auth', 'Welcome', `${user.email}`)
 }, err => Handlers.errorUser('auth', 'Sign In', err))
 
 // user is cancelled from DB, have to force signout

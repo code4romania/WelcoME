@@ -1,15 +1,15 @@
 .notauth-div {
   text-align: center;
 }
-.md-progress--linear.progress-auth {  
+.md-progress--linear.progress-notauth {  
   background: #1d4bb7;
 }
 
-.md-progress.progress-auth {
-  margin-top: -7px;
-  margin-bottom: 4px;
+.md-progress.progress-notauth {
+  margin-top: -4px;
+  margin-bottom: 1px;
 }
 
-.progress-auth > .md-progress--linear-active {
+.progress-notauth > .md-progress--linear-active {
   background: #32c331;
 }

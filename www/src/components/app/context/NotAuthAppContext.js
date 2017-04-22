@@ -62,7 +62,8 @@ const NotAuthAppContext = (props, context) => {
   }])
   return (
     <div>
-      <NotAuthApp loaded={loaded} logo={logo} links={links(state)} pages={pages(state)} />
+      <NotAuthApp loaded={loaded} logo={logo} links={links(state)}
+        pages={pages(state).map(page => ({...page, visible: state.auth.loaded && page.visible}))} />
     </div>
   )
 }

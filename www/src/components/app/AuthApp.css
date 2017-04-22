@@ -1,3 +1,16 @@
 .auth-div {
   text-align: center;
 }
+
+.md-progress--linear.progress-auth {  
+  background: #1d4bb7;
+}
+
+.md-progress.progress-auth {
+  margin-top: 0px;
+  margin-bottom: -3px;
+}
+
+.progress-auth > .md-progress--linear-active {
+  background: #32c331;
+}

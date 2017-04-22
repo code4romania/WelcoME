@@ -63,6 +63,7 @@ storiesOf('core.Application', module)
 
   .add('AuthApp', () => {
     const active = number('Active Element', 2)
+    const loaded = boolean('Loaded', false)
     const links = Array.from(Array(number('Elements', 7)).keys()).map(el => ({
       key: el,
       text: !el ? 'Home' : `Link ${el}`,
@@ -78,6 +79,6 @@ storiesOf('core.Application', module)
       }
     }]
     return (
-      <AuthApp links={links} pages={pages} />
+      <AuthApp links={links} pages={pages} loaded={loaded} />
     )
   })

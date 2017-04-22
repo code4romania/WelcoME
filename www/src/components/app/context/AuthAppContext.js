@@ -42,7 +42,8 @@ const AuthAppContext = (props, context) => {
   }])
   return (
     <div>
-      <AuthApp links={links(state)} pages={pages(state)} />
+      <AuthApp links={links(state)}
+        pages={pages(state).map(page => ({...page, visible: state.auth.loaded && page.visible}))} />
     </div>
   )
 }
