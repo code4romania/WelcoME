@@ -19,17 +19,16 @@ class Toastr extends Component {
       <ToastrBox
         key={item.id}
         item={mergedItem}
-        remove={this.context.handlers.removeToastr}
+        remove={this.props.removeToastr}
         {...this.props}
       />
     )
   }
 
   render () {
-    const toastrs = this.context.store.toastrs
     return (
       <div className={cn('redux-toastr', this.props.position, this.props.className)}>
-        {toastrs.map(item => this._renderToastrBox(item))}
+        {this.props.toastrs.map(item => this._renderToastrBox(item))}
       </div>
     )
   }
@@ -37,6 +36,8 @@ class Toastr extends Component {
 
 Toastr.displayName = 'Toastr'
 Toastr.propTypes = {
+  toastrs: PropTypes.array.isRequired,
+  removeToastr: PropTypes.func.isRequired,
   options: PropTypes.object,
   position: PropTypes.string,
   timeOut: PropTypes.number,
@@ -51,11 +52,6 @@ Toastr.defaultProps = {
   progressBar: true,
   transitionIn: 'bounceIn',
   transitionOut: 'bounceOut'
-}
-
-Toastr.contextTypes = {
-  store: PropTypes.object.isRequired,
-  handlers: PropTypes.object.isRequired
 }
 
 export default Toastr
