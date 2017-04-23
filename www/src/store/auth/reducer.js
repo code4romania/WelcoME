@@ -28,6 +28,7 @@ Reducers.auth = (state = initialState, action) => {
         loaded: true,
         appLoaded: true
       }
+    case Actions.WRITE_TO_PROFILE:
     case Actions.PROFILE_KEYS_CHANGED:
       return {
         ...state,

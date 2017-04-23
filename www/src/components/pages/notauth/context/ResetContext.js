@@ -6,28 +6,28 @@ import { isEmpty } from '../../../utils'
 const ResetContext = (p, context) => {
   const state = context.store
   const handlers = context.handlers
-
+  const forms = state.forms.signup
   const errors = {}
-  if (state.forms.password && (state.forms.password.length < 6)) {
+  if (forms.password && (forms.password.length < 6)) {
     errors.password = 'Min length of six chars'
   }
 
   const password = {
     label: 'Password',
-    value: state.forms.password || '',
+    value: forms.password || '',
     error: errors.password || ''
   }
-  const valid = state.forms.password && isEmpty(errors)
+  const valid = forms.password && isEmpty(errors)
   return <Reset
     loaded={state.auth.loaded}
     password={password}
     enableReset={!!valid}
     requestReset={() => handlers.requestReset({
       email: state.router.email,
-      password: state.forms.password,
+      password: forms.password,
       oobCode: state.router.oobCode
     })}
-    onChangeKey={(key, value) => handlers.changeFields({[key]: value})}
+    onChangeKey={(key, value) => handlers.changeFields('signup', {[key]: value})}
     />
 }
 

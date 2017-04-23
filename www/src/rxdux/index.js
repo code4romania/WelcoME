@@ -9,7 +9,7 @@ const dispatcher = new Subject()
 const dispatcher$ = dispatcher.asObservable().publishReplay(1).refCount()
 
 // dispatch an action
-export const dispatch = (type, payload = null) => { dispatcher.next({type, payload}) }
+export const dispatch = (type, payload = null) => dispatcher.next({type, payload})
 
 // actions stream
 export const actions$ = (...args) => !args.length

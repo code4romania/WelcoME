@@ -5,11 +5,16 @@ const { sendVerificationEmail } = require('./sendemails.js')
 
 module.exports = ({ profile, uid }) => new Promise((resolve, reject) => {
   const auth = admin.auth()
-  const permitedKeys = ['firstName', 'lastName', 'facebookCredential', 'googleCredential', 'lang']
+  const permitedKeys = ['firstName', 'lastName', 'facebookCredential', 'googleCredential', 'lang', 'type']
+  const notEmptyKeys = ['firstName', 'lastName', 'facebookCredential', 'googleCredential', 'lang', 'type']
   const scope = {}
   const newProfile = Object.assign({}, profile)
-
-  auth.getUser(uid).then(user => {
+  admin.database().ref(`/users/${uid}`).once('value')
+  .then(snapshot => {
+    scope.account = snapshot.val() || {}
+  })
+  .then(() => auth.getUser(uid))
+  .then(user => {
     const providers = user.providerData || []
     const password = providers.find(prov => prov.providerId === 'password')
     const facebook = providers.find(prov => prov.providerId === 'facebook.com')
@@ -27,9 +32,17 @@ module.exports = ({ profile, uid }) => new Promise((resolve, reject) => {
         delete newProfile[key]
       }
     })
+    Object.keys(newProfile).forEach(key => {
+      if (notEmptyKeys.includes(key) && !newProfile[key]) {
+        delete newProfile[key]
+      }
+    })
     if (!facebook) newProfile.facebookCredential = null
     if (!google) newProfile.googleCredential = null
-
+    // ------------
+    // TODO don't change user type after some condition ex. have posts
+    // if (!scope.account.type && profile.type) newProfile.type = profile.type
+    // ----------------
     Object.assign(newProfile, {
       uid,
       email: user.email,

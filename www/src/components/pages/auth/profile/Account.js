@@ -48,7 +48,6 @@ const Account = ({ facebook, google, password,
             <legend className='md-subheading-1'>Account Type</legend>
             <Radio
               id='refugee'
-              readOnly={!editing}
               name='accType'
               value='refugee'
               label='Refugee'
@@ -57,7 +56,6 @@ const Account = ({ facebook, google, password,
           />
             <Radio
               id='asylum'
-              readOnly={!editing}
               name='accType'
               value='asylum'
               label='Asylum seeker'
@@ -66,7 +64,6 @@ const Account = ({ facebook, google, password,
           />
             <Radio
               id='volunteer'
-              readOnly={!editing}
               name='accType'
               value='volunteer'
               label='Volunteer'
@@ -75,7 +72,6 @@ const Account = ({ facebook, google, password,
           />
             <Radio
               id='admin'
-              readOnly={!editing}
               name='accType'
               value='admin'
               label='Administrator'

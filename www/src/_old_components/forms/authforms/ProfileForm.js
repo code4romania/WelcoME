@@ -6,7 +6,7 @@ class ProfileForm extends React.Component {
   componentDidMount () {
     const {handlers, store} = this.context
     const editFields = {...store.auth}
-    handlers.changeFields(editFields)
+    handlers.changeFields('account', editFields)
   }
 
   validate (values) {

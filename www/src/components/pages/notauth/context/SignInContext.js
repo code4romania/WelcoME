@@ -6,28 +6,28 @@ import { emailCheck, isEmpty } from '../../../utils'
 const SignInContext = (p, context) => {
   const state = context.store
   const handlers = context.handlers
-
+  const forms = state.forms.signup
   const errors = {}
-  if (state.forms.email && !emailCheck(state.forms.email)) {
+  if (forms.email && !emailCheck(forms.email)) {
     errors.email = 'Invalid email address'
   }
-  if (state.forms.password && (state.forms.password.length < 6)) {
+  if (forms.password && (forms.password.length < 6)) {
     errors.password = 'Min length of six chars'
   }
 
   const email = {
     label: 'Email',
-    value: state.forms.email || '',
+    value: forms.email || '',
     placeholder: 'Account email',
     error: errors.email || ''
   }
   const password = {
     label: 'Password',
-    value: state.forms.password || '',
+    value: forms.password || '',
     error: errors.password || ''
   }
 
-  const valid = state.forms.email && state.forms.password && isEmpty(errors)
+  const valid = forms.email && forms.password && isEmpty(errors)
   return <SignIn
     loaded={state.auth.loaded}
     email={email}
@@ -36,8 +36,8 @@ const SignInContext = (p, context) => {
     requestFacebook={handlers.requestFacebook}
     requestGoogle={handlers.requestGoogle}
     goForgot={() => handlers.goToPath('/forgot')}
-    requestSignIn={() => handlers.requestSignIn({email: state.forms.email, password: state.forms.password})}
-    onChangeKey={(key, value) => handlers.changeFields({[key]: value})}
+    requestSignIn={() => handlers.requestSignIn({email: forms.email, password: forms.password})}
+    onChangeKey={(key, value) => handlers.changeFields('signup', {[key]: value})}
     />
 }
 

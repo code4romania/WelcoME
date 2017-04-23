@@ -49,7 +49,7 @@ const Camps = (props, {store, handlers}) => {
             handlers.selectCamp(camp.cid)
           }}
           onDeselectCamp={() => {
-            handlers.clearFields()
+            handlers.clearFields('camps')
             handlers.selectCamp()
           }}
           hasRemove={camp.cid !== 'default'}

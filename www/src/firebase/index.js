@@ -19,8 +19,6 @@ export const FirebaseDb = Firebase.database()
 export const FirebaseFetch = getFetchFunc(config)
 
 export const FacebookProvider = new Firebase.auth.FacebookAuthProvider()
-// FacebookProvider.addScope('email')
-// FacebookProvider.addScope('profile')
 export const GoogleProvider = new Firebase.auth.GoogleAuthProvider()
 GoogleProvider.addScope('email')
 GoogleProvider.addScope('profile')

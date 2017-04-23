@@ -9,7 +9,7 @@ let lastUid = rs.generate(3)
 FirebaseAuth.onAuthStateChanged(user => {
   const uid = user && user.uid
   if (lastUid !== uid) {
-    uid && Handlers.clearFields()
+    uid && Handlers.clearFields('signup')
     lastUid && FirebaseDb.ref('/users/' + lastUid).off('value')
     lastUid = uid
     uid
@@ -81,9 +81,11 @@ payloads$(Actions.SIGNOUT_REQUESTED).subscribe(() => {
 // signup with email requested
 payloads$(Actions.SIGNUP_EMAIL_REQUESTED)
   .subscribe((fields) => {
-    console.log(fields.email, fields.password)
-    FirebaseAuth
-      .createUserWithEmailAndPassword(fields.email, fields.password)
+    FirebaseAuth.createUserWithEmailAndPassword(fields.email, fields.password)
+      .then(user => {
+        Handlers.goToPath('/profile')
+        return user
+      })
       .then(user => FirebaseFetch('changeProfile', {
         // TODO here we send actual language from UI
         lang: 'en',
@@ -120,6 +122,7 @@ payloads$(Actions.SIGN_GOOGLE_REQUESTED).subscribe(() => {
 // when redirect returns send credential to profile
 FirebaseAuth.getRedirectResult().then(result => {
   if (result.user && result.credential) {
+    console.log(result)
     Handlers.goToPath(result.user.type ? '/feed' : '/profile')
     FirebaseFetch('changeProfile', {
       [`${getCredentialKey(result.credential)}Credential`]: result.credential
@@ -129,7 +132,10 @@ FirebaseAuth.getRedirectResult().then(result => {
 
 // modify profile
 payloads$(Actions.WRITE_TO_PROFILE)
-  .subscribe((profile) => FirebaseFetch('changeProfile', profile, FirebaseAuth.currentUser))
+  .subscribe((profile) =>
+    FirebaseFetch('changeProfile', profile, FirebaseAuth.currentUser)
+    .catch(err => Handlers.errorUser('profile', 'Saving profile', err))
+  )
 
 // forgot password requested
 payloads$(Actions.FORGOT_REQUESTED)

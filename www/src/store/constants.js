@@ -3,7 +3,7 @@
 export const Entities = {}
 
 Entities.userTypes = {
-  OWNER: 'OWNER',
+  ADMIN: 'ADMIN',
   VOLUNTEER: 'VOLUNTEER',
   COMMUNITY_HELPER: 'COMMUNITY_HELPER',
   REFUGEE: 'REFUGEE',

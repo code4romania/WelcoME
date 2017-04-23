@@ -1,33 +1,46 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { onlyNonEmptyKeys } from '../../../utils'
 import Profile from '../Profile'
+
 const ProfileContext = (p, context) => {
   const state = context.store
   const auth = state.auth
-  const forms = state.forms
+  const forms = state.forms.account
   const handlers = context.handlers
   const accountStep1OK = auth.type && auth.emailVerified && auth.firstName && auth.lastName
   const editing = !accountStep1OK || (forms.accountEditStep === 1)
+  const maySave = (forms.firstName || auth.firstName) && (forms.lastName || auth.lastName) &&
+    (forms.type || auth.type) && auth.emailVerified
   const panel = {
-    cancelLabel: editing ? 'Cancel' : 'Close',
-    saveLabel: editing ? 'Save' : 'Edit',
+    cancelLabel: editing ? (accountStep1OK ? 'Cancel' : '') : 'Close',
+    saveLabel: editing ? (maySave ? 'Save' : 'Compile all fields') : 'Edit',
+    saveSecondary: !maySave,
     expanded: !accountStep1OK || (forms.accountStep === 1),
-    onExpandToggle: () => {
-      if (accountStep1OK) {
-        handlers.changeFields({
-          accountStep: forms.accountStep === 1 ? 0 : 1
-        })
+    onSave: () => {
+      if (!maySave) {
+        return
       }
-    }
-  }
-  const profile = {
-    onChangeKey: (key, value) => {
       if (editing) {
-        handlers.changeFields({[key]: value})
+        handlers.writeToProfile(onlyNonEmptyKeys(forms, auth))
+        handlers.clearFields('account', { accountStep: 1 })
+      } else {
+        handlers.changeFields('account', { accountEditStep: 1 })
       }
     },
-    sendVerifyEmail: () => console.log('Send verify email'),
+    onCancel: () => editing
+      ? handlers.changeFields('account', { accountEditStep: 0 })
+      : handlers.changeFields('account', { accountStep: 0 }),
+    onExpandToggle: () => accountStep1OK && handlers.changeFields('account', { accountStep: forms.accountStep === 1 ? 0 : 1 })
+
+  }
+  const profile = {
+    onChangeKey: (key, value) => editing && handlers.changeFields('account', {[key]: value}),
+    sendVerifyEmail: () => !auth.emailVerified && handlers.writeToProfile({ sendVerificationEmail: true }),
+    requestFacebook: () => console.log('Facebook'),
+    requestGoogle: () => console.log('Google'),
     editing,
+    accountStep1OK,
     loaded: auth.loaded,
     emailVerified: auth.emailVerified,
     email: forms.email || auth.email,
