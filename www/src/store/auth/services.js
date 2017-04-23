@@ -35,7 +35,7 @@ payloads$(Actions.RESET_PASSWORD_REQUESTED)
     .then(res => {
       Handlers.okUser('verify', `Password has been changed.`)
       const user = FirebaseAuth.currentUser
-      Handlers.goToPath('/posts')
+      Handlers.goToPath('/feed')
       return user
         ? FirebaseAuth.signOut().then(() => FirebaseAuth.signInWithCustomToken(res.customToken))
         : FirebaseAuth.signInWithCustomToken(res.customToken)
@@ -60,7 +60,7 @@ payloads$(Actions.ROUTE_CHANGED)
         ? FirebaseAuth.signOut().then(() => FirebaseAuth.signInWithCustomToken(res.customToken))
         : FirebaseAuth.signInWithCustomToken(res.customToken)
     })
-    .then(() => Handlers.goToPath('/posts'))
+    .then(() => Handlers.goToPath('/feed'))
     .catch(err => Handlers.errorUser('verify', 'Verify email', err))
   })
 
@@ -101,7 +101,7 @@ payloads$(Actions.SIGNIN_EMAIL_REQUESTED)
   .subscribe(fields => {
     FirebaseAuth
       .signInWithEmailAndPassword(fields.email, fields.password)
-      .then(() => Handlers.goToPath('/posts'))
+      .then(() => Handlers.goToPath('/feed'))
       .catch(err => Handlers.errorUser('auth', 'Sign In', err))
   })
 
@@ -120,7 +120,7 @@ payloads$(Actions.SIGN_GOOGLE_REQUESTED).subscribe(() => {
 // when redirect returns send credential to profile
 FirebaseAuth.getRedirectResult().then(result => {
   if (result.user && result.credential) {
-    Handlers.goToPath('/posts')
+    Handlers.goToPath('/feed')
     FirebaseFetch('changeProfile', {
       [`${getCredentialKey(result.credential)}Credential`]: result.credential
     }, result.user)
