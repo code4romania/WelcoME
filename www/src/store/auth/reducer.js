@@ -9,13 +9,10 @@ registerAction('SIGN_FACEBOOK_REQUESTED')
 registerAction('SIGN_GOOGLE_REQUESTED')
 registerAction('RESET_PASSWORD_REQUESTED')
 registerAction('PROFILE_KEYS_CHANGED')
-
+registerAction('LINK_FACEBOOK_REQUESTED')
+registerAction('LINK_GOOGLE_REQUESTED')
 registerAction('WRITE_TO_PROFILE')
 registerAction('PROFILE_CHANGED')
-
-registerAction('SIGNUP_CREATE_PROFILE_REQUESTED')
-
-registerAction('EDIT_PROFILE_REQUESTED')
 
 // reducer
 const initialState = {}
@@ -34,11 +31,12 @@ Reducers.auth = (state = initialState, action) => {
         ...state,
         ...action.payload
       }
-
     case Actions.SIGNIN_EMAIL_REQUESTED:
     case Actions.SIGNUP_EMAIL_REQUESTED:
     case Actions.SIGN_FACEBOOK_REQUESTED:
     case Actions.SIGN_GOOGLE_REQUESTED:
+    case Actions.LINK_FACEBOOK_REQUESTED:
+    case Actions.LINK_GOOGLE_REQUESTED:
     case Actions.EDIT_PROFILE_REQUESTED:
     case Actions.FORGOT_REQUESTED:
     case Actions.SIGNOUT_REQUESTED:

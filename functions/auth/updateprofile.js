@@ -39,6 +39,17 @@ module.exports = ({ profile, uid }) => new Promise((resolve, reject) => {
     })
     if (!facebook) newProfile.facebookCredential = null
     if (!google) newProfile.googleCredential = null
+    let displayName = user.displayName
+    if (!displayName && facebook) displayName = facebook.displayName
+    if (!displayName && google) displayName = google.displayName
+    if (displayName && !scope.account.firstName && !scope.account.lastName) {
+      const names = displayName.split(' ')
+      const lastName = names.pop()
+      const firstName = names.join(' ')
+      newProfile.lastName = lastName
+      newProfile.firstName = firstName
+    }
+
     // ------------
     // TODO don't change user type after some condition ex. have posts
     // if (!scope.account.type && profile.type) newProfile.type = profile.type

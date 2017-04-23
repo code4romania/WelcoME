@@ -37,8 +37,8 @@ const ProfileContext = (p, context) => {
   const profile = {
     onChangeKey: (key, value) => editing && handlers.changeFields('account', {[key]: value}),
     sendVerifyEmail: () => !auth.emailVerified && handlers.writeToProfile({ sendVerificationEmail: true }),
-    requestFacebook: () => console.log('Facebook'),
-    requestGoogle: () => console.log('Google'),
+    linkFacebook: handlers.linkFacebook,
+    linkGoogle: handlers.linkGoogle,
     editing,
     accountStep1OK,
     loaded: auth.loaded,

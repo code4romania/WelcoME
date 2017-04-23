@@ -10,6 +10,11 @@ Handlers.requestSignUp = fields => dispatch(Actions.SIGNUP_EMAIL_REQUESTED, fiel
 Handlers.requestFacebook = () => dispatch(Actions.SIGN_FACEBOOK_REQUESTED)
 // user requesting Gl signup
 Handlers.requestGoogle = () => dispatch(Actions.SIGN_GOOGLE_REQUESTED)
+// user requesting Fb signup
+Handlers.linkFacebook = () => dispatch(Actions.LINK_FACEBOOK_REQUESTED)
+// user requesting Gl signup
+Handlers.linkGoogle = () => dispatch(Actions.LINK_GOOGLE_REQUESTED)
+
 // user requested signin with email and password
 Handlers.requestSignIn = fields => dispatch(Actions.SIGNIN_EMAIL_REQUESTED, fields)
 // user requested recovery of the password on email

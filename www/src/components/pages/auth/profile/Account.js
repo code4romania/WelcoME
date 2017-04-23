@@ -5,7 +5,7 @@ import TextField from 'react-md/lib/TextFields'
 import { Grid, Row, Col } from 'react-flexbox-grid'
 const Account = ({ facebook, google, password,
     asylum, admin, refugee, volunteer, editing,
-    email, firstName, lastName, loaded, requestFacebook, requestGoogle,
+    email, firstName, lastName, loaded, linkFacebook, linkGoogle,
     onChangeKey, sendVerifyEmail,
     emailVerified
   }) => {
@@ -83,18 +83,17 @@ const Account = ({ facebook, google, password,
         <Col xs={4}>
           <fieldset>
             <legend className='md-subheading-1'>Providers</legend>
-            <Row center='xs' style={{marginBottom: 32}}>
-              {emailVerified
-                ? <Button flat iconBefore={false} label='linked' iconClassName='fa fa-envelope' />
+            <Row center='xs' style={{marginBottom: 32}}>{emailVerified
+                ? <Button flat iconBefore={false} label={password ? 'linked' : 'verified'} iconClassName='fa fa-envelope' />
                 : <Button disabled={!loaded} onClick={sendVerifyEmail} raised
                   iconBefore={false} label='Resend email verify link' iconClassName='fa fa-envelope' />}</Row>
             <Row center='xs' style={{marginBottom: 32}}>{facebook
                 ? <Button flat primary iconBefore={false} label='linked' iconClassName='fa fa-facebook' />
-                : <Button disabled={!loaded} onClick={requestFacebook} raised primary
+                : <Button disabled={!loaded} onClick={linkFacebook} raised primary
                   iconBefore={false} label='Link Facebook account' iconClassName='fa fa-facebook' />}</Row>
             <Row center='xs' style={{marginBottom: 32}}>{google
-                ? <Button flat secondary label='linked' iconClassName='fa fa-google' />
-                : <Button disabled={!loaded} onClick={requestGoogle} raised secondary
+                ? <Button flat secondary iconBefore={false} label='linked' iconClassName='fa fa-google' />
+                : <Button disabled={!loaded} onClick={linkGoogle} raised secondary
                   iconBefore={false} label='Link Google account' iconClassName='fa fa-google' />}</Row>
 
           </fieldset>

@@ -107,6 +107,21 @@ payloads$(Actions.SIGNIN_EMAIL_REQUESTED)
       .catch(err => Handlers.errorUser('auth', 'Sign In', err))
   })
 
+let stayOnProfile = false
+// link with facebook
+payloads$(Actions.LINK_FACEBOOK_REQUESTED).subscribe(() => {
+  stayOnProfile = true
+  FirebaseAuth.currentUser.linkWithRedirect(FacebookProvider)
+      .catch(err => Handlers.errorUser('auth', 'Facebook', err))
+})
+
+// link with google
+payloads$(Actions.LINK_GOOGLE_REQUESTED).subscribe(() => {
+  stayOnProfile = true
+  FirebaseAuth.currentUser.linkWithRedirect(GoogleProvider)
+      .catch(err => Handlers.errorUser('auth', 'Google', err))
+})
+
 // signup with facebook
 payloads$(Actions.SIGN_FACEBOOK_REQUESTED).subscribe(() => {
   FirebaseAuth.signInWithRedirect(FacebookProvider)
@@ -121,9 +136,11 @@ payloads$(Actions.SIGN_GOOGLE_REQUESTED).subscribe(() => {
 
 // when redirect returns send credential to profile
 FirebaseAuth.getRedirectResult().then(result => {
+  console.log(result)
   if (result.user && result.credential) {
-    console.log(result)
-    Handlers.goToPath(result.user.type ? '/feed' : '/profile')
+    Handlers.goToPath(!result.user.type || stayOnProfile ? '/profile' : '/feed')
+
+    stayOnProfile = false
     FirebaseFetch('changeProfile', {
       [`${getCredentialKey(result.credential)}Credential`]: result.credential
     }, result.user)
@@ -148,50 +165,3 @@ payloads$(Actions.FORGOT_REQUESTED)
       .then(() => Handlers.okUser('signup', 'An email was sent at', `${fields.email} for resetting the password`))
       .catch(err => Handlers.errorUser('auth', 'Reset password', err))
   })
-
-/*
-
-payloads$(Actions.SIGNUP_CREATE_PROFILE_REQUESTED)
-  .subscribe((fields) => {
-    const user = FirebaseAuth.currentUser
-    const userTypeSpecificTable =
-      fields.profiletype === Entities.userTypes.VOLUNTEER
-        ? 'volunteers'
-        : fields.profiletype === Entities.userTypes.REFUGEE
-          ? 'refugees'
-          : fields.profiletype === Entities.userTypes.ASYLUM_SEEKER
-            ? 'asylum_seekers'
-            : null
-
-    FirebaseDb
-      .ref('users/' + user.uid)
-      .update({
-        type: fields.profiletype,
-        camp_admin: false,
-        pendingProfile: false
-      })
-      .then(() => FirebaseDb
-        .ref('users/' + user.uid + '/camps/' + fields.camp)
-        .set(true)
-      )
-      .then(uid => {
-        if (userTypeSpecificTable !== null) {
-          FirebaseDb
-            .ref(userTypeSpecificTable + '/' + fields.camp + '/' + user.uid)
-            .set(true)
-        }
-      })
-      .then(() => Handlers.goToPath('/'))
-  })
-
-// edit profile requested
-payloads$(Actions.EDIT_PROFILE_REQUESTED)
-  .subscribe((fields) => {
-    const user = FirebaseAuth.currentUser
-    FirebaseDb
-      .ref('users/' + user.uid).set(fields)
-      .then(() => Handlers.okUser('editProfile', 'Profile updated for', `${user.email}`))
-      .catch(err => Handlers.errorUser('editProfile', 'Profile not updated..', err))
-  })
-
-*/
