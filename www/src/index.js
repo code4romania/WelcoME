@@ -4,7 +4,7 @@ import { render } from 'react-dom'
 import { store$, handlers } from './store'
 import Provider from './rxdux/Provider'
 import AppContext from './components/app/context/AppContext'
-import 'react-md/dist/react-md.deep_orange-light_blue.min.css'
+import 'react-md/dist/react-md.light_blue-deep_orange.min.css'
 import './index.css'
 
 import injectTapEventPlugin from 'react-tap-event-plugin'

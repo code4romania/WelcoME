@@ -13,12 +13,12 @@ const SignIn = ({enableSignIn, email, password, requestFacebook, requestGoogle, 
           <Card className='form-not-auth'>
             <Row middle='xs' center='xs' >
               <Col xs={5}>
-                <Button disabled={!loaded} onClick={requestFacebook} raised secondary
+                <Button disabled={!loaded} onClick={requestFacebook} raised primary
                   iconBefore={false} label='SignIn With Facebook' iconClassName='fa fa-facebook' />
               </Col>
               <Col xs={2} />
               <Col xs={5}>
-                <Button disabled={!loaded} onClick={requestGoogle} raised primary
+                <Button disabled={!loaded} onClick={requestGoogle} raised secondary
                   iconBefore={false} label='SignIn With Google' iconClassName='fa fa-google' />
               </Col>
             </Row>
@@ -57,7 +57,7 @@ const SignIn = ({enableSignIn, email, password, requestFacebook, requestGoogle, 
               </Col>
             </Row>
             <Row style={{marginTop: 12, marginBottom: 12}} middle='xs' end='xs' >
-              <Col><Button primary flat label='Forgot password?' onClick={goForgot} /></Col>
+              <Col><Button secondary flat label='Forgot password?' onClick={goForgot} /></Col>
             </Row>
             <Row middle='xs' center='xs'>
               <Col>

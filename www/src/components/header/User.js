@@ -4,8 +4,8 @@ import Button from 'react-md/lib/Buttons/Button'
 const User = ({username, clickProfile, clickSignout}) => {
   return (
     <div>
-      <Button onClick={clickProfile} style={{marginTop: 7}} flat secondary label={username} />
-      <Button onClick={clickSignout} style={{marginTop: 7}} flat primary >power_settings_new</Button>
+      <Button onClick={clickProfile} style={{marginTop: 7}} flat primary label={username} />
+      <Button onClick={clickSignout} style={{marginTop: 7}} flat secondary >power_settings_new</Button>
     </div>
   )
 }

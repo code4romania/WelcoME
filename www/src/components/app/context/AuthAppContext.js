@@ -19,7 +19,7 @@ const AuthAppContext = (props, context) => {
   const links = state => ([{
     key: 'admin',
     text: 'Admin',
-    visible: !!state.auth.uid && state.auth.admin,
+    visible: !!state.auth.uid && (state.auth.type === 'admin'),
     action: () => handlers.goToPath('/admin'),
     active: state.router.pathname === '/admin'
   }, {
@@ -39,7 +39,7 @@ const AuthAppContext = (props, context) => {
   const pages = state => ([ {
     key: 'admin',
     Page: AdminContext,
-    visible: !!(state.auth.admin && state.router.pathname === '/admin')
+    visible: (state.auth.type === 'admin') && (state.router.pathname === '/admin')
   }, {
     key: 'camps',
     Page: CampsContext,

@@ -13,12 +13,12 @@ const SignUp = ({enableSignUp, email, password, passwordRepeat, requestFacebook,
           <Card className='form-not-auth'>
             <Row middle='xs' center='xs' >
               <Col xs={5}>
-                <Button disabled={!loaded} onClick={requestFacebook} raised secondary
+                <Button disabled={!loaded} onClick={requestFacebook} raised primary
                   iconBefore={false} label='SignUp With Facebook' iconClassName='fa fa-facebook' />
               </Col>
               <Col xs={2} />
               <Col xs={5}>
-                <Button disabled={!loaded} onClick={requestGoogle} raised primary
+                <Button disabled={!loaded} onClick={requestGoogle} raised secondary
                   iconBefore={false} label='SignUp With Google' iconClassName='fa fa-google' />
               </Col>
             </Row>

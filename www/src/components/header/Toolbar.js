@@ -7,12 +7,12 @@ import { Card } from 'react-md/lib/Cards'
 import { Grid, Row, Col } from 'react-flexbox-grid'
 const Toolbar = ({clickLogo, links, user}) => {
   return (
-    <Card style={{paddingBottom: 10}}>
+    <Card style={{paddingBottom: 10, marginBottom: 10}}>
       <Grid fluid>
         <Row center='xs'>
           <Col xs={2}><Logo clickLogo={clickLogo} /></Col>
-          <Col xs={6}><Menu links={links} /></Col>
-          <Col xs={4}><User {...user} /></Col>
+          <Col xs={5}><Menu links={links} /></Col>
+          <Col xs={5}><User {...user} /></Col>
         </Row>
       </Grid>
     </Card>

@@ -1,6 +1,6 @@
 import React from 'react'
 import { storiesOf, action } from '@kadira/storybook'
-import { withKnobs, text, boolean, number } from '@kadira/storybook-addon-knobs'
+import { withKnobs, text, boolean } from '@kadira/storybook-addon-knobs'
 import Toastr from './Toastr'
 
 storiesOf('toastr.Toastr', module)
@@ -11,8 +11,7 @@ storiesOf('toastr.Toastr', module)
       message: text('Message', 'Example text on toastr'),
       type: text('Type', 'success'),
       options: {
-        showCloseButton: boolean('Show close', true),
-        timeOut: number('Ms to show', 1000)
+        showCloseButton: boolean('Show close', true)
       },
       title: text('Text', 'WelcoME')
     }]

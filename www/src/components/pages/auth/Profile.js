@@ -1,15 +1,15 @@
 import React from 'react'
 import ExpansionList from 'react-md/lib/ExpansionPanels/ExpansionList'
 import ExpansionPanel from 'react-md/lib/ExpansionPanels/ExpansionPanel'
-const Profile = () => {
+import Account from './profile/Account'
+import AccountHeader from './profile/AccountHeader'
+
+const Profile = ({panel, profile}) => {
   return (
-    <ExpansionList style={{ padding: 16 }}>
-      <ExpansionPanel label='Hello' secondaryLabel='World!' defaultExpanded>
-      Razvan
-    </ExpansionPanel>
-      <ExpansionPanel label='gashsdg' secondaryLabel='gashsdg' >
-      Altro
-    </ExpansionPanel>
+    <ExpansionList>
+      <ExpansionPanel closeOnSave={false} {...panel} label={<AccountHeader {...profile} />}>
+        <Account {...profile} />
+      </ExpansionPanel>
     </ExpansionList>
   )
 }
