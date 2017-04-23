@@ -43,6 +43,7 @@ storiesOf('core.Application', module)
     }
 
     const pages = [{
+      key: 1,
       Page: () => <SignUp
         loaded={loaded}
         email={email}
@@ -51,12 +52,10 @@ storiesOf('core.Application', module)
         enableSignUp={boolean('Enable', true)}
         requestSignUp={action('Request Email')}
         requestFacebook={action('Request Facebook')}
+        requestGoogle={action('Request Google')}
         onChangeKey={(key, value) => action('Request Facebook', {[key]: value})}
       />,
-      visible: boolean('Page Visible', true),
-      props: {
-        key: 1
-      }
+      visible: boolean('Page Visible', true)
     }]
     return (
       <NotAuthApp loaded={loaded} logo={logo} links={links} pages={pages} />
@@ -74,11 +73,9 @@ storiesOf('core.Application', module)
       action: action(`Clicked ${el}`)
     }))
     const pages = [{
+      key: 1,
       Page: Profile,
-      visible: boolean('Page Visible', true),
-      props: {
-        key: 1
-      }
+      visible: boolean('Page Visible', true)
     }]
     return (
       <AuthApp links={links} pages={pages} loaded={loaded} />
