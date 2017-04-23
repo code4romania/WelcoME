@@ -65,7 +65,12 @@ storiesOf('core.Application', module)
   .add('AuthApp', () => {
     const active = number('Active Element', 2)
     const loaded = boolean('Loaded', false)
-    const links = Array.from(Array(number('Elements', 7)).keys()).map(el => ({
+    const user = {
+      username: text('Username', 'MARIO ROSSI'),
+      clickProfile: action('Profile clicked'),
+      clickSignout: action('Signed out')
+    }
+    const links = Array.from(Array(number('Elements', 4)).keys()).map(el => ({
       key: el,
       text: !el ? 'Home' : `Link ${el}`,
       visible: true,
@@ -78,7 +83,7 @@ storiesOf('core.Application', module)
       visible: boolean('Page Visible', true)
     }]
     return (
-      <AuthApp links={links} pages={pages} loaded={loaded} />
+      <AuthApp clickLogo={action('Clicked on logo')} links={links} pages={pages} loaded={loaded} user={user} />
     )
   })
   .add('LoadingApp', () => {

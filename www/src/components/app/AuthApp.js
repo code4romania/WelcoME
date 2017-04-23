@@ -1,26 +1,39 @@
 import React from 'react'
-import Menu from '../header/Menu'
-import Logo from '../header/Logo'
+import PropTypes from 'prop-types'
 import Pages from '../pages/Pages'
-import User from '../header/User'
+import Toolbar from '../header/Toolbar'
 import LinearProgress from 'react-md/lib/Progress/LinearProgress'
-import { Grid, Row, Col } from 'react-flexbox-grid'
+
 import './AuthApp.css'
 
 const AuthApp = ({links, pages, loaded, clickLogo, user}) => {
   return (
     <div>
       {!loaded ? <LinearProgress id='progress-auth' className='progress-auth' /> : null}
-      <Grid fluid>
-        <Row center='xs'>
-          <Col xs={2}><Logo clickLogo={clickLogo} /></Col>
-          <Col xs={6}><Menu links={links} /></Col>
-          <Col xs={4}><User {...user} /></Col>
-        </Row>
-      </Grid>
+      <Toolbar clickLogo={clickLogo} user={user} links={links} />
       <Pages pages={pages} />
     </div>
   )
 }
-
+AuthApp.PropTypes = {
+  links: PropTypes.arrayOf(PropTypes.shape({
+    key: PropTypes.string.isRequired,
+    text: PropTypes.string.isRequired,
+    visible: PropTypes.bool.isRequired,
+    action: PropTypes.func.isRequired,
+    active: PropTypes.bool.isRequired
+  })).isRequired,
+  pages: PropTypes.arrayOf(PropTypes.shape({
+    key: PropTypes.string.isRequired,
+    Page: PropTypes.oneOf([PropTypes.element, PropTypes.func]).isRequired,
+    visible: PropTypes.bool.isRequired
+  })).isRequired,
+  loaded: PropTypes.bool,
+  clickLogo: PropTypes.func.isRequired,
+  user: PropTypes.shape({
+    username: PropTypes.string.isRequired,
+    clickProfile: PropTypes.func.isRequired,
+    clickSignout: PropTypes.func.isRequired
+  })
+}
 export default AuthApp

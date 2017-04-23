@@ -5,6 +5,7 @@ import centered from '@kadira/react-storybook-decorator-centered'
 import TitleCard from './TitleCard'
 import Logo from './Logo'
 import Menu from './Menu'
+import Toolbar from './Toolbar'
 import User from './User'
 import NavLink from './NavLink'
 
@@ -31,6 +32,27 @@ storiesOf('header.Logo', module)
   .add('Logo', () => {
     return (
       <Logo clickLogo={action('Clicked on logo')} />
+    )
+  })
+
+storiesOf('header.Toolbar', module)
+  .addDecorator(withKnobs)
+  .add('Toolbar', () => {
+    const user = {
+      username: text('Username', 'MARIO ROSSI'),
+      clickProfile: action('Profile clicked'),
+      clickSignout: action('Signed out')
+    }
+    const active = number('Active Element', 2)
+    const links = Array.from(Array(number('Elements', 4)).keys()).map(el => ({
+      key: el,
+      text: !el ? 'Home' : `Link ${el}`,
+      visible: true,
+      active: (el) === active,
+      action: action(`Clicked ${el}`)
+    }))
+    return (
+      <Toolbar links={links} user={user} clickLogo={action('Clicked on logo')} />
     )
   })
 
