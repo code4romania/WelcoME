@@ -8,54 +8,65 @@ import ForgotContext from '../../pages/notauth/context/ForgotContext'
 import HomeContext from '../../pages/notauth/context/HomeContext'
 
 const NotAuthAppContext = (props, context) => {
-  const state = context.store
-  const handlers = context.handlers
-  const loaded = state.auth.loaded
+  const state = context.store;
+  const handlers = context.handlers;
+  const loaded = state.auth.loaded;
   const logo = {
     title: 'WelcoME',
     action: () => handlers.goToPath('/')
-  }
+  };
 
-  const links = state => ([{
-    key: 'signin',
-    text: 'SignIn',
-    visible: !state.auth.uid,
-    action: () => handlers.goToPath('/signin'),
-    active: state.router.pathname === '/signin'
-  }, {
-    key: 'signup',
-    text: 'SignUp',
-    visible: !state.auth.uid,
-    action: () => handlers.goToPath('/signup'),
-    active: state.router.pathname === '/signup'
-  }])
-  const pages = state => ([{
-    key: 'home',
-    Page: HomeContext,
-    visible: state.router.pathname === '/'
-  }, {
-    key: 'signin',
-    Page: SignInContext,
-    visible: state.router.pathname === '/signin'
-  }, {
-    key: 'signup',
-    Page: SignUpContext,
-    visible: state.router.pathname === '/signup'
-  }, {
-    key: 'forgot',
-    Page: ForgotContext,
-    visible: state.router.pathname === '/forgot'
-  }, {
-    key: 'reset',
-    Page: ResetContext,
-    visible: !!((state.router.pathname === '/resetPassword') && state.router.oobCode && state.router.email)
-  }])
+  // Sign-in / sign-up app bar tabs in the non-auth context
+  const links = state => ([
+    {
+      key: 'signin',
+      text: 'SignIn',
+      visible: !state.auth.uid,
+      action: () => handlers.goToPath('/signin'),
+      active: state.router.pathname === '/signin'
+    }, {
+      key: 'signup',
+      text: 'SignUp',
+      visible: !state.auth.uid,
+      action: () => handlers.goToPath('/signup'),
+      active: state.router.pathname === '/signup'
+    }
+  ]);
+
+  // All possible paths
+  const pages = state => ([
+    {
+      key: 'home',
+      Page: HomeContext,
+      visible: state.router.pathname === '/'
+    }, {
+      key: 'signin',
+      Page: SignInContext,
+      visible: state.router.pathname === '/signin'
+    }, {
+      key: 'signup',
+      Page: SignUpContext,
+      visible: state.router.pathname === '/signup'
+    }, {
+      key: 'forgot',
+      Page: ForgotContext,
+      visible: state.router.pathname === '/forgot'
+    }, {
+      key: 'reset',
+      Page: ResetContext,
+      visible: !!((state.router.pathname === '/resetPassword') && state.router.oobCode && state.router.email)
+    }
+  ]);
+
   return (
     <div>
-      <NotAuthApp loaded={loaded} logo={logo} links={links(state)}
+      <NotAuthApp
+        loaded={loaded}
+        logo={logo}
+        links={links(state)}
         pages={pages(state)} />
     </div>
-  )
+  );
 }
 
 NotAuthAppContext.contextTypes = {

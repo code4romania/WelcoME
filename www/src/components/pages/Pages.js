@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import './Pages.css'
+
 const Pages = ({pages}) => {
   return (
     <div>
@@ -8,7 +9,7 @@ const Pages = ({pages}) => {
         visible ? <Page key={key} /> : null
       ))}
     </div>
-  )
+  );
 }
 
 Pages.propTypes = {
@@ -16,7 +17,7 @@ Pages.propTypes = {
     Page: PropTypes.oneOfType([PropTypes.element, PropTypes.func]).isRequired,
     props: PropTypes.object,
     visible: PropTypes.bool
-
   })).isRequired
 }
+
 export default Pages

@@ -4,7 +4,18 @@ import TextField from 'react-md/lib/TextFields'
 import PropTypes from 'prop-types'
 import Button from 'react-md/lib/Buttons/Button'
 import { Grid, Row, Col } from 'react-flexbox-grid'
-const SignUp = ({enableSignUp, email, password, passwordRepeat, requestFacebook, requestGoogle, requestSignUp, onChangeKey, loaded}) => {
+
+const SignUp = ({
+  enableSignUp,
+  email,
+  password,
+  passwordRepeat,
+  requestFacebook,
+  requestGoogle,
+  requestSignUp,
+  onChangeKey,
+  loaded,
+}) => {
   return (
     <Grid fluid>
       <Row>

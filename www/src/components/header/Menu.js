@@ -8,7 +8,7 @@ const Menu = ({links}) => {
         <NavLink {...link} />
         ))}
     </div>
-  )
+  );
 }
 
 export default Menu

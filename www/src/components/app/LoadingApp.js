@@ -7,7 +7,7 @@ const LoadingApp = () => {
     <div>
       <LinearProgress id='progress-loading' className='progress-loading' />
     </div>
-  )
+  );
 }
 
 export default LoadingApp

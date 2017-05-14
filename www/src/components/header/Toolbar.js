@@ -5,6 +5,7 @@ import Menu from '../header/Menu'
 import Logo from '../header/Logo'
 import { Card } from 'react-md/lib/Cards'
 import { Grid, Row, Col } from 'react-flexbox-grid'
+
 const Toolbar = ({clickLogo, links, user}) => {
   return (
     <Card style={{paddingBottom: 10, marginBottom: 10}}>
@@ -16,8 +17,9 @@ const Toolbar = ({clickLogo, links, user}) => {
         </Row>
       </Grid>
     </Card>
-  )
+  );
 }
+
 Toolbar.PropTypes = {
   links: PropTypes.arrayOf(PropTypes.shape({
     key: PropTypes.string.isRequired,
@@ -33,4 +35,5 @@ Toolbar.PropTypes = {
     clickSignout: PropTypes.func.isRequired
   })
 }
+
 export default Toolbar

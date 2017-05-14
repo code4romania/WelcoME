@@ -9,7 +9,8 @@ const NavLink = (props) => {
       className={props.active ? 'active-link' : 'inactive-link'}
       onClick={props.action}
       label={props.text} />
-    : null)
+    : null
+  );
 }
 
 NavLink.propTypes = {
