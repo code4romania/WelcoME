@@ -24,19 +24,32 @@ const SignUp = ({
           <Card className='form-not-auth'>
             <Row middle='xs' center='xs' >
               <Col xs={5}>
-                <Button disabled={!loaded} onClick={requestFacebook} raised primary
-                  iconBefore={false} label='SignUp With Facebook' iconClassName='fa fa-facebook' />
+                <Button
+                  disabled={!loaded}
+                  onClick={requestFacebook}
+                  raised
+                  primary
+                  iconBefore={false}
+                  label='SignUp With Facebook'
+                  iconClassName='fa fa-facebook' />
               </Col>
               <Col xs={2} />
               <Col xs={5}>
-                <Button disabled={!loaded} onClick={requestGoogle} raised secondary
-                  iconBefore={false} label='SignUp With Google' iconClassName='fa fa-google' />
+                <Button
+                  disabled={!loaded}
+                  onClick={requestGoogle}
+                  raised
+                  secondary
+                  iconBefore={false}
+                  label='SignUp With Google'
+                  iconClassName='fa fa-google' />
               </Col>
             </Row>
             <Row style={{marginTop: 12, marginBottom: 12}} middle='xs' center='xs' >
-              <Col><Button flat label='OR' /></Col>
+              <Col>
+                <Button flat label='OR' />
+              </Col>
             </Row>
-
             <Row>
               <Col xs={12} sm={12} md={4} lg={4}>
                 <TextField
@@ -49,8 +62,7 @@ const SignUp = ({
                   label={email.label}
                   placeholder={email.placeholder || email.label}
                   error={!!email.error}
-                  errorText={email.error}
-                />
+                  errorText={email.error} />
               </Col>
               <Col xs={12} sm={12} md={4} lg={4}>
                 <TextField
@@ -63,8 +75,7 @@ const SignUp = ({
                   label={password.label}
                   placeholder={password.placeholder || password.label}
                   error={!!password.error}
-                  errorText={password.error}
-                />
+                  errorText={password.error} />
               </Col>
               <Col xs={12} sm={12} md={4} lg={4}>
                 <TextField
@@ -77,15 +88,19 @@ const SignUp = ({
                   label={passwordRepeat.label}
                   placeholder={passwordRepeat.placeholder || passwordRepeat.label}
                   error={!!passwordRepeat.error}
-                  errorText={passwordRepeat.error}
-                />
+                  errorText={passwordRepeat.error} />
               </Col>
             </Row>
             <Row style={{marginTop: 20}} />
             <Row middle='xs' center='xs'>
               <Col>
-                <Button disabled={!loaded || !enableSignUp} onClick={requestSignUp} raised
-                  iconBefore={false} label='SignUp With Email' iconClassName='fa fa-envelope' />
+                <Button
+                  disabled={!loaded || !enableSignUp}
+                  onClick={requestSignUp}
+                  raised
+                  iconBefore={false}
+                  label='SignUp With Email'
+                  iconClassName='fa fa-envelope' />
               </Col>
             </Row>
           </Card>
@@ -93,7 +108,7 @@ const SignUp = ({
         <Col xs={0} sm={1} md={2} lg={3} />
       </Row>
     </Grid>
-  )
+  );
 }
 
 const fieldShape = {

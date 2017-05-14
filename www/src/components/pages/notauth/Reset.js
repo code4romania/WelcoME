@@ -4,6 +4,7 @@ import TextField from 'react-md/lib/TextFields'
 import PropTypes from 'prop-types'
 import Button from 'react-md/lib/Buttons/Button'
 import { Grid, Row, Col } from 'react-flexbox-grid'
+
 const Reset = ({enableReset, password, requestReset, onChangeKey, loaded}) => {
   return (
     <Grid fluid>
@@ -23,15 +24,19 @@ const Reset = ({enableReset, password, requestReset, onChangeKey, loaded}) => {
                   label={password.label}
                   placeholder={password.placeholder || password.label}
                   error={!!password.error}
-                  errorText={password.error}
-                />
+                  errorText={password.error} />
               </Col>
             </Row>
             <Row style={{marginTop: 20}} />
             <Row middle='xs' center='xs'>
               <Col>
-                <Button disabled={!loaded || !enableReset} onClick={requestReset} raised
-                  iconBefore={false} label='Reset Password' iconClassName='fa fa-password' />
+                <Button
+                  disabled={!loaded || !enableReset}
+                  onClick={requestReset}
+                  raised
+                  iconBefore={false}
+                  label='Reset Password'
+                  iconClassName='fa fa-password' />
               </Col>
             </Row>
           </Card>
@@ -39,7 +44,7 @@ const Reset = ({enableReset, password, requestReset, onChangeKey, loaded}) => {
         <Col xs={0} sm={1} md={2} lg={3} />
       </Row>
     </Grid>
-  )
+  );
 }
 
 const fieldShape = {

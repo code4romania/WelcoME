@@ -29,10 +29,10 @@ storiesOf('notAuthPages', module)
   .add('LandingPage', () => {
     return (
       <Home />
-    )
+    );
   })
   .add('SignUp', () => {
-    const loaded = boolean('Loaded', true)
+    const loaded = boolean('Loaded', true);
     return (
       <SignUp
         loaded={loaded}
@@ -42,12 +42,11 @@ storiesOf('notAuthPages', module)
         enableSignUp={boolean('Enable SignUp', true)}
         requestSignUp={action('Request Sign Up Email')}
         requestFacebook={action('Request Facebook')}
-        onChangeKey={action('Changed key')}
-    />
-    )
+        onChangeKey={action('Changed key')} />
+    );
   })
   .add('SignIn', () => {
-    const loaded = boolean('Loaded', true)
+    const loaded = boolean('Loaded', true);
     return (
       <SignIn
         loaded={loaded}
@@ -57,36 +56,33 @@ storiesOf('notAuthPages', module)
         requestSignIn={action('Request Sign In Email')}
         goForgot={action('Go To Forgot ')}
         requestFacebook={action('Request Facebook')}
-        onChangeKey={action('Changed key')}
-    />
-    )
+        onChangeKey={action('Changed key')} />
+    );
   })
   .add('Forgot', () => {
-    const loaded = boolean('Loaded', true)
+    const loaded = boolean('Loaded', true);
     return (
       <Forgot
         loaded={loaded}
         email={email}
         enableForgot={boolean('Enable Forgot', true)}
         requestForgot={action('Request Forgot Email')}
-        onChangeKey={action('Changed key')}
-    />
-    )
+        onChangeKey={action('Changed key')} />
+    );
   })
   .add('Reset Password', () => {
-    const loaded = boolean('Loaded', true)
+    const loaded = boolean('Loaded', true);
     const password = {
       key: 'password',
       label: 'Password',
       value: 'SomePass1'
-    }
+    };
     return (
       <Reset
         loaded={loaded}
         password={password}
         enableReset={boolean('Enable Reset', true)}
         requestReset={action('Request Reset Password')}
-        onChangeKey={action('Changed key')}
-    />
-    )
+        onChangeKey={action('Changed key')} />
+    );
   })

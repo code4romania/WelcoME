@@ -4,6 +4,7 @@ import TextField from 'react-md/lib/TextFields'
 import PropTypes from 'prop-types'
 import Button from 'react-md/lib/Buttons/Button'
 import { Grid, Row, Col } from 'react-flexbox-grid'
+
 const Forgot = ({enableForgot, email, requestForgot, onChangeKey, loaded}) => {
   return (
     <Grid fluid>
@@ -23,15 +24,19 @@ const Forgot = ({enableForgot, email, requestForgot, onChangeKey, loaded}) => {
                   label={email.label}
                   placeholder={email.placeholder || email.label}
                   error={!!email.error}
-                  errorText={email.error}
-                />
+                  errorText={email.error} />
               </Col>
             </Row>
             <Row style={{marginTop: 20}} />
             <Row middle='xs' center='xs'>
               <Col>
-                <Button disabled={!loaded || !enableForgot} onClick={requestForgot} raised
-                  iconBefore={false} label='Search' iconClassName='fa fa-search' />
+                <Button
+                  disabled={!loaded || !enableForgot}
+                  onClick={requestForgot}
+                  raised
+                  iconBefore={false}
+                  label='Search'
+                  iconClassName='fa fa-search' />
               </Col>
             </Row>
           </Card>
@@ -39,7 +44,7 @@ const Forgot = ({enableForgot, email, requestForgot, onChangeKey, loaded}) => {
         <Col xs={0} sm={1} md={2} lg={3} />
       </Row>
     </Grid>
-  )
+  );
 }
 
 const fieldShape = {

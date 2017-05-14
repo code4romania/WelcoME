@@ -4,7 +4,18 @@ import TextField from 'react-md/lib/TextFields'
 import PropTypes from 'prop-types'
 import Button from 'react-md/lib/Buttons/Button'
 import { Grid, Row, Col } from 'react-flexbox-grid'
-const SignIn = ({enableSignIn, email, password, requestFacebook, requestGoogle, requestSignIn, onChangeKey, goForgot, loaded}) => {
+
+const SignIn = ({
+  enableSignIn,
+  email,
+  password,
+  requestFacebook,
+  requestGoogle,
+  requestSignIn,
+  onChangeKey,
+  goForgot,
+  loaded
+}) => {
   return (
     <Grid fluid>
       <Row>
@@ -13,19 +24,30 @@ const SignIn = ({enableSignIn, email, password, requestFacebook, requestGoogle, 
           <Card className='form-not-auth'>
             <Row middle='xs' center='xs' >
               <Col xs={5}>
-                <Button disabled={!loaded} onClick={requestFacebook} raised primary
-                  iconBefore={false} label='SignIn With Facebook' iconClassName='fa fa-facebook' />
+                <Button
+                  disabled={!loaded}
+                  onClick={requestFacebook}
+                  raised
+                  primary
+                  iconBefore={false}
+                  label='SignIn With Facebook'
+                  iconClassName='fa fa-facebook' />
               </Col>
               <Col xs={2} />
               <Col xs={5}>
-                <Button disabled={!loaded} onClick={requestGoogle} raised secondary
-                  iconBefore={false} label='SignIn With Google' iconClassName='fa fa-google' />
+                <Button
+                  disabled={!loaded}
+                  onClick={requestGoogle}
+                  raised
+                  secondary
+                  iconBefore={false}
+                  label='SignIn With Google'
+                  iconClassName='fa fa-google' />
               </Col>
             </Row>
-            <Row style={{marginTop: 12, marginBottom: 12}} middle='xs' center='xs' >
+            <Row style={{marginTop: 12, marginBottom: 12}} middle='xs' center='xs'>
               <Col><Button flat label='OR' /></Col>
             </Row>
-
             <Row>
               <Col xs={12} sm={12} md={6} lg={6}>
                 <TextField
@@ -38,8 +60,7 @@ const SignIn = ({enableSignIn, email, password, requestFacebook, requestGoogle, 
                   label={email.label}
                   placeholder={email.placeholder || email.label}
                   error={!!email.error}
-                  errorText={email.error}
-                />
+                  errorText={email.error} />
               </Col>
               <Col xs={12} sm={12} md={6} lg={6}>
                 <TextField
@@ -52,17 +73,27 @@ const SignIn = ({enableSignIn, email, password, requestFacebook, requestGoogle, 
                   label={password.label}
                   placeholder={password.placeholder || password.label}
                   error={!!password.error}
-                  errorText={password.error}
-                />
+                  errorText={password.error} />
               </Col>
             </Row>
-            <Row style={{marginTop: 12, marginBottom: 12}} middle='xs' end='xs' >
-              <Col><Button secondary flat label='Forgot password?' onClick={goForgot} /></Col>
+            <Row style={{marginTop: 12, marginBottom: 12}} middle='xs' end='xs'>
+              <Col>
+                <Button
+                  secondary
+                  flat
+                  label='Forgot password?'
+                  onClick={goForgot} />
+              </Col>
             </Row>
             <Row middle='xs' center='xs'>
               <Col>
-                <Button disabled={!loaded || !enableSignIn} onClick={requestSignIn} raised
-                  iconBefore={false} label='SignIn With Email' iconClassName='fa fa-envelope' />
+                <Button
+                  disabled={!loaded || !enableSignIn}
+                  onClick={requestSignIn}
+                  raised
+                  iconBefore={false}
+                  label='SignIn With Email'
+                  iconClassName='fa fa-envelope' />
               </Col>
             </Row>
           </Card>
@@ -70,7 +101,7 @@ const SignIn = ({enableSignIn, email, password, requestFacebook, requestGoogle, 
         <Col xs={0} sm={1} md={2} lg={3} />
       </Row>
     </Grid>
-  )
+  );
 }
 
 const fieldShape = {

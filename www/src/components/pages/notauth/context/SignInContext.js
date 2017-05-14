@@ -3,16 +3,17 @@ import PropTypes from 'prop-types'
 import SignIn from '../SignIn'
 import { emailCheck, isEmpty } from '../../../utils'
 
-const SignInContext = (p, context) => {
-  const state = context.store
-  const handlers = context.handlers
-  const forms = state.forms.signup
-  const errors = {}
+const SignInContext = (props, context) => {
+  const state = context.store;
+  const handlers = context.handlers;
+  const forms = state.forms.signup;
+  const errors = {};
+
   if (forms.email && !emailCheck(forms.email)) {
-    errors.email = 'Invalid email address'
+    errors.email = 'Invalid email address';
   }
   if (forms.password && (forms.password.length < 6)) {
-    errors.password = 'Min length of six chars'
+    errors.password = 'Min length of six chars';
   }
 
   const email = {
@@ -20,29 +21,35 @@ const SignInContext = (p, context) => {
     value: forms.email || '',
     placeholder: 'Account email',
     error: errors.email || ''
-  }
+  };
   const password = {
     label: 'Password',
     value: forms.password || '',
     error: errors.password || ''
-  }
+  };
+  const valid = forms.email && forms.password && isEmpty(errors);
 
-  const valid = forms.email && forms.password && isEmpty(errors)
-  return <SignIn
-    loaded={state.auth.loaded}
-    email={email}
-    password={password}
-    enableSignIn={!!valid}
-    requestFacebook={handlers.requestFacebook}
-    requestGoogle={handlers.requestGoogle}
-    goForgot={() => handlers.goToPath('/forgot')}
-    requestSignIn={() => handlers.requestSignIn({email: forms.email, password: forms.password})}
-    onChangeKey={(key, value) => handlers.changeFields('signup', {[key]: value})}
-    />
+  return (
+    <SignIn
+      loaded={state.auth.loaded}
+      email={email}
+      password={password}
+      enableSignIn={!!valid}
+      requestFacebook={handlers.requestFacebook}
+      requestGoogle={handlers.requestGoogle}
+      goForgot={() => handlers.goToPath('/forgot')}
+      requestSignIn={() =>
+        handlers.requestSignIn({email: forms.email, password: forms.password})
+      }
+      onChangeKey={(key, value) =>
+        handlers.changeFields('signup', {[key]: value})
+      } />
+  );
 }
 
 SignInContext.contextTypes = {
   store: PropTypes.object.isRequired,
   handlers: PropTypes.object.isRequired
 }
+
 export default SignInContext
