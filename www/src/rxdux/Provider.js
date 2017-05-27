@@ -1,5 +1,6 @@
 import { Component, Children } from 'react'
 import PropTypes from 'prop-types'
+
 export default class Provider extends Component {
   getChildContext () {
     return { store: this.props.store, handlers: this.props.handlers }
@@ -15,8 +16,10 @@ Provider.propTypes = {
   handlers: PropTypes.object.isRequired,
   children: PropTypes.element.isRequired
 }
+
 Provider.childContextTypes = {
   store: PropTypes.object.isRequired,
   handlers: PropTypes.object.isRequired
 }
+
 Provider.displayName = 'Provider'

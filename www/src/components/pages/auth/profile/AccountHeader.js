@@ -1,8 +1,15 @@
 import React from 'react'
 import Button from 'react-md/lib/Buttons/Button'
-const AccountHeader = ({ facebook, google, password,
-    asylum, admin, refugee, volunteer
-        }) => {
+
+const AccountHeader = ({
+  facebook,
+  google,
+  password,
+  asylum,
+  admin,
+  refugee,
+  volunteer,
+}) => {
   return (
     <div>
       {admin ? <Button flat label='Administrator' /> : null}

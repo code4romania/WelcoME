@@ -12,7 +12,7 @@ const Profile = ({panel, profile}) => {
       </ExpansionPanel>
       <ExpansionPanel label={`Next step ${profile.accountStep1OK ? '' : 'not'} ready`} >...</ExpansionPanel>
     </ExpansionList>
-  )
+  );
 }
 
 export default Profile

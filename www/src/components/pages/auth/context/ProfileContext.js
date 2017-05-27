@@ -4,14 +4,23 @@ import { onlyNonEmptyKeys } from '../../../utils'
 import Profile from '../Profile'
 
 const ProfileContext = (p, context) => {
-  const state = context.store
-  const auth = state.auth
-  const forms = state.forms.account
-  const handlers = context.handlers
-  const accountStep1OK = auth.type && auth.emailVerified && auth.firstName && auth.lastName
-  const editing = !accountStep1OK || (forms.accountEditStep === 1)
-  const maySave = (forms.firstName || auth.firstName) && (forms.lastName || auth.lastName) &&
-    (forms.type || auth.type) && auth.emailVerified
+  const state = context.store;
+  const auth = state.auth;
+  const forms = state.forms.account;
+  const handlers = context.handlers;
+
+  // TODO: #2 replace these checks with some auth state evaluation
+  const accountStep1OK =
+    auth.type && auth.emailVerified && auth.firstName && auth.lastName;
+
+  const editing = !accountStep1OK || (forms.accountEditStep === 1);
+
+  const maySave =
+    (forms.firstName || auth.firstName) &&
+    (forms.lastName || auth.lastName) &&
+    (forms.type || auth.type) &&
+    auth.emailVerified;
+
   const panel = {
     cancelLabel: editing ? (accountStep1OK ? 'Cancel' : '') : 'Close',
     saveLabel: editing ? (maySave ? 'Save' : 'Compile all fields') : 'Edit',
@@ -31,12 +40,21 @@ const ProfileContext = (p, context) => {
     onCancel: () => editing
       ? handlers.changeFields('account', { accountEditStep: 0 })
       : handlers.changeFields('account', { accountStep: 0 }),
-    onExpandToggle: () => accountStep1OK && handlers.changeFields('account', { accountStep: forms.accountStep === 1 ? 0 : 1 })
+    onExpandToggle: () =>
+      accountStep1OK &&
+      handlers.changeFields(
+        'account',
+        { accountStep: forms.accountStep === 1 ? 0 : 1 }
+      ),
+  };
 
-  }
+  // TODO: #1 structure these fields
   const profile = {
-    onChangeKey: (key, value) => editing && handlers.changeFields('account', {[key]: value}),
-    sendVerifyEmail: () => !auth.emailVerified && handlers.writeToProfile({ sendVerificationEmail: true }),
+    onChangeKey: (key, value) =>
+      editing && handlers.changeFields('account', {[key]: value}),
+    sendVerifyEmail: () =>
+      !auth.emailVerified &&
+      handlers.writeToProfile({ sendVerificationEmail: true }),
     linkFacebook: handlers.linkFacebook,
     linkGoogle: handlers.linkGoogle,
     editing,
@@ -52,14 +70,17 @@ const ProfileContext = (p, context) => {
     asylum: (forms.type || auth.type) === 'asylum',
     facebook: !!(auth.facebook && auth.facebookCredential),
     google: !!(auth.google && auth.googleCredential),
-    password: auth.password
+    password: auth.password,
+  };
 
-  }
-  return <Profile {...{panel, profile}} />
+  return (
+    <Profile {...{panel, profile}} />
+  );
 }
 
 ProfileContext.contextTypes = {
   store: PropTypes.object.isRequired,
   handlers: PropTypes.object.isRequired
 }
+
 export default ProfileContext
