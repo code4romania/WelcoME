@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import Button from 'react-md/lib/Buttons/Button'
 import { Grid, Row, Col } from 'react-flexbox-grid'
 
+// TODO: #4 auth requests type
 const SignUp = ({
   enableSignUp,
   email,
@@ -16,6 +17,7 @@ const SignUp = ({
   onChangeKey,
   loaded,
 }) => {
+  // TODO: #2 - extract out the rendering part into smaller components
   return (
     <Grid fluid>
       <Row>

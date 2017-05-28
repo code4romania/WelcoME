@@ -9,7 +9,7 @@ const ProfileContext = (p, context) => {
   const forms = state.forms.account;
   const handlers = context.handlers;
 
-  // TODO: #2 replace these checks with some auth state evaluation
+  // TODO: #3 replace these checks with some auth state evaluation
   const accountStep1OK =
     auth.type && auth.emailVerified && auth.firstName && auth.lastName;
 

@@ -1,6 +1,7 @@
 import React from 'react'
 import Button from 'react-md/lib/Buttons/Button'
 
+// TODO: user types
 const AccountHeader = ({
   facebook,
   google,

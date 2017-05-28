@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import Button from 'react-md/lib/Buttons/Button'
 import { Grid, Row, Col } from 'react-flexbox-grid'
 
+// TODO: #2 - extract out the rendering part into smaller components
 const Forgot = ({enableForgot, email, requestForgot, onChangeKey, loaded}) => {
   return (
     <Grid fluid>

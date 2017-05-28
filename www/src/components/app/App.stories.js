@@ -80,17 +80,12 @@ storiesOf('core.Application', module)
       active: (el) === active,
       action: action(`Clicked ${el}`)
     }));
-    const pages = [{
-      key: 1,
-      Page: Profile,
-      visible: boolean('Page Visible', true)
-    }];
 
     return (
       <AuthApp
         clickLogo={action('Clicked on logo')}
         links={links}
-        pages={pages}
+        pages={[]}
         loaded={loaded}
         user={user} />
     );
