@@ -14,9 +14,8 @@ const ForgotContext = (props, context) => {
   }
 
   const email = {
-    label: 'Email',
+    label: 'Email address',
     value: forms.email || '',
-    placeholder: 'Account email',
     error: errors.email || ''
   };
   const valid = forms.email && isEmpty(errors);

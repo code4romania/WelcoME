@@ -8,6 +8,7 @@ const SignUpContext = (props, context) => {
   const handlers = context.handlers;
   const forms = state.forms.signup;
   const errors = {};
+  
   if (forms.email && !emailCheck(forms.email)) {
     errors.email = 'Invalid email address';
   }
@@ -23,9 +24,8 @@ const SignUpContext = (props, context) => {
   }
 
   const email = {
-    label: 'Email',
+    label: 'Email address',
     value: forms.email || '',
-    placeholder: 'Account email',
     error: errors.email || ''
   };
   const password = {
@@ -53,6 +53,7 @@ const SignUpContext = (props, context) => {
       requestSignUp={() =>
         handlers.requestSignUp({email: forms.email, password: forms.password})
       }
+      goToSignIn={() => handlers.goToPath('/signin')}
       onChangeKey={(key, value) =>
         handlers.changeFields('signup', {[key]: value})
       } />

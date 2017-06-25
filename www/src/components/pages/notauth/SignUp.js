@@ -1,9 +1,20 @@
 import React from 'react'
 import { Card } from 'react-md/lib/Cards'
+import Dialog from 'react-md/lib/Dialogs';
+import Divider from 'react-md/lib/Dividers';
 import TextField from 'react-md/lib/TextFields'
 import PropTypes from 'prop-types'
 import Button from 'react-md/lib/Buttons/Button'
 import { Grid, Row, Col } from 'react-flexbox-grid'
+import injectTooltip from 'react-md/lib/Tooltips';
+import classnames from 'classnames';
+
+const TooltipLink = injectTooltip(({children, className, tooltip, ...props}) => (
+  <a {...props} className={classnames(className, 'inline-rel-container')}>
+    {tooltip}
+    {children}
+  </a>
+));
 
 // TODO: #4 auth requests type
 const SignUp = ({
@@ -15,101 +26,117 @@ const SignUp = ({
   requestGoogle,
   requestSignUp,
   onChangeKey,
+  goToSignIn,
   loaded,
 }) => {
   // TODO: #2 - extract out the rendering part into smaller components
+  const contents = 
+    <Grid fluid className='formContainer'>
+      <Row className='formRow'>
+        <Divider />
+        <div className='formRowContent'>
+          <p>
+            Welcome! You can create an account with social media
+          </p>
+        </div>
+        <Divider />
+      </Row>  
+      <Row className='formRow'>
+        <Button
+          className='authAction'
+          onClick={requestFacebook}
+          raised
+          style={{textTransform: 'inherit', backgroundColor: '#3b5998', color: '#f0f0f0', boxShadow: '0 0', borderRadius: '2px', height: '50px'}}
+          label='Facebook'/>
+        <Button
+          className='authAction'
+          onClick={requestGoogle}
+          raised
+          style={{textTransform: 'inherit', backgroundColor: '#d34836', color: '#f0f0f0', boxShadow: '0 0', borderRadius: '2px', height: '50px'}}
+          label='Google'/>
+      </Row>     
+      <Row className='formRow'>
+        <div className='formHalfDivider'>
+          <Divider />
+        </div>
+        <p>
+          or
+        </p>
+        <div className='formHalfDivider'>
+          <Divider />
+        </div>       
+      </Row>  
+      <Row className='formRow'>
+        <Divider />
+        <div className='formRowContent'>
+          <p>
+            with your email if you would prefer
+          </p>
+        </div>
+        <Divider />
+        <TextField
+          className='formTextField'
+          id='email'
+          fullWidth
+          onChange={val => onChangeKey('email', val)}
+          value={email.value}
+          disabled={email.disabled}
+          label={email.label}
+          error={!!email.error}
+          errorText={email.error} />
+        <TextField
+          id='password'
+          fullWidth
+          onChange={val => onChangeKey('password', val)}
+          value={password.value}
+          type='password'
+          label={password.label}
+          error={!!password.error}
+          errorText={password.error} />     
+        <TextField
+          id='passwordRepeat'
+          fullWidth
+          onChange={val => onChangeKey('passwordRepeat', val)}
+          value={passwordRepeat.value}
+          type='password'
+          label={passwordRepeat.label}
+          error={!!passwordRepeat.error}
+          errorText={passwordRepeat.error} />            
+      </Row>    
+      <Row className='formRow'>
+        <Divider />
+        <Button
+          className='authAction'
+          style={{textTransform: 'inherit', backgroundColor: '#79afff', color: '#f0f0f0', boxShadow: '0 0', borderRadius: '1px', height: '50px'}}          
+          disabled={!loaded || !enableSignUp}
+          onClick={requestSignUp}
+          raised
+          iconBefore={false}
+          label='Create account'/>
+        <Divider />
+      </Row>       
+      <Row className='formRow' />
+      <Row className='formRow'>
+        <Divider />
+        <section>
+          <p>
+            Already have an account?
+            <TooltipLink className='authForgotPass' href="#" onClick={goToSignIn}>
+              Log in
+            </TooltipLink>
+          </p>
+        </section>
+        <Divider />
+      </Row>                            
+    </Grid>;
+    
   return (
-    <Grid fluid>
-      <Row>
-        <Col xs={0} sm={1} md={2} lg={3} />
-        <Col xs={12} sm={10} md={8} lg={6}>
-          <Card className='form-not-auth'>
-            <Row middle='xs' center='xs' >
-              <Col xs={5}>
-                <Button
-                  disabled={!loaded}
-                  onClick={requestFacebook}
-                  raised
-                  primary
-                  iconBefore={false}
-                  label='SignUp With Facebook'
-                  iconClassName='fa fa-facebook' />
-              </Col>
-              <Col xs={2} />
-              <Col xs={5}>
-                <Button
-                  disabled={!loaded}
-                  onClick={requestGoogle}
-                  raised
-                  secondary
-                  iconBefore={false}
-                  label='SignUp With Google'
-                  iconClassName='fa fa-google' />
-              </Col>
-            </Row>
-            <Row style={{marginTop: 12, marginBottom: 12}} middle='xs' center='xs' >
-              <Col>
-                <Button flat label='OR' />
-              </Col>
-            </Row>
-            <Row>
-              <Col xs={12} sm={12} md={4} lg={4}>
-                <TextField
-                  id='email'
-                  fullWidth
-                  required
-                  onChange={val => onChangeKey('email', val)}
-                  value={email.value}
-                  disabled={email.disabled}
-                  label={email.label}
-                  placeholder={email.placeholder || email.label}
-                  error={!!email.error}
-                  errorText={email.error} />
-              </Col>
-              <Col xs={12} sm={12} md={4} lg={4}>
-                <TextField
-                  id='password'
-                  fullWidth
-                  required
-                  onChange={val => onChangeKey('password', val)}
-                  value={password.value}
-                  type='password'
-                  label={password.label}
-                  placeholder={password.placeholder || password.label}
-                  error={!!password.error}
-                  errorText={password.error} />
-              </Col>
-              <Col xs={12} sm={12} md={4} lg={4}>
-                <TextField
-                  id='passwordRepeat'
-                  fullWidth
-                  required
-                  onChange={val => onChangeKey('passwordRepeat', val)}
-                  value={passwordRepeat.value}
-                  type='password'
-                  label={passwordRepeat.label}
-                  placeholder={passwordRepeat.placeholder || passwordRepeat.label}
-                  error={!!passwordRepeat.error}
-                  errorText={passwordRepeat.error} />
-              </Col>
-            </Row>
-            <Row style={{marginTop: 20}} />
-            <Row middle='xs' center='xs'>
-              <Col>
-                <Button
-                  disabled={!loaded || !enableSignUp}
-                  onClick={requestSignUp}
-                  raised
-                  iconBefore={false}
-                  label='SignUp With Email'
-                  iconClassName='fa fa-envelope' />
-              </Col>
-            </Row>
-          </Card>
-        </Col>
-        <Col xs={0} sm={1} md={2} lg={3} />
-      </Row>
-    </Grid>
+    <Dialog
+      id="signUpDialog" 
+      visible={true}
+      dialogStyle={{width: 'auto'}} >
+      {contents}
+    </Dialog>    
   );
 }
 

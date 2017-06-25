@@ -17,9 +17,8 @@ const SignInContext = (props, context) => {
   }
 
   const email = {
-    label: 'Email',
+    label: 'Email address',
     value: forms.email || '',
-    placeholder: 'Email',
     error: errors.email || ''
   };
   const password = {
@@ -38,6 +37,7 @@ const SignInContext = (props, context) => {
       requestFacebook={handlers.requestFacebook}
       requestGoogle={handlers.requestGoogle}
       goForgot={() => handlers.goToPath('/forgot')}
+      goToSignUp={() => handlers.goToPath('/signup')}
       requestSignIn={() =>
         handlers.requestSignIn({email: forms.email, password: forms.password})
       }

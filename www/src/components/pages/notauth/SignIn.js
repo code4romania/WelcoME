@@ -16,7 +16,6 @@ const TooltipLink = injectTooltip(({children, className, tooltip, ...props}) => 
   </a>
 ));
 
-
 // TODO: #4 auth requests type
 const SignIn = ({
   enableSignIn,
@@ -27,6 +26,7 @@ const SignIn = ({
   requestSignIn,
   onChangeKey,
   goForgot,
+  goToSignUp,
   loaded
 }) => {
   // TODO: #2 - extract out the rendering part into smaller components
@@ -35,9 +35,6 @@ const SignIn = ({
       <Row className='formRow'>
         <Divider />
         <div className='formRowContent'>
-          <h5>
-            
-          </h5>
           <p>
             Welcome! You can login with social media
           </p>
@@ -67,7 +64,7 @@ const SignIn = ({
         </p>
         <div className='formHalfDivider'>
           <Divider />
-        </div>       
+        </div>
       </Row>  
       <Row className='formRow'>
         <Divider />
@@ -85,7 +82,6 @@ const SignIn = ({
           value={email.value}
           disabled={email.disabled}
           label={email.label}
-          placeholder={email.placeholder || email.label}
           error={!!email.error}
           errorText={email.error} />
         <Divider />
@@ -96,7 +92,6 @@ const SignIn = ({
           value={password.value}
           type='password'
           label={password.label}
-          placeholder={password.placeholder || password.label}
           error={!!password.error}
           errorText={password.error} />
       </Row>
@@ -127,7 +122,7 @@ const SignIn = ({
         <section>
           <p>
             New here? 
-            <TooltipLink className='authForgotPass' href="#" onClick={goForgot}>
+            <TooltipLink className='authForgotPass' href="#" onClick={goToSignUp}>
               Create an account
             </TooltipLink>
           </p>
@@ -138,7 +133,7 @@ const SignIn = ({
     
   return (
     <Dialog
-      id="simpleDialogExample" 
+      id="signInDialog" 
       visible={true}
       dialogStyle={{width: 'auto'}} >
       {contents}
