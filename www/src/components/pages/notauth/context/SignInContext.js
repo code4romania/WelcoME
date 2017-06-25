@@ -19,7 +19,7 @@ const SignInContext = (props, context) => {
   const email = {
     label: 'Email',
     value: forms.email || '',
-    placeholder: 'Account email',
+    placeholder: 'Email',
     error: errors.email || ''
   };
   const password = {
