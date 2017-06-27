@@ -1,5 +1,5 @@
 import { Handlers, Actions, payloads$, store$ } from '../../rxdux'
-import { FirebaseFetch, FirebaseAuth, FirebaseDb, FacebookProvider, GoogleProvider } from '../../firebase'
+import {FirebaseFetch, FirebaseAuth, FirebaseDb, FacebookProvider, GoogleProvider } from '../../firebase'
 import { getCredentialKey } from './helpers'
 import rs from 'randomstring'
 
@@ -74,7 +74,7 @@ payloads$(Actions.SIGNOUT_REQUESTED).subscribe(() => {
   const user = FirebaseAuth.currentUser
   user && FirebaseAuth.signOut().then(() => {
     Handlers.okUser('auth', 'Good bye', `${user.email}`)
-    Handlers.goToPath('/signin')
+    Handlers.goToPath('/home')
   }).catch(err => Handlers.errorUser('auth', 'Sign Out', err))
 })
 

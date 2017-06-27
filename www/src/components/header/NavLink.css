@@ -16,3 +16,11 @@
   color: #79afff;
   border-bottom: 2px solid #79afff;
 }
+
+.md-btn.nav-left {
+  background-color: red;
+}
+
+.md-btn.nav-left {
+  background-color: blue;
+}

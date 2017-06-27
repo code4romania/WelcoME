@@ -6,26 +6,37 @@ import SignUpContext from '../../pages/notauth/context/SignUpContext'
 import ResetContext from '../../pages/notauth/context/ResetContext'
 import ForgotContext from '../../pages/notauth/context/ForgotContext'
 import HomeContext from '../../pages/notauth/context/HomeContext'
+import CampsVisitorContext from '../../pages/notauth/context/CampsVisitorContext'
 
 const NotAuthAppContext = (props, context) => {
   const state = context.store;
   const handlers = context.handlers;
   const loaded = state.auth.loaded;
+  
   const logo = {
     title: 'WelcoME',
     action: () => handlers.goToPath('/')
   };
-
-  // Sign-in / sign-up app bar tabs in the non-auth context
-  const links = state => ([
+  
+  const leftLinks = state => ([
     {
-      key: 'signin',
+      key: 'camps-visitor',
+      text: 'See who\'s here',
+      visible: !state.auth.uid,
+      action: () => handlers.goToPath('/camps'),
+      active: state.router.pathname === '/camps'
+    },
+  ]);  
+  
+  const rightLinks = state => ([
+    {
+      key: 'sign-in',
       icon: 'person_outline',
       text: 'Log in',
       visible: !state.auth.uid,
       action: () => handlers.goToPath('/signin'),
-      active: state.router.pathname === '/signin'
-    },
+      active: state.router.pathname === '/signin',
+    }
   ]);
 
   // All possible paths
@@ -50,6 +61,10 @@ const NotAuthAppContext = (props, context) => {
       key: 'reset',
       Page: ResetContext,
       visible: !!((state.router.pathname === '/resetPassword') && state.router.oobCode && state.router.email)
+    }, {
+      key: 'camps',
+      Page: CampsVisitorContext,
+      visible: state.router.pathname === '/camps'
     }
   ]);
 
@@ -58,8 +73,10 @@ const NotAuthAppContext = (props, context) => {
       <NotAuthApp
         loaded={loaded}
         logo={logo}
-        links={links(state)}
-        pages={pages(state)} />
+        leftLinks={leftLinks(state)}
+        rightLinks={rightLinks(state)}
+        pages={pages(state)}
+        clickLogo={() => handlers.goToPath('/home')} />
     </div>
   );
 }

@@ -12,16 +12,17 @@ const AuthAppContext = (props, context) => {
   const state = context.store;
   const handlers = context.handlers;
   const loaded = state.auth.loaded;
-  const user = {
-    username: state.auth.email,
-    clickProfile: () => handlers.goToPath('/profile'),
-    clickSignout: () => handlers.requestSignout()
-  };
-
+  
   // Possible app bar tabs in the Auth context - Camps, Messages, (Admin)
   // TODO: add the rest of the tabs - Timeline, Legal
-  const links = state => ([
+  const leftLinks = state => ([
     {
+      key: 'feed',
+      text: 'Newsfeed',
+      visible: !!state.auth.uid,
+      action: () => handlers.goToPath('/feed'),
+      active: state.router.pathname === '/feed'
+    }, {
       key: 'admin',
       text: 'Admin',
       visible: !!state.auth.uid && (state.auth.type === 'admin'),
@@ -39,6 +40,30 @@ const AuthAppContext = (props, context) => {
       visible: !!state.auth.uid,
       action: () => handlers.goToPath('/messages'),
       active: state.router.pathname === '/messages'
+    }]);
+    
+  const rightLinks = state => ([
+    {
+      key: 'profile-settings',
+      icon: 'person_outline',
+      text: 'Andrei',
+      visible: !!state.auth.uid,
+      isMenu: true,
+      subLinks: [
+        {
+          key: 'profile',
+          text: 'Profile',
+          visible: !!state.auth.uid,
+          action: () => handlers.goToPath('/profile'),
+          active: state.router.pathname === '/profile',        
+        }, {
+          key: 'sign-out',
+          text: 'Log out',
+          visible: !!state.auth.uid,
+          action: () => handlers.requestSignout(),
+          active: state.router.pathname === '/profile',          
+        }
+      ],     
     }
   ]);
 
@@ -71,10 +96,10 @@ const AuthAppContext = (props, context) => {
     <div>
       <AuthApp
         loaded={loaded}
-        links={links(state)}
+        leftLinks={leftLinks(state)}
+        rightLinks={rightLinks(state)}
         pages={pages(state)}
-        user={user}
-        clickLogo={() => handlers.goToPath('/feed')} />
+        clickLogo={() => handlers.goToPath('/home')} />
     </div>
   );
 }
