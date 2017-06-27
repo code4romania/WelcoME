@@ -55,25 +55,17 @@ const SignIn = ({
           style={{textTransform: 'inherit', backgroundColor: '#d34836', color: '#f0f0f0', boxShadow: '0 0', borderRadius: '2px', height: '50px'}}
           label='Google'/>
       </Row>
+      <Row className='formRow' />  
       <Row className='formRow'>
-        <div className='formHalfDivider'>
+        <div className='formHalfDividerLeft'>
           <Divider />
         </div>
         <p>
-          or
+          or with your email if you'd prefer
         </p>
-        <div className='formHalfDivider'>
+        <div className='formHalfDividerRight'>
           <Divider />
-        </div>
-      </Row>  
-      <Row className='formRow'>
-        <Divider />
-        <div className='formRowContent'>
-          <p>
-            with your email if you would prefer:
-          </p>
-        </div>
-        <Divider />      
+        </div>     
         <TextField
           className='formTextField'
           id='email'
@@ -135,7 +127,7 @@ const SignIn = ({
     <Dialog
       id="signInDialog" 
       visible={true}
-      dialogStyle={{width: 'auto'}} >
+      dialogStyle={{width: '450px'}} >
       {contents}
     </Dialog>
   );

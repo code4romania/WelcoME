@@ -1,9 +1,7 @@
 
 
 .container {
-  background-color: #a0a0a0;
-  width: auto;
-  min-width: 400px;
+#  background-color: #a0a0a0;
 }
 
 .formContainer {
@@ -30,12 +28,22 @@
   margin-bottom: 0;
 }
 
-.formHalfDivider {
-  width: 45%;
+.formHalfDividerLeft {
+  flex-grow: 1;
+  padding-right: 10px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   margin-bottom: 10px;
+}
+
+.formHalfDividerRight {
+  flex-grow: 1;
+  padding-left: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-bottom: 10px;  
 }
 
 .form-not-auth { 

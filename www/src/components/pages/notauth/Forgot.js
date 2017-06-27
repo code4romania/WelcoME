@@ -21,7 +21,7 @@ const Forgot = ({
         <Divider />
         <div className='formRowContent'>
           <p>
-            What's your email address? We'll send you a password reset link
+            We'll send you a link to reset your password
           </p>
         </div>
         <Divider />
@@ -55,7 +55,7 @@ const Forgot = ({
     <Dialog
       id="signUpDialog" 
       visible={true}
-      dialogStyle={{width: 'auto'}} >
+      dialogStyle={{width: '450px'}} >
       {contents}
     </Dialog>
   );
