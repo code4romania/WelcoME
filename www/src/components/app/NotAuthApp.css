@@ -1,6 +1,11 @@
 .notauth-div {
   text-align: center;
 }
+
+.toolbarMenu {
+  border-bottom: 2px solid #e4e4e5;
+}
+
 .md-progress--linear.progress-notauth {  
   background: #1d4bb7;
 }

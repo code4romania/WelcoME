@@ -5,10 +5,13 @@ import './NavLink.css'
 
 const NavLink = (props) => {
   return (props.visible
-    ? <Button flat
-      className={props.active ? 'active-link' : 'inactive-link'}
-      onClick={props.action}
-      label={props.text} />
+    ? <Button
+        className={props.active ? 'active-link' : 'inactive-link'}
+        onClick={props.action}   
+        label={props.text}
+        flat>
+        {props.icon}
+      </Button>
     : null
   );
 }
@@ -16,6 +19,7 @@ const NavLink = (props) => {
 NavLink.propTypes = {
   visible: PropTypes.bool,
   active: PropTypes.bool,
+  icon: PropTypes.string,
   text: PropTypes.string.isRequired,
   action: PropTypes.func
 }

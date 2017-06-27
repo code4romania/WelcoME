@@ -1,8 +1,18 @@
 .md-btn.active-link, .md-btn.inactive-link {
   margin-top: 7px;
+  text-transform: inherit;
+  color: #7f7f7f;
+  box-shadow: 0 0;
+  height: 50px;
+  margin: 0;
+  margin-bottom: -2px;
+  border-radius: 0;
+  font-weight: 800;
+  font-size: 14px;
+  font-family: "Roboto";  
 }
 
-.md-btn.active-link {
-  color: #ffffff;
-  background-color: #a4c639;
+.md-btn.active-link {  
+  color: #79afff;
+  border-bottom: 2px solid #79afff;
 }

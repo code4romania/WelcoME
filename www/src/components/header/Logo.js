@@ -1,22 +1,26 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Button from 'react-md/lib/Buttons/Button'
+import './logo.css'
 
 const Logo = ({clickLogo}) => {
-  return (
+  const contents =
     <Button
-      onClick={clickLogo}
-      style={{marginTop: 7}}
+      className='nav-logo'
+      onClick={clickLogo} 
       label='Welcome'
-      flat
-      primary>
-        rss_feed
-    </Button>
+      flat />;
+  
+  return (
+    <div>
+      {contents}
+    </div>
   );
 }
 
 Logo.PropTypes = {
-  clickLogo: PropTypes.func.isRequired
+  clickLogo: PropTypes.func,
 }
 
 export default Logo
+

@@ -1,0 +1,13 @@
+.md-btn.nav-logo {
+  margin-top: 7px;
+  text-transform: uppercase;
+  color: #7f7f7f;
+  box-shadow: 0 0;
+  height: 50px;
+  margin: 0;
+  margin-bototm: -2px;
+  border-radius: 0;
+  font-weight: 800;
+  font-size: 17px;
+  font-family: "Roboto";
+}

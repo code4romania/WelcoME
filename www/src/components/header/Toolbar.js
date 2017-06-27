@@ -5,18 +5,26 @@ import Menu from '../header/Menu'
 import Logo from '../header/Logo'
 import { Card } from 'react-md/lib/Cards'
 import { Grid, Row, Col } from 'react-flexbox-grid'
+import './toolbar.css'
 
 const Toolbar = ({clickLogo, links, user}) => {
+  const contents = 
+    <Row>
+      <Col>
+        <Logo clickLogo={clickLogo} />
+      </Col>
+      <Col>
+        <Menu links={links} />
+      </Col>
+      <Col>
+        <User {...user} />
+      </Col>
+    </Row>;
+    
   return (
-    <Card style={{paddingBottom: 10, marginBottom: 10}}>
-      <Grid fluid>
-        <Row center='xs'>
-          <Col xs={2}><Logo clickLogo={clickLogo} /></Col>
-          <Col xs={5}><Menu links={links} /></Col>
-          <Col xs={5}><User {...user} /></Col>
-        </Row>
-      </Grid>
-    </Card>
+    <Grid fluid className='toolbar-menu'>
+      {contents}
+    </Grid>
   );
 }
 

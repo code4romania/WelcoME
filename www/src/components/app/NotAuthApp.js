@@ -1,25 +1,18 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import TitleCard from '../header/TitleCard'
+import HomeCard from '../header/HomeCard'
 import LinearProgress from 'react-md/lib/Progress/LinearProgress'
-import Menu from '../header/Menu'
+import Toolbar from '../header/Toolbar'
 import Pages from '../pages/Pages'
 import './NotAuthApp.css'
 
 const NotAuthApp = ({logo, links, pages, loaded}) => {
   const {title, action} = logo;
 
-  let progressBar = loaded
-    ? <LinearProgress id='progress-notauth' className='progress-notauth' />
-    : null;
-
   return (
     <div>
-      <TitleCard title={title} action={action} />
-      {progressBar}
-      <div className='notauth-div'>
-        <Menu links={links} />
-      </div>
+      <Toolbar links={links} />
+      <HomeCard title={title} action={action} />
       <Pages pages={pages} />
     </div>
   );

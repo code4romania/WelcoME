@@ -20,17 +20,12 @@ const NotAuthAppContext = (props, context) => {
   const links = state => ([
     {
       key: 'signin',
-      text: 'SignIn',
+      icon: 'person_outline',
+      text: 'Log in',
       visible: !state.auth.uid,
       action: () => handlers.goToPath('/signin'),
       active: state.router.pathname === '/signin'
-    }, {
-      key: 'signup',
-      text: 'SignUp',
-      visible: !state.auth.uid,
-      action: () => handlers.goToPath('/signup'),
-      active: state.router.pathname === '/signup'
-    }
+    },
   ]);
 
   // All possible paths

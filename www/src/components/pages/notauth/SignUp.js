@@ -123,6 +123,7 @@ export default class SignUp extends PureComponent {
     return (
       <Dialog
         id="signUpDialog" 
+        aria-describedby="sign-up dialog"
         visible={this.state.visible}
         dialogStyle={{width: '450px'}}
         onHide={this.closeDialog} 
