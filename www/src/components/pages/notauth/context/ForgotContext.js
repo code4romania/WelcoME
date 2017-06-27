@@ -26,6 +26,7 @@ const ForgotContext = (props, context) => {
       email={email}
       enableForgot={!!valid}
       requestForgot={() => handlers.requestForgot({email: forms.email})}
+      goToHome={() => handlers.goToPath('/home')}      
       onChangeKey={(key, value) =>
         handlers.changeFields('signup', {[key]: value})
       } />

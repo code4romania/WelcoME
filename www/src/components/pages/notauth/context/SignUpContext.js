@@ -54,6 +54,7 @@ const SignUpContext = (props, context) => {
         handlers.requestSignUp({email: forms.email, password: forms.password})
       }
       goToSignIn={() => handlers.goToPath('/signin')}
+      goToHome={() => handlers.goToPath('/home')}      
       onChangeKey={(key, value) =>
         handlers.changeFields('signup', {[key]: value})
       } />

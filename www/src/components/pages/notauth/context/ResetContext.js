@@ -43,6 +43,7 @@ const ResetContext = (props, context) => {
         password: forms.password,
         oobCode: state.router.oobCode
       })}
+      goToHome={() => handlers.goToPath('/home')}
       onChangeKey={(key, value) =>
         handlers.changeFields('signup', {[key]: value})
       } />
