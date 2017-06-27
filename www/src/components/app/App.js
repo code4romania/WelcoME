@@ -1,29 +1,25 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import HomeCard from '../header/HomeCard'
-import LinearProgress from 'react-md/lib/Progress/LinearProgress'
-import Toolbar from '../header/Toolbar'
 import Pages from '../pages/Pages'
-import './NotAuthApp.css'
+import Toolbar from '../header/Toolbar'
 
-const NotAuthApp = ({logo, leftLinks, rightLinks, pages, loaded, clickLogo}) => {
-  const {title, action} = logo;
+import './App.css'
 
+const App = ({leftLinks, rightLinks, pages, loaded, clickLogo}) => {
   return (
     <div>
-      <Toolbar clickLogo={clickLogo} leftLinks={leftLinks} rightLinks={rightLinks}/>
-      <HomeCard title={title} action={action} />
+      <Toolbar 
+        clickLogo={clickLogo} 
+        leftLinks={leftLinks} 
+        rightLinks={rightLinks}
+        loading={!loaded} />
       <Pages pages={pages} />
     </div>
   );
 }
 
-NotAuthApp.PropTypes = {
-  loaded: PropTypes.bool.isRequired,
-  logo:  PropTypes.arrayOf(PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    action: PropTypes.func.isRequired
-  })).isRequired,
+App.PropTypes = {
+  loaded: PropTypes.bool,
   leftLinks: PropTypes.arrayOf(PropTypes.shape({
     key: PropTypes.string.isRequired,
     text: PropTypes.string.isRequired,
@@ -42,7 +38,13 @@ NotAuthApp.PropTypes = {
     key: PropTypes.string.isRequired,
     Page: PropTypes.oneOf([PropTypes.element, PropTypes.func]).isRequired,
     visible: PropTypes.bool.isRequired
-  })).isRequired
+  })).isRequired,
+  clickLogo: PropTypes.func.isRequired,
+  user: PropTypes.shape({
+    username: PropTypes.string.isRequired,
+    clickProfile: PropTypes.func.isRequired,
+    clickSignout: PropTypes.func.isRequired
+  })
 }
 
-export default NotAuthApp
+export default App

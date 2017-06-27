@@ -4,24 +4,32 @@ import Menu from '../header/Menu'
 import Logo from '../header/Logo'
 import { Card } from 'react-md/lib/Cards'
 import { Grid, Row, Col } from 'react-flexbox-grid'
+import LoadingBar from './LoadingBar'
+
 import './toolbar.css'
 
-const Toolbar = ({clickLogo, leftLinks, rightLinks}) => {
-  const contents = 
-    <Row style={{display: 'flex', justifyContent: 'space-between'}}>
-      <div style={{display: 'flex'}}>
-        <Logo clickLogo={clickLogo} />
-        <Menu links={leftLinks} />
+const Toolbar = ({clickLogo, leftLinks, rightLinks, loading}) => {
+  let renderLoading = loading 
+    ? <div style={{marginTop: '-2px'}}>
+        <LoadingBar /> 
       </div>
-      <div>
-        <Menu links={rightLinks} />
-      </div>
-    </Row>;
-    
+    : null;
+  
   return (
-    <Grid fluid className='toolbar-menu'>
-      {contents}
-    </Grid>
+    <div>     
+      <Grid fluid className='toolbar-menu'>
+        <Row style={{display: 'flex', justifyContent: 'space-between'}}>
+          <div style={{display: 'flex'}}>
+            <Logo clickLogo={clickLogo} />
+            <Menu links={leftLinks} />
+          </div>
+          <div>
+            <Menu links={rightLinks} />
+          </div>
+        </Row>
+      </Grid>
+      {renderLoading}
+    </div>
   );
 }
 
@@ -41,11 +49,7 @@ Toolbar.PropTypes = {
     active: PropTypes.bool.isRequired
   })).isRequired,  
   clickLogo: PropTypes.func.isRequired,
-  user: PropTypes.shape({
-    username: PropTypes.string.isRequired,
-    clickProfile: PropTypes.func.isRequired,
-    clickSignout: PropTypes.func.isRequired
-  })
+  loading: PropTypes.bool,
 }
 
 export default Toolbar

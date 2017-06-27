@@ -74,7 +74,7 @@ payloads$(Actions.SIGNOUT_REQUESTED).subscribe(() => {
   const user = FirebaseAuth.currentUser
   user && FirebaseAuth.signOut().then(() => {
     Handlers.okUser('auth', 'Good bye', `${user.email}`)
-    Handlers.goToPath('/home')
+    Handlers.goToPath('/')
   }).catch(err => Handlers.errorUser('auth', 'Sign Out', err))
 })
 

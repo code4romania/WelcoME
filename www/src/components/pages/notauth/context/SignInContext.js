@@ -38,7 +38,7 @@ const SignInContext = (props, context) => {
       requestGoogle={handlers.requestGoogle}
       goForgot={() => handlers.goToPath('/forgot')}
       goToSignUp={() => handlers.goToPath('/signup')}
-      goToHome={() => handlers.goToPath('/home')}
+      goToHome={() => handlers.goToPath('/')}
       requestSignIn={() =>
         handlers.requestSignIn({email: forms.email, password: forms.password})
       }

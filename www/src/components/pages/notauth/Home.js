@@ -1,12 +1,20 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
-const Home = () => {
+import { CardTitle } from 'react-md/lib/Cards'
+import imgSrc from '../../../../public/media/header/main.jpg'
+import './Home.css'
+
+const Home = ({action}) => {
   return (
-    <div>
-      <h1>Home</h1>
-      <h2> Some landing page info here </h2>
+    <div className='container-logo' onClick={action}>
+      <img className='imgLogo' src={imgSrc} alt='logo' />
     </div>
   );
+}
+
+Home.propTypes = {
+  action: PropTypes.func
 }
 
 export default Home
