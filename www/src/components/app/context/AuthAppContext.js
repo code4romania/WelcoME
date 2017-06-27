@@ -40,13 +40,14 @@ const AuthAppContext = (props, context) => {
       visible: !!state.auth.uid,
       action: () => handlers.goToPath('/messages'),
       active: state.router.pathname === '/messages'
-    }]);
+    },
+  ]);
     
   const rightLinks = state => ([
     {
       key: 'profile-settings',
       icon: 'person_outline',
-      text: 'Andrei',
+      text: 'Me',
       visible: !!state.auth.uid,
       isMenu: true,
       subLinks: [
@@ -62,7 +63,7 @@ const AuthAppContext = (props, context) => {
           visible: !!state.auth.uid,
           action: () => handlers.requestSignout(),
           active: state.router.pathname === '/profile',          
-        }
+        },
       ],     
     }
   ]);

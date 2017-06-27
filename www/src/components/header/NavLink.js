@@ -19,6 +19,7 @@ const NavLink = (props) => {
         onClick={props.action}   
         label={props.text}
         isOpen={props.active}
+        buttonChildren={props.icon}
         flat >      
         {(props.subLinks || []).map(link => (
           <ListItem>
@@ -36,7 +37,6 @@ const NavLink = (props) => {
         className={props.active ? 'active-link' : 'inactive-link'}
         onClick={props.action}   
         label={props.text}
-        isOpen={props.active}
         flat >
         {props.icon}
       </Button>

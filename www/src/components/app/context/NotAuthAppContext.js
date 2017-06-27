@@ -36,7 +36,7 @@ const NotAuthAppContext = (props, context) => {
       visible: !state.auth.uid,
       action: () => handlers.goToPath('/signin'),
       active: state.router.pathname === '/signin',
-    }
+    },
   ]);
 
   // All possible paths

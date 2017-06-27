@@ -59,7 +59,7 @@ export default class SignUp extends PureComponent {
             <Divider />
           </div>
           <p>
-            or with your email if you'd prefer
+            {'or with your email if you\'d prefer'}
           </p>
           <div className='formHalfDividerRight'>
             <Divider />
@@ -146,7 +146,7 @@ SignUp.propTypes = {
   requestFacebook: PropTypes.func.isRequired,
   requestGoogle: PropTypes.func.isRequired,
   requestSignUp: PropTypes.func.isRequired,
-  goToSignUp: PropTypes.func.isRequired,
+  goToSignIn: PropTypes.func.isRequired,
   goToHome: PropTypes.func.isRequired,  
   onChangeKey: PropTypes.func.isRequired,
   enableSignUp: PropTypes.bool,
