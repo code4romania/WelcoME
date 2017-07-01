@@ -1,7 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
-import { CardTitle } from 'react-md/lib/Cards'
 import imgSrc from '../../../../public/media/header/main.jpg'
 import './Home.css'
 

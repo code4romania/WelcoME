@@ -5,11 +5,11 @@ import Toolbar from '../header/Toolbar'
 
 import './App.css'
 
-const App = ({leftLinks, rightLinks, pages, loaded, clickLogo}) => {
+const App = ({loaded, logo, leftLinks, rightLinks, pages}) => {
   return (
     <div>
       <Toolbar 
-        clickLogo={clickLogo} 
+        logo={logo} 
         leftLinks={leftLinks} 
         rightLinks={rightLinks}
         loading={!loaded} />
@@ -20,6 +20,9 @@ const App = ({leftLinks, rightLinks, pages, loaded, clickLogo}) => {
 
 App.PropTypes = {
   loaded: PropTypes.bool,
+  logo: PropTypes.shape({
+    action: PropTypes.func.isRequired,
+  }),  
   leftLinks: PropTypes.arrayOf(PropTypes.shape({
     key: PropTypes.string.isRequired,
     text: PropTypes.string.isRequired,
@@ -39,12 +42,6 @@ App.PropTypes = {
     Page: PropTypes.oneOf([PropTypes.element, PropTypes.func]).isRequired,
     visible: PropTypes.bool.isRequired
   })).isRequired,
-  clickLogo: PropTypes.func.isRequired,
-  user: PropTypes.shape({
-    username: PropTypes.string.isRequired,
-    clickProfile: PropTypes.func.isRequired,
-    clickSignout: PropTypes.func.isRequired
-  })
 }
 
 export default App
