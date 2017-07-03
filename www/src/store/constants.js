@@ -3,9 +3,12 @@
 export const Entities = {}
 
 Entities.userTypes = {
-  ADMIN: 'ADMIN',
-  VOLUNTEER: 'VOLUNTEER',
-  COMMUNITY_HELPER: 'COMMUNITY_HELPER',
-  REFUGEE: 'REFUGEE',
-  ASYLUM_SEEKER: 'ASYLUM_SEEKER'
+  PENDING: 'pending',  
+  OWNER: 'owner',
+  VOLUNTEER: 'volunteer',
+  REFUGEE: 'refugee',
+}
+
+export const Locale = {
+  EN: 'en',
 }

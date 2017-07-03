@@ -1,11 +1,24 @@
-import { Handlers, Actions, payloads$, store$ } from '../../rxdux'
-import {FirebaseFetch, FirebaseAuth, FirebaseDb, FacebookProvider, GoogleProvider } from '../../firebase'
+import { 
+  Handlers, 
+  Actions, 
+  payloads$, 
+  store$
+} from '../../rxdux'
+import {
+  FirebaseFetch, 
+  FirebaseAuth, 
+  FirebaseDb, 
+  FacebookProvider, 
+  GoogleProvider 
+} from '../../firebase'
 import { getCredentialKey } from './helpers'
 import rs from 'randomstring'
+import { Entities, Locale } from '../constants.js'
 
 // import { Entities } from '../constants'
 // on user changed observe users/uid key for changes
 let lastUid = rs.generate(3)
+
 FirebaseAuth.onAuthStateChanged(user => {
   const uid = user && user.uid
   if (lastUid !== uid) {
@@ -45,6 +58,7 @@ payloads$(Actions.RESET_PASSWORD_REQUESTED)
       Handlers.goToPath('/signin')
     })
   })
+  
 // when email verified
 payloads$(Actions.ROUTE_CHANGED)
   .filter(route => route.pathname === '/actions' && route.mode === 'verifyEmail' && route.email && route.oobCode)
@@ -83,14 +97,21 @@ payloads$(Actions.SIGNUP_EMAIL_REQUESTED)
   .subscribe((fields) => {
     FirebaseAuth.createUserWithEmailAndPassword(fields.email, fields.password)
       .then(user => {
-        Handlers.goToPath('/profile')
-        return user
+        Handlers.goToPath('/profile');
+        console.log('SIGNUP_EMAIL_REQUESTED -- ...');
+        console.log(user);
+        return user;
       })
-      .then(user => FirebaseFetch('changeProfile', {
-        // TODO here we send actual language from UI
-        lang: 'en',
-        sendVerificationEmail: true
-      }, user))
+      .then(user => FirebaseFetch(
+        'changeProfile', 
+        {
+          type: Entities.userTypes.PENDING,     
+          // TODO here we send actual language from UI
+          locale: Locale.EN,
+          sendVerificationEmail: true,   
+        }, 
+        user,
+      ))
       .then(() => Handlers.okUser(
         'signup',
         'An email was sent at', `${fields.email}. Follow the link to enable your account.`,
