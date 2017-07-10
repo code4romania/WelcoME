@@ -28,14 +28,14 @@ const AuthAppContext = (props, context) => {
       visible: !!state.auth.uid,
       action: () => handlers.goToPath('/feed'),
       active: state.router.pathname === '/feed'
-    }, 
+    },
     {
       key: 'auth-camps-link',
       text: 'Camps',
       visible: !!state.auth.uid,
       action: () => handlers.goToPath('/camps'),
       active: state.router.pathname === '/camps'
-    }, 
+    },
     {
       key: 'auth-messages-link',
       text: 'Messages',
@@ -44,7 +44,7 @@ const AuthAppContext = (props, context) => {
       active: state.router.pathname === '/messages'
     },
   ]);
-    
+
   const rightLinks = state => ([
     {
       key: 'auth-profile-settings-link',
@@ -58,18 +58,18 @@ const AuthAppContext = (props, context) => {
           text: 'Profile',
           visible: !!state.auth.uid,
           action: () => handlers.goToPath('/profile'),
-          active: state.router.pathname === '/profile',        
+          active: state.router.pathname === '/profile',
         }, {
           key: 'auth-sign-out-link',
           text: 'Log out',
           visible: !!state.auth.uid,
           action: () => handlers.requestSignout(),
-          active: state.router.pathname === '/profile',          
+          active: state.router.pathname === '/profile',
         },
-      ],     
-    }    
+      ],
+    }
   ]);
-  
+
   // All possible paths
   const pages = state => ([
     {
@@ -81,12 +81,12 @@ const AuthAppContext = (props, context) => {
       key: 'camps-page',
       Page: CampsContext,
       visible: !!state.auth.uid && state.router.pathname === '/camps'
-    }, 
+    },
     {
       key: 'messages-page',
       Page: MessagesContext,
       visible: !!state.auth.uid && state.router.pathname === '/messages'
-    }, 
+    },
     {
       key: 'feed-page',
       Page: FeedContext,
@@ -95,11 +95,16 @@ const AuthAppContext = (props, context) => {
       key: 'profile-page',
       Page: ProfileContext,
       visible: !!state.auth.uid && state.router.pathname === '/profile'
-    },    
-  ]);  
+    },
+  ]);
 
-  return !state.auth.appLoaded
-    ? (<LoadingBar />)
+  return !loaded
+    ? (<App
+        loaded={false}
+        logo={{}}
+        leftLinks={[]}
+        rightLinks={[]}
+        pages={[]} />)
     : (<div>
         <App
           loaded={loaded}
@@ -108,12 +113,12 @@ const AuthAppContext = (props, context) => {
           rightLinks={rightLinks(state)}
           pages={pages(state)} />
         <ToastrContext />
-      </div>);    
+      </div>);
 }
 
 AuthAppContext.contextTypes = {
   store: PropTypes.object,
-  handlers: PropTypes.object.isRequired  
+  handlers: PropTypes.object.isRequired
 }
 
 export default AuthAppContext

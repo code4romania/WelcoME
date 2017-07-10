@@ -5,7 +5,15 @@ const { sendVerificationEmail } = require('./sendemails.js')
 
 module.exports = ({ profile, uid }) => new Promise((resolve, reject) => {
   const auth = admin.auth();
-  const profileKeys = ['firstName', 'lastName', 'facebookCredential', 'googleCredential', 'lang', 'type'];
+  const profileKeys = [
+    'firstName',
+    'lastName',
+    'type',
+    'locale',
+    'sendVerificationEmail',
+    'facebookCredential',
+    'googleCredential',
+  ];
   const scope = {};
   const newProfile = Object.assign({}, profile);
 
@@ -63,15 +71,16 @@ module.exports = ({ profile, uid }) => new Promise((resolve, reject) => {
         email: user.email,
         emailVerified,
         password: !!password,
+        type: profile.type,
         google: !!google,
-        facebook: !!facebook
+        facebook: !!facebook,
       })
     })
     .then(() => scope.updateUser && auth.updateUser(uid, { emailVerified: true }))
     .then(() => scope.sendVerificationEmail && sendVerificationEmail({
       uid,
       email: scope.sendVerificationEmail,
-      lang: profile.lang
+      lang: profile.locale
     }))
     // write all modifs in the users uid key
     .then(() => admin.database().ref(`/users/${uid}`).update(newProfile))

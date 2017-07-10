@@ -1,15 +1,15 @@
-import { 
-  Handlers, 
-  Actions, 
-  payloads$, 
+import {
+  Handlers,
+  Actions,
+  payloads$,
   store$
 } from '../../rxdux'
 import {
-  FirebaseFetch, 
-  FirebaseAuth, 
-  FirebaseDb, 
-  FacebookProvider, 
-  GoogleProvider 
+  FirebaseFetch,
+  FirebaseAuth,
+  FirebaseDb,
+  FacebookProvider,
+  GoogleProvider
 } from '../../firebase'
 import { getCredentialKey } from './helpers'
 import rs from 'randomstring'
@@ -58,7 +58,7 @@ payloads$(Actions.RESET_PASSWORD_REQUESTED)
       Handlers.goToPath('/signin')
     })
   })
-  
+
 // when email verified
 payloads$(Actions.ROUTE_CHANGED)
   .filter(route => route.pathname === '/actions' && route.mode === 'verifyEmail' && route.email && route.oobCode)
@@ -103,13 +103,14 @@ payloads$(Actions.SIGNUP_EMAIL_REQUESTED)
         return user;
       })
       .then(user => FirebaseFetch(
-        'changeProfile', 
+        'changeProfile',
         {
-          type: Entities.userTypes.PENDING,     
+          uid: user.uid,
+          type: Entities.userTypes.PENDING,
           // TODO here we send actual language from UI
           locale: Locale.EN,
-          sendVerificationEmail: true,   
-        }, 
+          sendVerificationEmail: true,
+        },
         user,
       ))
       .then(() => Handlers.okUser(

@@ -28,7 +28,7 @@ const NotAuthAppContext = (props, context) => {
       active: state.router.pathname === '/camps-visitor'
     },
   ]);
-    
+
   const rightLinks = state => ([
     {
       key: 'not-auth-sign-in-link',
@@ -37,45 +37,50 @@ const NotAuthAppContext = (props, context) => {
       visible: !state.auth.uid,
       action: () => handlers.goToPath('/signin'),
       active: state.router.pathname === '/signin' || state.router.pathname === '/signup' || state.router.pathname === '/forgot' || state.router.pathname === '/resetPassword',
-    },    
+    },
   ]);
-  
+
   // All possible paths
   const pages = state => ([
     {
       key: 'home-page',
       Page: HomeContext,
       visible: state.router.pathname === '/'
-    }, 
+    },
     {
       key: 'signin-page',
       Page: SignInContext,
       visible: !state.auth.uid && state.router.pathname === '/signin'
-    }, 
+    },
     {
       key: 'signup-page',
       Page: SignUpContext,
       visible: !state.auth.uid && state.router.pathname === '/signup'
-    }, 
+    },
     {
       key: 'forgot-page',
       Page: ForgotContext,
       visible: !state.auth.uid && state.router.pathname === '/forgot'
-    }, 
+    },
     {
       key: 'reset-page',
       Page: ResetContext,
       visible: !!((state.router.pathname === '/resetPassword') && state.router.oobCode && state.router.email)
-    }, 
+    },
     {
       key: 'camps-visitor-page',
       Page: CampsVisitorContext,
       visible: !state.auth.uid && state.router.pathname === '/camps-visitor'
     },
-  ]);  
+  ]);
 
   return !state.auth.appLoaded
-    ? (<LoadingBar />)
+    ? (<App
+        loaded={false}
+        logo={{}}
+        leftLinks={[]}
+        rightLinks={[]}
+        pages={[]} />)
     : (<div>
         <App
           loaded={loaded}
@@ -84,12 +89,12 @@ const NotAuthAppContext = (props, context) => {
           rightLinks={rightLinks(state)}
           pages={pages(state)} />
         <ToastrContext />
-      </div>);    
+      </div>);
 }
 
 NotAuthAppContext.contextTypes = {
   store: PropTypes.object,
-  handlers: PropTypes.object.isRequired  
+  handlers: PropTypes.object.isRequired
 }
 
 export default NotAuthAppContext

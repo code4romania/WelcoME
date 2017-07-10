@@ -2,6 +2,7 @@
 import { Actions, dispatch, Handlers } from '../../rxdux'
 import rs from 'randomstring'
 import { isEmpty } from '../../components/utils'
+
 // handlers
 // UI handlers
 // user requested signup with email and password

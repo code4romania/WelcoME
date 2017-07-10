@@ -1,27 +1,60 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import LoadingBar from '../../header/LoadingBar'
+import App from '../App.js'
 import NotAuthAppContext from './NotAuthAppContext'
 import AuthAppContext from './AuthAppContext'
 import AdminAppContext from './AdminAppContext'
+import PendingAuthAppContext from './PendingAuthAppContext'
 
 // This is the main app entrypoint
 const AppContext = (props, context) => {
   const state = context.store;
 
-  let appContext = !state.auth || !state.auth.uid
-    ? <NotAuthAppContext />
-    : state.auth.type !== 'admin'
-      ? <AuthAppContext />
-      : <AdminAppContext />;
+  const isAuth = state => {
+    return !!state.auth;
+  }
+
+  const getNotAuthContext = state => {
+    return (
+      <NotAuthAppContext />
+    );
+  }
+
+  const getAuthContext = state => {
+    if (state.auth.type === 'pending') {
+      return (
+        <PendingAuthAppContext />
+      );
+    }
+    if (state.auth.type === 'admin') {
+      return (
+        <AdminAppContext />
+      );
+    }
+
+    return (
+      <AuthAppContext />
+    );
+  }
+
+  const getAppContext = state => {
+    return !state.auth || !state.auth.uid
+      ? getNotAuthContext(state)
+      : getAuthContext(state);
+  }
 
   return !state.auth.appLoaded
-    ? (<LoadingBar />)
+    ? (<App
+        loaded={false}
+        logo={{}}
+        leftLinks={[]}
+        rightLinks={[]}
+        pages={[]} />)
     : (
         <div>
-          {appContext}
+          {getAppContext(state)}
         </div>
-      );    
+      );
 }
 
 AppContext.contextTypes = {

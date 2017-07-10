@@ -17,15 +17,15 @@ const AdminAppContext = (props, context) => {
 
   const leftLinks = state => ([
     {
-      key: 'admin-link', 
+      key: 'admin-link',
       text: 'Admin',
       visible: !!state.auth.uid && (state.auth.type === 'admin'),
       action: () => handlers.goToPath('/admin'),
       active: state.router.pathname === '/admin'
-    }, 
+    },
   ]);
-    
-  const rightLinks = state => ([  
+
+  const rightLinks = state => ([
     {
       key: 'admin-profile-settings-link',
       icon: 'person_outline',
@@ -38,34 +38,39 @@ const AdminAppContext = (props, context) => {
           text: 'Profile',
           visible: !!state.auth.uid,
           action: () => handlers.goToPath('/profile'),
-          active: state.router.pathname === '/profile',        
+          active: state.router.pathname === '/profile',
         }, {
           key: 'admin-sign-out-link',
           text: 'Log out',
           visible: !!state.auth.uid,
           action: () => handlers.requestSignout(),
-          active: state.router.pathname === '/profile',          
+          active: state.router.pathname === '/profile',
         },
-      ],     
-    }    
+      ],
+    }
   ]);
-  
+
   // All possible paths
   const pages = state => ([
     {
       key: 'admin-page',
       Page: AdminContext,
       visible: (state.auth.type === 'admin') && (state.router.pathname === '/admin')
-    }, 
+    },
     {
       key: 'admin-profile-page',
       Page: ProfileContext,
       visible: !!state.auth.uid && state.router.pathname === '/profile'
-    },    
-  ]);  
+    },
+  ]);
 
   return !state.auth.appLoaded
-    ? (<LoadingBar />)
+    ? (<App
+        loaded={false}
+        logo={{}}
+        leftLinks={[]}
+        rightLinks={[]}
+        pages={[]} />)
     : (<div>
         <App
           loaded={loaded}
@@ -74,12 +79,12 @@ const AdminAppContext = (props, context) => {
           rightLinks={rightLinks(state)}
           pages={pages(state)} />
         <ToastrContext />
-      </div>);    
+      </div>);
 }
 
 AdminAppContext.contextTypes = {
   store: PropTypes.object,
-  handlers: PropTypes.object.isRequired  
+  handlers: PropTypes.object.isRequired
 }
 
 export default AdminAppContext
