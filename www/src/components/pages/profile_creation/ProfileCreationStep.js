@@ -3,10 +3,10 @@ import PropTypes from 'prop-types'
 import LocationStep from '../auth/profile/LocationStep'
 
 
-const ProfileCreationStep = ({ text , data }) => {
+const ProfileCreationStep = ({ text , camps, countries }) => {
     if (text == "location") {
       return ( 
-      	 <LocationStep  {...{data}} />
+      	 <LocationStep  {...{camps,countries}} />
       	 );
     } else {
         return ( 

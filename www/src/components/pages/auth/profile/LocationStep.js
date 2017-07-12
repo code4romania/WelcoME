@@ -2,7 +2,7 @@ import React from 'react'
 import SelectField from 'react-md/lib/SelectFields'
 import { Grid, Row, Col } from 'react-flexbox-grid'
 
-const LocationStep = (camps) => {
+const LocationStep = ({camps, countries}) => {
     return ( 
     < Grid fluid >
         < Row >
@@ -10,7 +10,7 @@ const LocationStep = (camps) => {
                     id = 'camp-location'
                     required = "true"
                     defaultValue = ""
-                    menuItems = {camps.data}
+                    menuItems = {camps}
                     key = 'camp-location'
                     label ="Select Camp"
                     fullWidth = "true"
@@ -22,7 +22,7 @@ const LocationStep = (camps) => {
                     id = 'camp-country'
                     required = "true"
                     defaultValue = { 0 }
-                    menuItems = {['France', 'Germany']}
+                    menuItems = {countries}
                     key = 'camp-country'
                     label = "Select Country"
                     fullWidth = "true"

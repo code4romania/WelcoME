@@ -1,8 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { onlyNonEmptyKeys } from '../../../utils'
+import { onlyNonEmptyKeys,countries } from '../../../utils'
 import Profile from '../Profile'
-
 const ProfileContext = (p, context) => {
     const state = context.store;
     const auth = state.auth;
@@ -79,7 +78,9 @@ const ProfileContext = (p, context) => {
         facebook: !!(auth.facebook && auth.facebookCredential),
         google: !!(auth.google && auth.googleCredential),
         password: auth.password,
-        camps: campsNames
+        camps: campsNames,
+        countries: countries
+
     };
 
     return ( < Profile {... { panel, profile } }
