@@ -11,7 +11,10 @@ const Profile = ({panel, profile}) => {
         <Account {...profile} />
       </ExpansionPanel>
       <ExpansionPanel label={`Next step ${profile.accountStep1OK ? '' : 'not'} ready`} >
-      	<ProfileCreationStep text="location" camps = {profile.camps} countries={profile.countries}  />
+      	<ProfileCreationStep text="location" camps = {panel.camps} countries={panel.countries}  />
+      </ExpansionPanel>
+          <ExpansionPanel label={`Next step ${profile.accountStep1OK ? '' : 'not'} ready`} >
+      	<ProfileCreationStep text="skills" studies = {panel.studies} skills={panel.skills}  />
       </ExpansionPanel>
     </ExpansionList>
   );

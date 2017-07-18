@@ -14,3 +14,7 @@
 .progress-auth > .md-progress--linear-active {
   background: #32c331;
 }
+.md-menu-container{
+	margin-top:-10px;
+	margin-bottom: 10px;
+}

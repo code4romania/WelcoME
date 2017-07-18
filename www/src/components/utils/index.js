@@ -20,6 +20,8 @@ export const onlyNonEmptyDiffKeys = (source, destination) => {
   return !isEmpty(res) && res
 }
 
+export const studies = ["College", "High School","Professional School"];
+export const skills = ["Cooking","Singing","Ironing","Teaching","Computers","Make up","Pet sitting","House Care","Reading","Gardening","Sports","Cleaning","Hair cut","Law","Medicine"];
 export const countries =  ["Afghanistan","Albania","Algeria","Andorra","Angola","Anguilla","Antigua &amp; Barbuda","Argentina","Armenia","Aruba","Australia","Austria","Azerbaijan","Bahamas"
     ,"Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bermuda","Bhutan","Bolivia","Bosnia &amp; Herzegovina","Botswana","Brazil","British Virgin Islands"
     ,"Brunei","Bulgaria","Burkina Faso","Burundi","Cambodia","Cameroon","Canada","Cape Verde","Cayman Islands","Chad","Chile","China","Colombia","Congo","Cook Islands","Costa Rica"

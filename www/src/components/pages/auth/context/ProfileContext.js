@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { onlyNonEmptyKeys,countries } from '../../../utils'
+import { onlyNonEmptyKeys, countries, studies, skills } from '../../../utils'
 import Profile from '../Profile'
 const ProfileContext = (p, context) => {
     const state = context.store;
@@ -51,6 +51,10 @@ const ProfileContext = (p, context) => {
             handlers.changeFields(
                 'account', { accountStep: forms.accountStep === 1 ? 0 : 1 }
             ),
+        camps: campsNames,
+        countries: countries,
+        studies : studies,
+        skills: skills
     };
 
     // TODO: #1 structure these fields
@@ -77,10 +81,7 @@ const ProfileContext = (p, context) => {
         asylum: (forms.type || auth.type) === 'asylum',
         facebook: !!(auth.facebook && auth.facebookCredential),
         google: !!(auth.google && auth.googleCredential),
-        password: auth.password,
-        camps: campsNames,
-        countries: countries
-
+        password: auth.password
     };
 
     return ( < Profile {... { panel, profile } }
