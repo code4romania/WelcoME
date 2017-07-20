@@ -4,10 +4,10 @@ import LocationStep from '../auth/profile/LocationStep'
 import SkillsStep from '../auth/profile/SkillsStep'
 
 
-const ProfileCreationStep = ({ text , camps, countries, studies, skills }) => {
+const ProfileCreationStep = ({ text , onChangeKey, campLocation, campCountry, camps, countries, studies, skills }) => {
     if (text === "location") {
       return ( 
-      	 <LocationStep  {...{camps,countries}} />
+      	 <LocationStep  {...{onChangeKey, campLocation, campCountry, camps,countries}} />
       	 );
     } else if (text === "skills") {
       return ( 
