@@ -19,6 +19,7 @@ before_script:
 
 script:
   # TODO: run tests
+  - set CI=false 
   - cd www && npm run build && cd ..
 
 after_success:
