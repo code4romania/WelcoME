@@ -10,6 +10,7 @@ import ForgotContext from '../../pages/notauth/context/ForgotContext'
 import HomeContext from '../../pages/notauth/context/HomeContext'
 import CampsVisitorContext from '../../pages/notauth/context/CampsVisitorContext'
 import LocationStepContext from '../../pages/profile_creation/context/LocationStepContext'
+import SkillsStepContext from '../../pages/profile_creation/context/SkillsStepContext'
 
 const NotAuthAppContext = (props, context) => {
   const state = context.store;
@@ -27,14 +28,7 @@ const NotAuthAppContext = (props, context) => {
       visible: !state.auth.uid,
       action: () => handlers.goToPath('/camps-visitor'),
       active: state.router.pathname === '/camps-visitor'
-    },
-    {
-      key: 'not-auth-location-step',
-      text: 'Profile',
-      visible: !state.auth.uid,
-      action: () => handlers.goToPath('/location-step-page'),
-      active: state.router.pathname === '/location-step-page'
-    },
+    }
   ]);
 
   const rightLinks = state => ([
@@ -79,12 +73,7 @@ const NotAuthAppContext = (props, context) => {
       key: 'camps-visitor-page',
       Page: CampsVisitorContext,
       visible: !state.auth.uid && state.router.pathname === '/camps-visitor'
-    },
-     {
-      key: 'location-step-page',
-      Page: LocationStepContext,
-      visible: !state.auth.uid && state.router.pathname === '/location-step-page'
-    },
+    }
   ]);
 
   return !state.auth.appLoaded

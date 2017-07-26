@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { onlyNonEmptyKeys, studies, skills } from '../../../utils'
+import { onlyNonEmptyKeys} from '../../../utils'
 import Profile from '../Profile'
 const ProfileContext = (p, context) => {
     const state = context.store;
@@ -41,9 +41,7 @@ const ProfileContext = (p, context) => {
             accountStep1OK &&
             handlers.changeFields(
                 'account', { accountStep: forms.accountStep === 1 ? 0 : 1 }
-            ),
-        studies : studies,
-        skills: skills
+            )
     };
 
     // TODO: #1 structure these fields
