@@ -11,7 +11,6 @@ const ProfileContext = (p, context) => {
     // TODO: #3 replace these checks with some auth state evaluation
     const accountStep1OK =
         auth.type && auth.emailVerified && auth.firstName && auth.lastName;
-
     const editing = !accountStep1OK || (forms.accountEditStep === 1);
 
     const maySave =

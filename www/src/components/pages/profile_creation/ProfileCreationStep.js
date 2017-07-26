@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import LocationStep from '../auth/profile/LocationStep'
-import SkillsStep from '../auth/profile/SkillsStep'
+import LocationStep from './LocationStep'
+import SkillsStep from './SkillsStep'
 
 
 const ProfileCreationStep = ({ text , onChangeKey, campLocation, campCountry, camps, countries, studies, skills }) => {
