@@ -14,16 +14,18 @@ const ProfileCreationStep = ({nationalities}) => {
         value: 'female',
         label: 'Female',
     }]
-	 let imagePreviewUrl = '';
-	 let $imagePreview = null;   
-	 const handleFileSelect = (file) => {
+	 let imageURL = '';
+	 const onLoad=  (file,uploadResult) => {
 		    if (!file) {
 		    	//TODO replace this with toast
 		   	  console.log("no file selected");
 		    } else {
-			    $imagePreview = (<img src={file.uploadResult} />)
+		    	//TODO fix display image on upload
+			   imageURL = uploadResult
 		    }
 		 }
+	const card = <img src={imageURL} />
+
     return (
     	<Grid>
     	  <Row>
@@ -33,9 +35,9 @@ const ProfileCreationStep = ({nationalities}) => {
 			          name="profileImg"
 			          label="Select profile Image"
 			          accept="image/*"
-			          onChange={handleFileSelect}
+			          onLoad={onLoad}
 		        />
-		         {$imagePreview}
+		         {card}
     	  	</Col>
     	 	 <Col xs={12}  lg={8}>			
 		      <Grid>
