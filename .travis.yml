@@ -2,10 +2,6 @@ language: node_js
 node_js:
   - "5.11"
 
-env:
-  global:
-    - CI=false
-
 branches:
   only:
     - master
@@ -19,7 +15,7 @@ before_script:
 
 script:
   # TODO: run tests
-  - set CI=false 
+  - unset CI
   - cd www && npm run build && cd ..
 
 after_success:
