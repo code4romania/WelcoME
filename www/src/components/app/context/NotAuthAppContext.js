@@ -9,8 +9,6 @@ import ResetContext from '../../pages/notauth/context/ResetContext'
 import ForgotContext from '../../pages/notauth/context/ForgotContext'
 import HomeContext from '../../pages/notauth/context/HomeContext'
 import CampsVisitorContext from '../../pages/notauth/context/CampsVisitorContext'
-import LocationStepContext from '../../pages/profile_creation/context/LocationStepContext'
-import SkillsStepContext from '../../pages/profile_creation/context/SkillsStepContext'
 
 const NotAuthAppContext = (props, context) => {
   const state = context.store;

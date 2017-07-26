@@ -1,9 +1,9 @@
 import React from 'react'
 import ProfileCreationStep from '../ProfileCreationStep'
-
+import { nationalities} from '../../../utils'
 const ProfileStepContext = () => {
   return (
-    <ProfileCreationStep text='your data'/>
+    <ProfileCreationStep {...{nationalities}}/>
   );
 }
 
