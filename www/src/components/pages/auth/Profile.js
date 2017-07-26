@@ -10,12 +10,6 @@ const Profile = ({panel, profile}) => {
       <ExpansionPanel closeOnSave={false} closeOnCancel={false} {...panel} label={<AccountHeader {...profile} />}>
         <Account {...profile} />
       </ExpansionPanel>
-      <ExpansionPanel label={`Next step ${profile.accountStep1OK ? '' : 'not'} ready`} >
-      	<ProfileCreationStep text="location"  {...profile} camps = {panel.camps} countries={panel.countries}   />
-      </ExpansionPanel>
-          <ExpansionPanel label={`Next step ${profile.campLocation && profile.campCountry ? '' : 'not'} ready`} >
-      	<ProfileCreationStep text="skills" studies = {panel.studies} skills={panel.skills}  />
-      </ExpansionPanel>
     </ExpansionList>
   );
 }

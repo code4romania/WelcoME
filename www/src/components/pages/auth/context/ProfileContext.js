@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { onlyNonEmptyKeys, countries, studies, skills } from '../../../utils'
+import { onlyNonEmptyKeys, studies, skills } from '../../../utils'
 import Profile from '../Profile'
 const ProfileContext = (p, context) => {
     const state = context.store;
@@ -19,15 +19,7 @@ const ProfileContext = (p, context) => {
         (forms.type || auth.type) &&
         auth.emailVerified;
 
-    const getCampsNames = function() {
-        const campsNames = []
-        Object.keys(state.camps.camps).forEach(function(campId) {
-            campsNames.push(state.camps.camps[campId].name)
-        })
-        return campsNames
-    }
-    const campsNames = getCampsNames();
-
+    
     const panel = {
         cancelLabel: editing ? (accountStep1OK ? 'Cancel' : '') : 'Close',
         saveLabel: editing ? (maySave ? 'Save' : 'Compile all fields') : 'Edit',
@@ -50,8 +42,6 @@ const ProfileContext = (p, context) => {
             handlers.changeFields(
                 'account', { accountStep: forms.accountStep === 1 ? 0 : 1 }
             ),
-        camps: campsNames,
-        countries: countries,
         studies : studies,
         skills: skills
     };
