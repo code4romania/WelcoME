@@ -20,3 +20,11 @@ script:
 
 after_success:
   - firebase deploy --only hosting --token=${FIREBASE_TOKEN}
+
+notifications:
+  slack:
+    template:
+      - "%{repository_name} (%{commit}) by (%{author}) : %{commit_subject}"
+      - "%{message}"
+      - "Build: %{build_number} / %{build_url}"
+    secure: bOSjMOljREhxmRM52aZz+vGELPG4PrQE6RsSkUlEE0I8epPCT6J2eKyg91oivLaatVYTJHpieEmTtH0PFyaQnFl6jz6wVF9mHLGu1K+IMD8VkTn32EzUDXRwLeN1mDTe9F+lXmEk8x01kA8CZiZXeUUBEbvHIPA+j5AaYdW5CQWMX+hDZLUoAx9topV6ZlVWc3BpNk5v3oKTVmHSmAaIrjcikLt0kuhXgnE8yorti4fimVBzkmLOMcTrwz6Eu/iwThZAnhTPaEiFzlVsdo16Vel3drAn8Q0Eg/OgyrGiKVq/YCpzGg+/Ak/dcM35SeU9Y0WvzRCi6+YNt7Bf7J1icBnvwnz6JumtL7Dozc3jfw/Bt4Sjei72j9Pf3hpIHJn9Zg4iS86XJJ0PvPKAQ40Fr5KtlHO+Fkuc3wE+YGJChzRCKc4PhMASC+HY0GmuAoBut8rFGo3zXd3I11O6Jw3FLDhLmwGJ+UoKQXdgmAR9RVI7Pi8bW97KV8FCHPxAYKJw5ENxbWJc75D043NNPvnLZwLYIB5uPXORccUq96wz5QFrWPf6VxUiqbxOvl5bMCVV5e7SwRFcECYrP0rX/pFeeoeAsjGbkV0gcJuGaM5H+32q/BlQdtXd3LrjTyOcSmvDYrNG0QYessw527crfLvmy5oCYDxVj/qcx8eqThI+fro=
