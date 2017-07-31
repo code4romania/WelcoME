@@ -6,38 +6,24 @@ import TextField from 'react-md/lib/TextFields'
 import FontIcon from 'react-md/lib/FontIcons'
 import FileUpload from 'react-md/lib/FileInputs/FileUpload'
 import { Grid, Row, Col } from 'react-flexbox-grid'
-const ProfileCreationStep = ({nationalities}) => {
-    const controls = [{
-        value: 'male',
-        label: 'Male',
-    }, {
-        value: 'female',
-        label: 'Female',
-    }]
-	 let imageURL = '';
-	 const onLoad=  (file,uploadResult) => {
-		    if (!file) {
-		    	//TODO replace this with toast
-		   	  console.log("no file selected");
-		    } else {
-		    	//TODO fix display image on upload
-			   imageURL = uploadResult
-		    }
-		 }
-	const card = <img src={imageURL} />
+const ProfileCreationStep = ({nationalities, controlsGender, controlsFamily,onLoad,imageURL}) => {
 
     return (
     	<Grid>
     	  <Row>
     	  	<Col xs={12}  lg={4}>
-    	  		 <FileUpload
-			          id="profileImg"
-			          name="profileImg"
-			          label="Select profile Image"
-			          accept="image/*"
-			          onLoad={onLoad}
-		        />
-		         {card}
+    	  		<Row>
+	    	  		 <FileUpload
+				          id="profileImg"
+				          name="profileImg"
+				          label="Select profile Image"
+				          accept="image/*"
+				          onLoad={onLoad}
+			        />
+			        </Row>
+		        <Row>
+		        	<img  className="avatar" src={imageURL} />
+		        </Row>
     	  	</Col>
     	 	 <Col xs={12}  lg={8}>			
 		      <Grid>
@@ -49,7 +35,7 @@ const ProfileCreationStep = ({nationalities}) => {
 			        	type = "radio"
 			        	required = "true"
 			        	inline 
-			        	controls = { controls }
+			        	controls = { controlsGender }
 			        /> 
 			      </Col>
 		        </Row> 
@@ -107,13 +93,7 @@ const ProfileCreationStep = ({nationalities}) => {
 				        	type = "radio"
 				        	required = "true"
 				        	inline 
-				        	controls = {[{
-						        value: 'true',
-						        label: 'Yes',
-						    }, {
-						        value: 'false',
-						        label: 'No',
-						    }]}
+				        	controls = {controlsFamily}
 			       		 /> 
 		        	</Col>
 		        </Row>
