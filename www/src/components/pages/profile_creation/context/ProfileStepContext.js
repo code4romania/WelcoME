@@ -24,12 +24,11 @@ const ProfileStepContext = (p,context) => {
 		    onChangeKey: (key, value) =>
             	handlers.changeFields('account', {[key]: value }),
 		    onLoad :  (file,uploadResult) => {
-		    	//TODO error handling
-			    if (!file) {
+			    if (!file || file.type.indexOf("image") <= -1) {
 			   	  console.log("no file selected");
 			   	  handlers.addToastr({id:"avatarNU",
 				    title:"Image could not be uploaded",
-				    message:"Please select image",
+				    message:"Please select an image",
 				    type: 'error',
 				    options: {
 				      showCloseButton: true,
