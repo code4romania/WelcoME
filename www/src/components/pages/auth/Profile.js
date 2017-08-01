@@ -11,7 +11,7 @@ const Profile = ({panel, profile}) => {
         <Account {...profile} />
       </ExpansionPanel>
           <ExpansionPanel closeOnSave={false} closeOnCancel={false}>
-        <ProfileStepContext/>
+        <ProfileStepContext />
       </ExpansionPanel>
     </ExpansionList>
   );

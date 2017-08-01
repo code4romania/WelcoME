@@ -20,8 +20,9 @@ const ProfileStepContext = (p,context) => {
 		        value: 'female',
 		        label: 'Female',
 		    }],
-		    imageURL : state.imageURL,
-
+		    imageURL : state.forms.account.avatar,
+		    onChangeKey: (key, value) =>
+            	handlers.changeFields('account', {[key]: value }),
 		    onLoad :  (file,uploadResult) => {
 		    	//TODO error handling
 			    if (!file) {
@@ -35,7 +36,7 @@ const ProfileStepContext = (p,context) => {
 				      timeOut: 5000
 				    }})
 			    } else {
-				  state.imageURL = uploadResult
+				  handlers.changeFields('account', {"avatar": uploadResult }) 
 				  handlers.addToastr({id:"avatarNU",
 				    title:"Image uploaded",
 				    message:"Your avatar has been uploaded",

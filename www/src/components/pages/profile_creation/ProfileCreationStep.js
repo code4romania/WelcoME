@@ -6,7 +6,7 @@ import TextField from 'react-md/lib/TextFields'
 import FontIcon from 'react-md/lib/FontIcons'
 import FileUpload from 'react-md/lib/FileInputs/FileUpload'
 import { Grid, Row, Col } from 'react-flexbox-grid'
-const ProfileCreationStep = ({nationalities, controlsGender, controlsFamily,onLoad,imageURL}) => {
+const ProfileCreationStep = ({nationalities, controlsGender, controlsFamily,onChangeKey,onLoad,imageURL}) => {
 
     return (
     	<Grid>
@@ -19,6 +19,7 @@ const ProfileCreationStep = ({nationalities, controlsGender, controlsFamily,onLo
 				          label="Select profile Image"
 				          accept="image/*"
 				          onLoad={onLoad}
+
 			        />
 			        </Row>
 		        <Row>
@@ -36,6 +37,7 @@ const ProfileCreationStep = ({nationalities, controlsGender, controlsFamily,onLo
 			        	required = "true"
 			        	inline 
 			        	controls = { controlsGender }
+			        	onChange={val => onChangeKey('gender', val)}
 			        /> 
 			      </Col>
 		        </Row> 
@@ -45,6 +47,7 @@ const ProfileCreationStep = ({nationalities, controlsGender, controlsFamily,onLo
 		        		id = "birthDate"
 		        		label = "Date of birth"
 		        		required = "true" 
+		        		onChange={val => onChangeKey('birthDay', val)}
 		        	/>
 		        	</Col>
 		        </Row> 
@@ -57,6 +60,7 @@ const ProfileCreationStep = ({nationalities, controlsGender, controlsFamily,onLo
 		        		key = 'nationality'
 		        		label = "Nationality"
 		       			fullWidth = "true"
+		       			onChange={val => onChangeKey('nationality', val)}
 		        		position = { SelectField.Positions.BELOW } 
 		        	 / >
 		        </Col>
@@ -70,6 +74,7 @@ const ProfileCreationStep = ({nationalities, controlsGender, controlsFamily,onLo
 					      type="number"
 					      leftIcon={<FontIcon>phone</FontIcon>}
 					      maxLength={10}
+					      onChange={val => onChangeKey('phoneNumber', val)}
 					    />
 		        	</Col>
 		        </Row>
@@ -79,7 +84,9 @@ const ProfileCreationStep = ({nationalities, controlsGender, controlsFamily,onLo
 					      id="email"
 					      label="Email"
 					      required
-					      type="email"/>
+					      type="email"
+					      onChange={val => onChangeKey('email', val)}
+					      />
 		        	</Col>
 		        </Row>
 		          <Row>
@@ -94,6 +101,7 @@ const ProfileCreationStep = ({nationalities, controlsGender, controlsFamily,onLo
 				        	required = "true"
 				        	inline 
 				        	controls = {controlsFamily}
+				        	onChange={val => onChangeKey('family', val)}
 			       		 /> 
 		        	</Col>
 		        </Row>
