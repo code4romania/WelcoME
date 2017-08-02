@@ -1,10 +1,10 @@
 import React from 'react'
-import ProfileCreationStep from '../ProfileCreationStep'
+import { studies, skills } from '../../../utils'
+import PropTypes from 'prop-types'
+import SkillsStep from '../SkillsStep'
 
 const SkillsStepContext = () => {
-  return (
-    <ProfileCreationStep text='skills'/>
-  );
+  	 return ( < SkillsStep  {...{studies,skills}}
+        />)
 }
-
 export default SkillsStepContext

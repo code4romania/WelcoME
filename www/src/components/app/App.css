@@ -18,3 +18,20 @@
 	margin-top:-10px;
 	margin-bottom: 10px;
 }
+.md-selection-control-group{
+	margin-left: -26px;
+}
+.labelFamily{
+ 	margin-top: 18px;
+}
+.avatar{
+    width: 70%;
+    height: 50%;
+}
+.camp{
+  width: 50px;
+  padding: 5px;
+  border: 1px solid black;
+  background: green;
+  color: yellow; 
+}

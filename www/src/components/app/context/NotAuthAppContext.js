@@ -26,7 +26,7 @@ const NotAuthAppContext = (props, context) => {
       visible: !state.auth.uid,
       action: () => handlers.goToPath('/camps-visitor'),
       active: state.router.pathname === '/camps-visitor'
-    },
+    }
   ]);
 
   const rightLinks = state => ([
@@ -71,7 +71,7 @@ const NotAuthAppContext = (props, context) => {
       key: 'camps-visitor-page',
       Page: CampsVisitorContext,
       visible: !state.auth.uid && state.router.pathname === '/camps-visitor'
-    },
+    }
   ]);
 
   return !state.auth.appLoaded
