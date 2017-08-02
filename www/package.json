@@ -15,6 +15,7 @@
     "classnames": "^2.2.5",
     "fbjs": "^0.8.9",
     "firebase": "^3.6.9",
+    "google-map-react": "^0.24.0",
     "history": "^4.5.1",
     "query-string": "^4.3.3",
     "randomstring": "^1.1.5",

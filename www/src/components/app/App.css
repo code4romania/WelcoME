@@ -28,3 +28,10 @@
     width: 70%;
     height: 50%;
 }
+.camp{
+  width: 50px;
+  padding: 5px;
+  border: 1px solid black;
+  background: green;
+  color: yellow; 
+}

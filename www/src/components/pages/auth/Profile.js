@@ -4,6 +4,7 @@ import ExpansionPanel from 'react-md/lib/ExpansionPanels/ExpansionPanel'
 import Account from './profile/Account'
 import AccountHeader from './profile/AccountHeader'
 import ProfileStepContext from '../profile_creation/context/ProfileStepContext' 
+import LocationStepContext from '../profile_creation/context/LocationStepContext' 
 const Profile = ({panel, profile}) => {
   return (
     <ExpansionList>
@@ -12,6 +13,9 @@ const Profile = ({panel, profile}) => {
       </ExpansionPanel>
           <ExpansionPanel closeOnSave={false} closeOnCancel={false}>
         <ProfileStepContext />
+      </ExpansionPanel>
+        <ExpansionPanel closeOnSave={false} closeOnCancel={false}>
+        <LocationStepContext />
       </ExpansionPanel>
     </ExpansionList>
   );
