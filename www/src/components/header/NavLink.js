@@ -10,40 +10,40 @@ const NavLink = (props) => {
   if (!props.visible) {
     return null;
   }
-  
+
   const renderMenu = () => {
     return (
       <MenuButton
         id={props.key}
         className={props.active ? 'active-link' : 'inactive-link'}
-        onClick={props.action}   
+        onClick={props.action}
         label={props.text}
         isOpen={props.active}
         buttonChildren={props.icon}
-        flat >      
+        flat >
         {(props.subLinks || []).map(link => (
           <ListItem>
             <NavLink {...link} />
           </ListItem>
-        ))}        
+        ))}
       </MenuButton>
     );
   };
-  
+
   const renderLink = () => {
     return (
-      <Button         
+      <Button
         id={props.key}
         className={props.active ? 'active-link' : 'inactive-link'}
-        onClick={props.action}   
+        onClick={props.action}
         label={props.text}
         flat >
         {props.icon}
       </Button>
     );
   };
-    
-  return props.isMenu 
+
+  return props.isMenu
     ? renderMenu()
     : renderLink();
 }
@@ -63,7 +63,6 @@ NavLink.propTypes = {
     action: PropTypes.func.isRequired,
     icon: PropTypes.string,
     text: PropTypes.string,
-    action: PropTypes.func,
   })),
 }
 

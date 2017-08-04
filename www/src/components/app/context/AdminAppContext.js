@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import ToastrContext from '../../toastr/ToastrContext'
 import App from '../App.js'
-import LoadingBar from '../../header/LoadingBar'
 import ProfileContext from '../../pages/auth/context/ProfileContext'
 import AdminContext from '../../pages/auth/context/AdminContext'
 

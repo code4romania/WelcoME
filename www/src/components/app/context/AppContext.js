@@ -37,11 +37,9 @@ const AppContext = (props, context) => {
     );
   }
 
-  const getAppContext = state => {
-    return !state.auth || !state.auth.uid
-      ? getNotAuthContext(state)
-      : getAuthContext(state);
-  }
+  let appContext = isAuth
+    ? getNotAuthContext(state)
+    : getAuthContext(state);
 
   return !state.auth.appLoaded
     ? (<App
@@ -52,7 +50,7 @@ const AppContext = (props, context) => {
         pages={[]} />)
     : (
         <div>
-          {getAppContext(state)}
+          {appContext}
         </div>
       );
 }
