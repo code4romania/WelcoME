@@ -47,7 +47,7 @@ const AuthAppContext = (props, context) => {
   const rightLinks = state => ([
     {
       key: 'auth-profile-settings-link',
-      icon: 'person_outline',
+      icon: state.auth.avatar ? <img className='avatarIcon' src={state.auth.avatar} alt='avatar' /> : 'person_outline',
       text: 'Me',
       visible: !!state.auth.uid,
       isMenu: true,

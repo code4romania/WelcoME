@@ -53,7 +53,7 @@ NavLink.propTypes = {
   visible: PropTypes.bool.isRequired,
   active: PropTypes.bool.isRequired,
   className: PropTypes.string,
-  icon: PropTypes.string,
+  icon: PropTypes.oneOf([PropTypes.string, PropTypes.element,PropTypes.object]),
   text: PropTypes.string,
   action: PropTypes.func,
   isMenu: PropTypes.bool,
