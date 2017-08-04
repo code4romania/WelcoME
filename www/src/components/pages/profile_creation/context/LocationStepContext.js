@@ -6,12 +6,12 @@ import {config} from '../../../../googleMaps/config'
 const LocationStepContext = (props, context) => {
 	const state = context.store;
   const handlers = context.handlers;
-
-	// TODO: save to form
+	const forms = state.forms.account;
 
 	// TODO: validation
   // const errors = {};
 
+  // TODO: save the selected location to form
 	const getCampsCountries = function() {
 		const campsCountries = [];
 		Object.keys(state.camps.camps).forEach(function(campId) {
@@ -41,11 +41,11 @@ const LocationStepContext = (props, context) => {
   }
 
  	const panel = {
-  	centerMap: state.forms.account.centerMap || center(camps[0]),
-    zoomLevel: state.forms.account.zoomLevel || 1,
+		campsCountries: campsCountries,
+  	centerMap: forms.centerMap || center(camps[0]),
+    zoomLevel: forms.zoomLevel || 1,
     camps: camps,
-    campsCountries: campsCountries,
-    campsPerCountry: state.forms.account.campsPerCountry,
+    campsPerCountry: forms.campsPerCountry,
     onSelectedCampCountry: (selectedCountry) => {
 			let campsPerCountry = [];
       let selectedCamps = [];
@@ -82,7 +82,7 @@ const LocationStepContext = (props, context) => {
 			const centerMap = center(selectedC[0]);
 			handlers.changeFields('account', {'selectedCamp': selectedC[0]});
 			handlers.changeFields('account', {'centerMap': centerMap});
-			handlers.changeFields('account',{'zoomLevel': 8});
+			handlers.changeFields('account', {'zoomLevel': 8});
     }
   }
 

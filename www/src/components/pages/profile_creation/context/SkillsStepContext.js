@@ -6,7 +6,7 @@ import SkillsStep from '../SkillsStep'
 const SkillsStepContext = (props, context) => {
   const state = context.store;
   const handlers = context.handlers;
-  const forms = state.forms.profile;
+  const forms = state.forms.account;
 
   // TODO: save to form
 

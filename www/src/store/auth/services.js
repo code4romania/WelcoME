@@ -134,6 +134,7 @@ payloads$(Actions.SIGNUP_EMAIL_REQUESTED)
 payloads$(Actions.COMPLETE_PROFILE_REQUESTED)
   .subscribe((fields) => {
     const user = FirebaseAuth.currentUser;
+    console.log(fields);
     FirebaseFetch(
       'changeProfile',
       {

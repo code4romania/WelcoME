@@ -6,12 +6,12 @@ import { nationalities} from '../../../utils'
 const ProfileStepContext = (props, context) => {
 	const state = context.store;
 	const handlers = context.handlers;
-
-	// TODO: save to form
+	const forms = state.forms.account;
 
 	// TODO: validation
 	// const errors = {};
 
+  // TODO: save the radio values to form
   const panel = {
   	controlsFamily : [{
         value: 'true',
@@ -27,9 +27,9 @@ const ProfileStepContext = (props, context) => {
         value: 'female',
         label: 'Female',
     }],
-    imageURL : state.forms.account.avatar,
+    imageURL: forms.avatar,
     onChangeKey: (key, value) => handlers.changeFields('account', {[key]: value }),
-    onLoad :  (file,uploadResult) => {
+    onLoad:  (file,uploadResult) => {
 	    if (!file || file.type.indexOf("image") <= -1) {
 	   	  console.log("no file selected");
 	   	  handlers.addToastr({id:"avatarNU",

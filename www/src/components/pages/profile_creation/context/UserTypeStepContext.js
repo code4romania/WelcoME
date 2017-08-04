@@ -6,7 +6,7 @@ import UserTypeStep from '../UserTypeStep'
 const UserTypeStepContext = (props, context)  => {
   const state = context.store;
   const handlers = context.handlers;
-  const forms = state.forms.profile;
+  const forms = state.forms.account;
 
   // TODO - validation
   // const errors = {}
@@ -39,7 +39,7 @@ const UserTypeStepContext = (props, context)  => {
       userTypes={userTypes}
       selectedType={currentType}
       onChangeKey={
-        (key, value) => handlers.changeFields('profile', {[key]: value })
+        (key, value) => handlers.changeFields('account', {[key]: value })
       }/>
   );
 }
