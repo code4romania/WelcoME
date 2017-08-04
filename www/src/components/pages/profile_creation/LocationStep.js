@@ -14,13 +14,13 @@ const LocationStep = ({
   onSelectedCampCountry,
   onSelectedCamp
 }) => {
+  const Marker = (props) => <div />;
+
   const listItems = camps.map((camp) =>
-    <div
-      className="camp"
+    <Marker
       lat={camp.Location.geolocation.lat}
-      lng={camp.Location.geolocation.long}>
-      {camp.name}
-    </div>
+      lng={camp.Location.geolocation.long}
+      text={camp.name} />
   );
 
   // TODO: #69 break into reusable components

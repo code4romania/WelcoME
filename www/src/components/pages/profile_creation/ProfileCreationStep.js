@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import SelectionControlGroup from 'react-md/lib/SelectionControls/SelectionControlGroup'
 import DatePicker from 'react-md/lib/Pickers/DatePickerContainer'
 import SelectField from 'react-md/lib/SelectFields'
@@ -110,6 +111,21 @@ const ProfileCreationStep = ({
       </Row>
     </Grid>
   );
+}
+
+ProfileCreationStep.propTypes = {
+  nationalities: PropTypes.arrayOf(PropTypes.string).isRequired,
+  controlsGender: PropTypes.arrayOf(PropTypes.shape({
+    value: PropTypes.string.isRequired,
+    label: PropTypes.string.isRequired,
+  })).isRequired,
+  controlsFamily: PropTypes.arrayOf(PropTypes.shape({
+    value: PropTypes.string.isRequired,
+    label: PropTypes.string.isRequired,
+  })).isRequired,
+  onChangeKey: PropTypes.func.isRequired,
+  onLoad: PropTypes.func.isRequired,
+  imageURL: PropTypes.string,
 }
 
 export default ProfileCreationStep

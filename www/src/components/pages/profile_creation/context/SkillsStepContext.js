@@ -8,8 +8,10 @@ const SkillsStepContext = (props, context) => {
   const handlers = context.handlers;
   const forms = state.forms.profile;
 
+  // TODO: save to form
+
   // TODO: validation
-  const errors = {};
+  // const errors = {};
 
   return (
     <SkillsStep

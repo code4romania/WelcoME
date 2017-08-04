@@ -3,10 +3,14 @@ import PropTypes from 'prop-types'
 import LocationStep from '../LocationStep'
 import {config} from '../../../../googleMaps/config'
 
-const LocationStepContext = (p,context) => {
-
+const LocationStepContext = (props, context) => {
 	const state = context.store;
   const handlers = context.handlers;
+
+	// TODO: save to form
+
+	// TODO: validation
+  // const errors = {};
 
 	const getCampsCountries = function() {
 		const campsCountries = [];

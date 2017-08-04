@@ -64,6 +64,8 @@ const SkillsStep = ({
 }
 
 SkillsStep.propTypes = {
+  studies: PropTypes.arrayOf(PropTypes.string).isRequired,
+  skills: PropTypes.arrayOf(PropTypes.string).isRequired,
   requestSaveProfile: PropTypes.func.isRequired,
 }
 

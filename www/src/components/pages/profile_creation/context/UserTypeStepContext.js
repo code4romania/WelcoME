@@ -8,6 +8,9 @@ const UserTypeStepContext = (props, context)  => {
   const handlers = context.handlers;
   const forms = state.forms.profile;
 
+  // TODO - validation
+  // const errors = {}
+
   const userTypes = [
     {
       value: Entities.userTypes.REFUGEE,
