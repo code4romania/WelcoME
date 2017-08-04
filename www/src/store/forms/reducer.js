@@ -10,11 +10,13 @@ registerAction('CLEAR_FIELDS')
 // when forms keys changes
 Handlers.changeFields = (form, fields) => dispatch(Actions.FIELDS_CHANGED, {form, fields})
 Handlers.clearFields = (form, fields) => dispatch(Actions.CLEAR_FIELDS, {form, fields})
+
 // reducer
 const initialState = {
   signup: {},
   account: {}
 }
+
 Reducers.forms = (state = initialState, action) => {
   const {form, fields} = action.payload || {}
   if (!form) {
