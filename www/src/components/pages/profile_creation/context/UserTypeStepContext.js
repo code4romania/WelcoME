@@ -1,28 +1,33 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import {Entities} from '../../../../store/constants'
 import UserTypeStep from '../UserTypeStep'
 
 const UserTypeStepContext = (props, context)  => {
   const state = context.store;
   const handlers = context.handlers;
-  const forms = state.forms.account;
+  const forms = state.forms.profile;
 
   const userTypes = [
     {
-      value: 'refugee',
+      value: Entities.userTypes.REFUGEE,
       label: 'Refugee',
     },
     {
-      value: 'asylum-seeker',
+      value: Entities.userTypes.ASYLUM_SEEKER,
       label: 'Asylum seeker',
     },
     {
-      value: 'community-helper',
+      value: Entities.userTypes.VOLUNTEER,
+      label: 'Volunteer',
+    },
+    {
+      value: Entities.userTypes.COMMUNITY_HELPER,
       label: 'Community helper',
     },
   ];
 
-  const currentType = !!forms.userType
+  const currentType = !!forms && !!forms.userType
     ? forms.userType
     : userTypes[0].value;
 
@@ -31,7 +36,7 @@ const UserTypeStepContext = (props, context)  => {
       userTypes={userTypes}
       selectedType={currentType}
       onChangeKey={
-        (key, value) => handlers.changeFields('account', {[key]: value })
+        (key, value) => handlers.changeFields('profile', {[key]: value })
       }/>
   );
 }

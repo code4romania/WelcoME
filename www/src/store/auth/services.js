@@ -92,6 +92,16 @@ payloads$(Actions.SIGNOUT_REQUESTED).subscribe(() => {
   }).catch(err => Handlers.errorUser('auth', 'Sign Out', err))
 })
 
+
+// login with email requested
+payloads$(Actions.SIGNIN_EMAIL_REQUESTED)
+  .subscribe(fields => {
+    FirebaseAuth
+      .signInWithEmailAndPassword(fields.email, fields.password)
+      .then(user => Handlers.goToPath(user.type ? '/feed' : '/profile'))
+      .catch(err => Handlers.errorUser('auth', 'Sign In', err))
+  })
+
 // signup with email requested
 payloads$(Actions.SIGNUP_EMAIL_REQUESTED)
   .subscribe((fields) => {
@@ -120,13 +130,22 @@ payloads$(Actions.SIGNUP_EMAIL_REQUESTED)
       .catch(err => Handlers.errorUser('auth', 'Sign Up', err))
   })
 
-// login with email requested
-payloads$(Actions.SIGNIN_EMAIL_REQUESTED)
-  .subscribe(fields => {
-    FirebaseAuth
-      .signInWithEmailAndPassword(fields.email, fields.password)
-      .then(user => Handlers.goToPath(user.type ? '/feed' : '/profile'))
-      .catch(err => Handlers.errorUser('auth', 'Sign In', err))
+// profile completed requested
+payloads$(Actions.COMPLETE_PROFILE_REQUESTED)
+  .subscribe((fields) => {
+    const user = FirebaseAuth.currentUser;
+    FirebaseFetch(
+      'changeProfile',
+      {
+        type: fields.userType,
+      },
+      user,
+    )
+    .then(() => Handlers.okUser(
+      'profile-completed',
+      'Profile succesfully completed',
+    ))
+    .catch(err => Handlers.errorUser('profile-completed', 'Complete Profile', err))
   })
 
 let stayOnProfile = false

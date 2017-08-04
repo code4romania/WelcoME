@@ -13,6 +13,7 @@ registerAction('LINK_FACEBOOK_REQUESTED')
 registerAction('LINK_GOOGLE_REQUESTED')
 registerAction('WRITE_TO_PROFILE')
 registerAction('PROFILE_CHANGED')
+registerAction('COMPLETE_PROFILE_REQUESTED');
 
 // reducer
 const initialState = {}

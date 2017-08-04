@@ -23,6 +23,9 @@ Handlers.requestForgot = fields => dispatch(Actions.FORGOT_REQUESTED, fields)
 // user requested to set up the new password
 Handlers.requestReset = fields => dispatch(Actions.RESET_PASSWORD_REQUESTED, fields)
 
+// user requests to complete the profile once all the sign-up steps have been followed
+Handlers.requestCompleteProfile = fields => dispatch(Actions.COMPLETE_PROFILE_REQUESTED, fields);
+
 // user requests to signout
 Handlers.requestSignout = () => dispatch(Actions.SIGNOUT_REQUESTED)
 // user requesting to create a profile

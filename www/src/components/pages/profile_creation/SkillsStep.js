@@ -1,11 +1,14 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import SelectField from 'react-md/lib/SelectFields'
 import Checkbox from 'react-md/lib/SelectionControls/Checkbox'
+import Button from 'react-md/lib/Buttons/Button'
 import { Grid, Row, Col } from 'react-flexbox-grid'
 
 const SkillsStep = ({
   studies,
-  skills
+  skills,
+  requestSaveProfile,
 }) => {
 
   const skillsItems = skills.map((skill) =>
@@ -17,6 +20,7 @@ const SkillsStep = ({
     </Col>
   );
 
+  // TODO: put the save button in navigation
   return (
     <Grid fluid>
       <Row>
@@ -46,8 +50,21 @@ const SkillsStep = ({
       <Row>
         {skillsItems}
       </Row>
+      <Row>
+        <Button
+          className='authAction'
+          style={{textTransform: 'inherit', backgroundColor: '#79afff', color: '#f0f0f0', boxShadow: '0 0', borderRadius: '1px', height: '50px'}}
+          onClick={requestSaveProfile}
+          raised
+          iconBefore={false}
+          label='Save Profile' />
+      </Row>
     </Grid>
   );
+}
+
+SkillsStep.propTypes = {
+  requestSaveProfile: PropTypes.func.isRequired,
 }
 
 export default SkillsStep
