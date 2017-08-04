@@ -6,23 +6,23 @@ import Button from 'react-md/lib/Buttons/Button'
 import { Grid, Row, Col } from 'react-flexbox-grid'
 
 const SkillsStep = ({
-  studies,
-  skills,
-  requestSaveProfile,
+    studies,
+    skills,
+    requestSaveProfile,
 }) => {
 
-  const skillsItems = skills.map((skill) =>
-    <Col xs={4} md={4} lg={4}>
+    const skillsItems = skills.map((skill) =>
+        <Col xs={4} md={4} lg={4}>
       <Checkbox
         id={skill}
         name={"skill_"+skill}
         label={skill}/>
     </Col>
-  );
+    );
 
-  // TODO: put the save button in navigation
-  return (
-    <Grid fluid>
+    // TODO: put the save button in navigation
+    return (
+        <Grid fluid>
       <Row>
         <Col xs={12} lgOffset={1} lg={3}>
           <div>
@@ -60,13 +60,13 @@ const SkillsStep = ({
           label='Save Profile' />
       </Row>
     </Grid>
-  );
+    );
 }
 
 SkillsStep.propTypes = {
-  studies: PropTypes.arrayOf(PropTypes.string).isRequired,
-  skills: PropTypes.arrayOf(PropTypes.string).isRequired,
-  requestSaveProfile: PropTypes.func.isRequired,
+    studies: PropTypes.arrayOf(PropTypes.string).isRequired,
+    skills: PropTypes.arrayOf(PropTypes.string).isRequired,
+    requestSaveProfile: PropTypes.func.isRequired,
 }
 
 export default SkillsStep

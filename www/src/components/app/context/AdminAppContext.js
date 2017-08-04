@@ -4,7 +4,6 @@ import ToastrContext from '../../toastr/ToastrContext'
 import App from '../App.js'
 import ProfileContext from '../../pages/auth/context/ProfileContext'
 import AdminContext from '../../pages/auth/context/AdminContext'
-
 const AdminAppContext = (props, context) => {
   const state = context.store;
   const handlers = context.handlers;
@@ -27,7 +26,7 @@ const AdminAppContext = (props, context) => {
   const rightLinks = state => ([
     {
       key: 'admin-profile-settings-link',
-      icon: 'person_outline',
+      icon:  state.auth.avatar ? <img className='avatarIcon' src={state.auth.avatar} alt='avatar' /> : 'person_outline',
       text: 'Me',
       visible: !!state.auth.uid,
       isMenu: true,

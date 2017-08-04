@@ -35,3 +35,7 @@
   background: green;
   color: yellow; 
 }
+.avatarIcon{
+  width: 50px;
+  padding-top: 16px;
+}
