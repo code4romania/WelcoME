@@ -10,10 +10,6 @@ import PendingAuthAppContext from './PendingAuthAppContext'
 const AppContext = (props, context) => {
   const state = context.store;
 
-  const isAuth = state => {
-    return !!state.auth;
-  }
-
   const getNotAuthContext = state => {
     return (
       <NotAuthAppContext />
@@ -37,9 +33,9 @@ const AppContext = (props, context) => {
     );
   }
 
-  let appContext = isAuth
-    ? getNotAuthContext(state)
-    : getAuthContext(state);
+  let appContext = !!state.auth && !!state.auth.type
+    ? getAuthContext(state)
+    : getNotAuthContext(state);
 
   return !state.auth.appLoaded
     ? (<App

@@ -14,7 +14,7 @@ const NavLink = (props) => {
   const renderMenu = () => {
     return (
       <MenuButton
-        id={props.key}
+        id={props.name}
         className={props.active ? 'active-link' : 'inactive-link'}
         onClick={props.action}
         label={props.text}
@@ -33,7 +33,7 @@ const NavLink = (props) => {
   const renderLink = () => {
     return (
       <Button
-        id={props.key}
+        id={props.name}
         className={props.active ? 'active-link' : 'inactive-link'}
         onClick={props.action}
         label={props.text}
@@ -49,7 +49,7 @@ const NavLink = (props) => {
 }
 
 NavLink.propTypes = {
-  key: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
   visible: PropTypes.bool.isRequired,
   active: PropTypes.bool.isRequired,
   className: PropTypes.string,

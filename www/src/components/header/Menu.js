@@ -5,7 +5,7 @@ const Menu = ({links}) => {
   return (
     <div>
       {(links || []).map(link => (
-        <NavLink {...link} />
+        <NavLink name={link.key} {...link} />
         ))}
     </div>
   );
