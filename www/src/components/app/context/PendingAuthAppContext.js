@@ -13,10 +13,6 @@ const PendingAuthAppContext = (props, context) => {
   const handlers = context.handlers;
   const loaded = state.auth.loaded;
 
-  const logo = {
-    action: () => handlers.goToPath('/'),
-  }
-
   const leftLinks = state => ([
     {
       key: 'welcome-profile-creation-link',
@@ -82,7 +78,6 @@ const PendingAuthAppContext = (props, context) => {
     : (<div>
         <App
           loaded={loaded}
-          logo={logo}
           leftLinks={leftLinks(state)}
           rightLinks={[]}
           pages={pages(state)} />

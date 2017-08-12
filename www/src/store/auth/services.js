@@ -83,9 +83,23 @@ payloads$(Actions.ROUTE_CHANGED)
   .filter(route => route.pathname === '/resetPassword' && route.email && route.oobCode)
   .subscribe(route => FirebaseAuth.currentUser && FirebaseAuth.signOut())
 
+payloads$(Actions.ROUTE_CHANGED)
+  .filter(route => !(
+    route.pathname === '/welcome-step' ||
+    route.pathname === '/profile-step' ||
+    route.pathname === '/location-step' ||
+    route.pathname === '/skills-step'
+  ))
+  .subscribe(route => {
+    const user = FirebaseAuth.currentUser;
+    if (!user || user.type === Entities.userTypes.PENDING) {
+      Handlers.goToPath('/welcome-step');
+    }
+  });
+
 // signout user requested
 payloads$(Actions.SIGNOUT_REQUESTED).subscribe(() => {
-  const user = FirebaseAuth.currentUser
+  const user = FirebaseAuth.currentUser;
   user && FirebaseAuth.signOut().then(() => {
     Handlers.okUser('auth', 'Good bye', `${user.email}`)
     Handlers.goToPath('/')
@@ -108,8 +122,6 @@ payloads$(Actions.SIGNUP_EMAIL_REQUESTED)
     FirebaseAuth.createUserWithEmailAndPassword(fields.email, fields.password)
       .then(user => {
         Handlers.goToPath('/profile');
-        console.log('SIGNUP_EMAIL_REQUESTED -- ...');
-        console.log(user);
         return user;
       })
       .then(user => FirebaseFetch(
@@ -123,6 +135,10 @@ payloads$(Actions.SIGNUP_EMAIL_REQUESTED)
         },
         user,
       ))
+      .then(user => {
+        Handlers.goToPath('/welcome-step');
+        return user;
+      })
       .then(() => Handlers.okUser(
         'signup',
         'An email was sent at', `${fields.email}. Follow the link to enable your account.`,
@@ -134,7 +150,6 @@ payloads$(Actions.SIGNUP_EMAIL_REQUESTED)
 payloads$(Actions.COMPLETE_PROFILE_REQUESTED)
   .subscribe((fields) => {
     const user = FirebaseAuth.currentUser;
-    console.log(fields);
     FirebaseFetch(
       'changeProfile',
       {
@@ -178,7 +193,6 @@ payloads$(Actions.SIGN_GOOGLE_REQUESTED).subscribe(() => {
 
 // when redirect returns send credential to profile
 FirebaseAuth.getRedirectResult().then(result => {
-  console.log(result)
   if (result.user && result.credential) {
     Handlers.goToPath(!result.user.type || stayOnProfile ? '/profile' : '/feed')
 

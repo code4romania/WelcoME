@@ -30,8 +30,8 @@ const ProfileCreationStep = ({
               onLoad={onLoad} />
           </Row>
           <Row>
-	           <img className="avatar" src={imageURL} alt="avatar"/>
-	        </Row>
+            <img className="avatar" src={imageURL} alt="avatar"/>
+          </Row>
         </Col>
         <Col xs={12} lg={8}>
           <Grid>
