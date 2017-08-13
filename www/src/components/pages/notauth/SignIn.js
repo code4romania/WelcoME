@@ -4,9 +4,10 @@ import Divider from 'react-md/lib/Dividers';
 import TextField from 'react-md/lib/TextFields'
 import PropTypes from 'prop-types'
 import Button from 'react-md/lib/Buttons/Button'
-import { Grid, Row } from 'react-flexbox-grid'
+import { Grid, Row, Col } from 'react-flexbox-grid'
 import injectTooltip from 'react-md/lib/Tooltips';
 import classnames from 'classnames';
+import WText from '../../common/WText'
 
 const TooltipLink = injectTooltip(({children, className, tooltip, ...props}) => (
   <a {...props} className={classnames(className, 'inline-rel-container')}>
@@ -25,45 +26,44 @@ export default class SignIn extends PureComponent {
     this.setState({ visible: false });
     this.props.goToHome();
   }
-  
+
   render = () => {
     // TODO: #2 - extract out the rendering part into smaller components
-    const contents = 
+    const contents =
       <Grid fluid className='formContainer'>
         <Row className='formRow'>
-          <Divider />
-          <div className='formRowContent'>
-            <p>
-              Welcome! You can login with social media
-            </p>
-          </div>
-          <Divider />
+          <Col xs className='formRowContent'> 
+            <WText type="h3" text="Welcome! You can login with social media" />
+          </Col>
         </Row>
         <Row className='formRow'>
-          <Button
-            className='authAction'
-            onClick={this.props.requestFacebook}
-            raised
-            style={{textTransform: 'inherit', backgroundColor: '#3b5998', color: '#f0f0f0', boxShadow: '0 0', borderRadius: '2px', height: '50px'}}
-            label='Facebook'/>
-          <Button
-            className='authAction'
-            onClick={this.props.requestGoogle}
-            raised
-            style={{textTransform: 'inherit', backgroundColor: '#d34836', color: '#f0f0f0', boxShadow: '0 0', borderRadius: '2px', height: '50px'}}
-            label='Google'/>
+          <Col xs className='formRowContent'> 
+            <Button
+              className='authAction'
+              onClick={this.props.requestFacebook}
+              raised
+              style={{textTransform: 'inherit', backgroundColor: '#3b5998', color: '#f0f0f0', boxShadow: '0 0', borderRadius: '2px', height: '50px'}}
+              label='Facebook'/>
+          </Col>
+          <Col xs className='formRowContent'>
+            <Button
+              className='authAction'
+              onClick={this.props.requestGoogle}
+              raised
+              style={{textTransform: 'inherit', backgroundColor: '#d34836', color: '#f0f0f0', boxShadow: '0 0', borderRadius: '2px', height: '50px'}}
+              label='Google'/>
+          </Col>
         </Row>
-        <Row className='formRow' />  
-        <Row className='formRow'>
+        <Row className="formRow">
           <div className='formHalfDividerLeft'>
             <Divider />
           </div>
-          <p>
-            or with your email if you'd prefer
-          </p>
+          <WText type="p" text="or with your email if you'd prefer" />
           <div className='formHalfDividerRight'>
             <Divider />
-          </div>     
+          </div>
+        </Row>
+        <Row className="formRow">
           <TextField
             className='formTextField'
             id='email'
@@ -74,7 +74,8 @@ export default class SignIn extends PureComponent {
             label={this.props.email.label}
             error={!!this.props.email.error}
             errorText={this.props.email.error} />
-          <Divider />
+        </Row>
+        <Row className="formRow">
           <TextField
             id='password'
             fullWidth
@@ -85,49 +86,43 @@ export default class SignIn extends PureComponent {
             error={!!this.props.password.error}
             errorText={this.props.password.error} />
         </Row>
-        <Row className='formRow'> 
-          <Divider />
-          <TooltipLink href="#" onClick={this.props.goForgot}>
-            <p>
-              Forgot your password?
-            </p>
-          </TooltipLink>
-          <Divider />         
-        </Row>      
         <Row className='formRow'>
-          <Divider />
-          <Button
-            className='authAction'
-            style={{textTransform: 'inherit', backgroundColor: '#79afff', color: '#f0f0f0', boxShadow: '0 0', borderRadius: '1px', height: '50px'}}          
-            disabled={!this.props.loaded || !this.props.enableSignIn}
-            onClick={this.props.requestSignIn}
-            raised
-            iconBefore={false}
-            label='Log in'/>
-          <Divider />
+          <Col xs className='formRowContent'> 
+            <TooltipLink href="#" onClick={this.props.goForgot}>
+              <WText type="p" text="Forgot your password?" />
+            </TooltipLink>
+          </Col>
         </Row>
-        <Row className='formRow' />
         <Row className='formRow'>
-          <Divider />
-          <section>
-            <p>
-              New here? 
+          <Col xs className='formRowContent'> 
+            <Button
+              className='authAction'
+              style={{textTransform: 'inherit', backgroundColor: '#79afff', color: '#f0f0f0', boxShadow: '0 0', borderRadius: '1px', height: '50px'}}
+              disabled={!this.props.loaded || !this.props.enableSignIn}
+              onClick={this.props.requestSignIn}
+              raised
+              iconBefore={false}
+              label='Log in' />
+          </Col>
+        </Row>
+        <Row className='formRow'>
+          <Col xs className='formRowContent'>
+            <WText type="p" text="New here?">
               <TooltipLink className='authForgotPass' href="#" onClick={this.props.goToSignUp}>
-                Create an account
+                <WText type="p" text="Create an account" />
               </TooltipLink>
-            </p>
-          </section>
-          <Divider />
-        </Row>      
+            </WText>
+          </Col>
+        </Row>
       </Grid>;
 
     return (
       <Dialog
-        id="signInDialog" 
+        id="signInDialog"
         aria-describedby="sign-in dialog"
         visible={this.state.visible}
         dialogStyle={{width: '450px'}}
-        onHide={this.closeDialog} 
+        onHide={this.closeDialog}
         closeOnEsc={true} >
         {contents}
       </Dialog>

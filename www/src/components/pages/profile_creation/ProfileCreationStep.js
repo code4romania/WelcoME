@@ -4,7 +4,6 @@ import SelectionControlGroup from 'react-md/lib/SelectionControls/SelectionContr
 import DatePicker from 'react-md/lib/Pickers/DatePickerContainer'
 import SelectField from 'react-md/lib/SelectFields'
 import TextField from 'react-md/lib/TextFields'
-import FontIcon from 'react-md/lib/FontIcons'
 import FileUpload from 'react-md/lib/FileInputs/FileUpload'
 import { Grid, Row, Col } from 'react-flexbox-grid'
 import Step from './Step'
