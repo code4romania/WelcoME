@@ -1,20 +1,9 @@
 import React, { PureComponent } from 'react';
 import Dialog from 'react-md/lib/Dialogs';
 import Divider from 'react-md/lib/Dividers';
-import TextField from 'react-md/lib/TextFields'
 import PropTypes from 'prop-types'
-import Button from 'react-md/lib/Buttons/Button'
 import { Grid, Row, Col } from 'react-flexbox-grid'
-import injectTooltip from 'react-md/lib/Tooltips';
-import classnames from 'classnames';
-import WText from '../../common/WText'
-
-const TooltipLink = injectTooltip(({children, className, tooltip, ...props}) => (
-  <a {...props} className={classnames(className, 'inline-rel-container')}>
-    {tooltip}
-    {children}
-  </a>
-));
+import { Button, Text, TextField, Link} from '../../common/common'
 
 export default class SignIn extends PureComponent {
   constructor(props) {
@@ -28,90 +17,78 @@ export default class SignIn extends PureComponent {
   }
 
   render = () => {
-    // TODO: #2 - extract out the rendering part into smaller components
     const contents =
       <Grid fluid className='formContainer'>
-        <Row className='formRow'>
-          <Col xs className='formRowContent'> 
-            <WText type="h3" text="Welcome! You can login with social media" />
+        <Row style={{margin: '0 0 10px 0'}}>
+          <Col xs className='formCenterAlign'> 
+            <Text type="h3" text="Welcome! You can login with social media" />
           </Col>
         </Row>
-        <Row className='formRow'>
-          <Col xs className='formRowContent'> 
+        <Row>
+          <Col xs className='formCenterAlign'>
             <Button
-              className='authAction'
+              primaryColor="#3b5998"
               onClick={this.props.requestFacebook}
-              raised
-              style={{textTransform: 'inherit', backgroundColor: '#3b5998', color: '#f0f0f0', boxShadow: '0 0', borderRadius: '2px', height: '50px'}}
-              label='Facebook'/>
+              label="Facebook" />
           </Col>
-          <Col xs className='formRowContent'>
+          <Col xs className='formCenterAlign'>
             <Button
-              className='authAction'
+              primaryColor="#d34836"
               onClick={this.props.requestGoogle}
-              raised
-              style={{textTransform: 'inherit', backgroundColor: '#d34836', color: '#f0f0f0', boxShadow: '0 0', borderRadius: '2px', height: '50px'}}
-              label='Google'/>
+              label="Google" />
           </Col>
         </Row>
-        <Row className="formRow">
+        <Row style={{margin: '30px 0 -20px 0'}}>
           <div className='formHalfDividerLeft'>
             <Divider />
           </div>
-          <WText type="p" text="or with your email if you'd prefer" />
+          <Text type="p" text="or with your email if you'd prefer" />
           <div className='formHalfDividerRight'>
             <Divider />
           </div>
         </Row>
-        <Row className="formRow">
-          <TextField
-            className='formTextField'
-            id='email'
-            fullWidth
-            onChange={val => this.props.onChangeKey('email', val)}
-            value={this.props.email.value}
-            disabled={this.props.email.disabled}
-            label={this.props.email.label}
-            error={!!this.props.email.error}
-            errorText={this.props.email.error} />
-        </Row>
-        <Row className="formRow">
-          <TextField
-            id='password'
-            fullWidth
-            onChange={val => this.props.onChangeKey('password', val)}
-            value={this.props.password.value}
-            type='password'
-            label={this.props.password.label}
-            error={!!this.props.password.error}
-            errorText={this.props.password.error} />
-        </Row>
-        <Row className='formRow'>
-          <Col xs className='formRowContent'> 
-            <TooltipLink href="#" onClick={this.props.goForgot}>
-              <WText type="p" text="Forgot your password?" />
-            </TooltipLink>
+        <Row>
+          <Col xs className='formCenterAlign'> 
+            <TextField
+              id='email'
+              onChange={val => this.props.onChangeKey('email', val)}
+              value={this.props.email.value}
+              disabled={this.props.email.disabled}
+              label={this.props.email.label}
+              error={!!this.props.email.error}
+              errorText={this.props.email.error} />
           </Col>
         </Row>
-        <Row className='formRow'>
-          <Col xs className='formRowContent'> 
+        <Row>
+          <Col xs className='formCenterAlign'> 
+            <TextField
+              id='password'
+              onChange={val => this.props.onChangeKey('password', val)}
+              value={this.props.password.value}
+              type='password'
+              label={this.props.password.label}
+              error={!!this.props.password.error}
+              errorText={this.props.password.error} />
+          </Col>
+        </Row>
+        <Row style={{margin: '0 0 -20px 0'}}>
+          <Col xs className='formCenterAlign'> 
+            <Link onClick={this.props.goForgot} linkText="Forgot your password?" />
+          </Col>
+        </Row>
+        <Row>
+          <Col xs className='formCenterAlign'> 
             <Button
-              className='authAction'
-              style={{textTransform: 'inherit', backgroundColor: '#79afff', color: '#f0f0f0', boxShadow: '0 0', borderRadius: '1px', height: '50px'}}
-              disabled={!this.props.loaded || !this.props.enableSignIn}
               onClick={this.props.requestSignIn}
-              raised
-              iconBefore={false}
-              label='Log in' />
+              label="Log in" />
           </Col>
         </Row>
-        <Row className='formRow'>
-          <Col xs className='formRowContent'>
-            <WText type="p" text="New here?">
-              <TooltipLink className='authForgotPass' href="#" onClick={this.props.goToSignUp}>
-                <WText type="p" text="Create an account" />
-              </TooltipLink>
-            </WText>
+        <Row style={{margin: '10px 0 -10px 0'}}>
+          <Col xs className='formCenterAlign'>
+            <Link
+              onClick={this.props.goToSignUp}
+              preLinkText="New here?"
+              linkText="Create an account" />
           </Col>
         </Row>
       </Grid>;

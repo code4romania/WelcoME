@@ -15,7 +15,7 @@ const UserTypeStep = ({
   const renderTitle = () => {
     return (
       <div>
-        <WText type="h3" text="We are glad to have you on our platform." />
+        <WText type="h2" text="We are glad to have you on our platform." />
       </div>
     );
   }
@@ -24,7 +24,7 @@ const UserTypeStep = ({
     return (
       <div>
         <WText
-          type="label"
+          type="p"
           text="
             Our goal is to connect communities with refugees and asylum seekers.
             Let's find out a few things about you, so we can guide your through the platform in not time!
@@ -36,9 +36,7 @@ const UserTypeStep = ({
   const renderUserTypeSelection = (userTypes) => {
     return (
       <div>
-        <WText
-          type="label"
-          text="You identify yourself as one of the following:" />
+        <WText type="p" text="You identify yourself as one of the following:" />
         <SelectionControlGroup
           id="user-type-selection"
           name="user-type-selection"

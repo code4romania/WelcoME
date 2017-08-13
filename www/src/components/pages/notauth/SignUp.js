@@ -1,19 +1,9 @@
 import React, { PureComponent } from 'react';
 import Dialog from 'react-md/lib/Dialogs';
 import Divider from 'react-md/lib/Dividers';
-import TextField from 'react-md/lib/TextFields'
 import PropTypes from 'prop-types'
-import Button from 'react-md/lib/Buttons/Button'
-import { Grid, Row } from 'react-flexbox-grid'
-import injectTooltip from 'react-md/lib/Tooltips';
-import classnames from 'classnames';
-
-const TooltipLink = injectTooltip(({children, className, tooltip, ...props}) => (
-  <a {...props} className={classnames(className, 'inline-rel-container')}>
-    {tooltip}
-    {children}
-  </a>
-));
+import { Grid, Row, Col } from 'react-flexbox-grid'
+import { Button, Text, TextField, Link} from '../../common/common'
 
 export default class SignUp extends PureComponent {
   constructor(props) {
@@ -25,111 +15,101 @@ export default class SignUp extends PureComponent {
     this.setState({ visible: false });
     this.props.goToHome();
   }
-  
+
   render = () => {
-    // TODO: #2 - extract out the rendering part into smaller components
-    const contents = 
+    const contents =
       <Grid fluid className='formContainer'>
-        <Row className='formRow'>
-          <Divider />
-          <div className='formRowContent'>
-            <p>
-              Welcome! You can create an account with social media
-            </p>
-          </div>
-          <Divider />
-        </Row>  
-        <Row className='formRow'>
-          <Button
-            className='authAction'
-            onClick={this.props.requestFacebook}
-            raised
-            style={{textTransform: 'inherit', backgroundColor: '#3b5998', color: '#f0f0f0', boxShadow: '0 0', borderRadius: '2px', height: '50px'}}
-            label='Facebook'/>
-          <Button
-            className='authAction'
-            onClick={this.props.requestGoogle}
-            raised
-            style={{textTransform: 'inherit', backgroundColor: '#d34836', color: '#f0f0f0', boxShadow: '0 0', borderRadius: '2px', height: '50px'}}
-            label='Google'/>
-        </Row>     
-        <Row className='formRow' />  
-        <Row className='formRow'>
+        <Row style={{margin: '0 0 10px 0'}}>
+          <Col xs className='formCenterAlign'> 
+            <Text type="h3" text="Welcome! You can sign-up with social media" />
+          </Col>
+        </Row>
+        <Row >
+          <Col xs className='formCenterAlign'>
+            <Button
+              primaryColor="#3b5998"
+              onClick={this.props.requestFacebook}
+              label="Facebook" />
+          </Col>
+          <Col xs className='formCenterAlign'>
+            <Button
+              primaryColor="#d34836"
+              onClick={this.props.requestGoogle}
+              label="Google" />
+          </Col>
+        </Row>
+        <Row style={{margin: '30px 0 -20px 0'}}>
           <div className='formHalfDividerLeft'>
             <Divider />
           </div>
-          <p>
-            {'or with your email if you\'d prefer'}
-          </p>
+          <Text type="p" text="or with your email if you'd prefer" />
           <div className='formHalfDividerRight'>
             <Divider />
-          </div>        
-          <TextField
-            className='formTextField'
-            id='email'
-            fullWidth
-            onChange={val => this.props.onChangeKey('email', val)}
-            value={this.props.email.value}
-            disabled={this.props.email.disabled}
-            label={this.props.email.label}
-            error={!!this.props.email.error}
-            errorText={this.props.email.error} />
-          <TextField
-            id='password'
-            fullWidth
-            onChange={val => this.props.onChangeKey('password', val)}
-            value={this.props.password.value}
-            type='password'
-            label={this.props.password.label}
-            error={!!this.props.password.error}
-            errorText={this.props.password.error} />     
-          <TextField
-            id='passwordRepeat'
-            fullWidth
-            onChange={val => this.props.onChangeKey('passwordRepeat', val)}
-            value={this.props.passwordRepeat.value}
-            type='password'
-            label={this.props.passwordRepeat.label}
-            error={!!this.props.passwordRepeat.error}
-            errorText={this.props.passwordRepeat.error} />            
-        </Row>    
-        <Row className='formRow'>
-          <Divider />
-          <Button
-            className='authAction'
-            style={{textTransform: 'inherit', backgroundColor: '#79afff', color: '#f0f0f0', boxShadow: '0 0', borderRadius: '1px', height: '50px'}}          
-            disabled={!this.props.loaded || !this.props.enableSignUp}
-            onClick={this.props.requestSignUp}
-            raised
-            iconBefore={false}
-            label='Create account'/>
-          <Divider />
-        </Row>       
-        <Row className='formRow' />
-        <Row className='formRow'>
-          <Divider />
-          <section>
-            <p>
-              Already have an account?
-              <TooltipLink className='authForgotPass' href="#" onClick={this.props.goToSignIn}>
-                Log in
-              </TooltipLink>
-            </p>
-          </section>
-          <Divider />
-        </Row>                            
+          </div>
+        </Row>
+        <Row>
+          <Col xs className='formCenterAlign'> 
+            <TextField
+              id='email'
+              onChange={val => this.props.onChangeKey('email', val)}
+              value={this.props.email.value}
+              disabled={this.props.email.disabled}
+              label={this.props.email.label}
+              error={!!this.props.email.error}
+              errorText={this.props.email.error} />
+          </Col>
+        </Row>
+        <Row>
+          <Col xs className='formCenterAlign'> 
+            <TextField
+              id='password'
+              onChange={val => this.props.onChangeKey('password', val)}
+              value={this.props.password.value}
+              type='password'
+              label={this.props.password.label}
+              error={!!this.props.password.error}
+              errorText={this.props.password.error} />
+          </Col>
+        </Row>
+        <Row>
+          <Col xs className='formCenterAlign'> 
+            <TextField
+              id='passwordRepeat'
+              onChange={val => this.props.onChangeKey('passwordRepeat', val)}
+              value={this.props.passwordRepeat.value}
+              type='password'
+              label={this.props.passwordRepeat.label}
+              error={!!this.props.passwordRepeat.error}
+              errorText={this.props.passwordRepeat.error} />
+          </Col>
+        </Row>
+        <Row>
+          <Col xs className='formCenterAlign'> 
+            <Button
+              onClick={this.props.requestSignUp}
+              label="Create account" />
+          </Col>
+        </Row>
+        <Row style={{margin: '10px 0 -10px 0'}}>
+          <Col xs className='formCenterAlign'>
+            <Link
+              onClick={this.props.goToSignIn}
+              preLinkText="Already have an account?"
+              linkText="Log in" />
+          </Col>
+        </Row>
       </Grid>;
-      
+
     return (
       <Dialog
-        id="signUpDialog" 
+        id="signUpDialog"
         aria-describedby="sign-up dialog"
         visible={this.state.visible}
         dialogStyle={{width: '450px'}}
-        onHide={this.closeDialog} 
+        onHide={this.closeDialog}
         closeOnEsc={true} >
         {contents}
-      </Dialog>    
+      </Dialog>
     );
   }
 }
@@ -147,7 +127,7 @@ SignUp.propTypes = {
   requestGoogle: PropTypes.func.isRequired,
   requestSignUp: PropTypes.func.isRequired,
   goToSignIn: PropTypes.func.isRequired,
-  goToHome: PropTypes.func.isRequired,  
+  goToHome: PropTypes.func.isRequired,
   onChangeKey: PropTypes.func.isRequired,
   enableSignUp: PropTypes.bool,
   loaded: PropTypes.bool

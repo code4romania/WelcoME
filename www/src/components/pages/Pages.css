@@ -18,30 +18,14 @@
   width: 100%;
 }
 
-.formRow, .formCol {
-#  background-color: #f7f7f7;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  margin-left: 5px;
-  margin-right: 5px;
-#  display: flex;
-#  justify-content: space-between;
-}
-
-.formRow {
-  flex-direction: row;
-}
-
-.formCol {
-  flex-direction: column;
-}
-
-.formRowContent{
+.formCenterAlign {
+  margin: 10px 0 10px 0;
   align-items: center;
   text-align: center;
 }
 
 .formVerticalAlign {
+  margin: 10px 0 10px 0;
   align-items: center;
   text-align: left;
 }

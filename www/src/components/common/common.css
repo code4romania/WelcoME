@@ -13,10 +13,36 @@
   font-family: "Roboto";
 }
 
-.welcome-p {
+.welcome-p, .welcome-a {
   color: #ababb2;
   font-weight: 400;
   font-size: 15px;
   line-height: 1.5;
   font-family: "Roboto";
+}
+
+.welcome-a {
+  text-decoration: underline;
+}
+
+.welcome-text-field {
+  border: 1px;
+}
+
+.welcome-text-field-adjusted label,
+.welcome-text-field-adjusted input {
+  margin-left: -18px;
+}
+
+.welcome-text-field .md-floating-label--active {
+  color: #79afff;
+}
+
+.welcome-text-field label {
+  color: #ababb2;
+}
+
+.welcome-text-field .md-divider--text-field:after {
+  background: #79afff;
+  height: 1.5px;
 }
