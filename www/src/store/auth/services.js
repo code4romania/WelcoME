@@ -24,7 +24,9 @@ FirebaseAuth.onAuthStateChanged(user => {
   if (lastUid !== uid) {
     uid && Handlers.clearFields('signup')
     lastUid && FirebaseDb.ref('/users/' + lastUid).off('value')
+    console.log(lastUid);
     lastUid = uid
+    console.log(uid);
     uid
       ? FirebaseDb.ref('/users/' + uid).on('value', snapshot => Handlers.profileChanged(snapshot.val()))
       : Handlers.profileChanged()
@@ -92,7 +94,8 @@ payloads$(Actions.ROUTE_CHANGED)
   ))
   .subscribe(route => {
     const user = FirebaseAuth.currentUser;
-    if (!user || user.type === Entities.userTypes.PENDING) {
+    console.log(user);
+    if (user && user.type === Entities.userTypes.PENDING) {
       Handlers.goToPath('/welcome-step');
     }
   });

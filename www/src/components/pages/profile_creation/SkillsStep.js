@@ -4,62 +4,101 @@ import SelectField from 'react-md/lib/SelectFields'
 import Checkbox from 'react-md/lib/SelectionControls/Checkbox'
 import Button from 'react-md/lib/Buttons/Button'
 import { Grid, Row, Col } from 'react-flexbox-grid'
+import Step from './Step'
+import WText from '../../common/WText'
 
 const SkillsStep = ({
-    studies,
-    skills,
-    requestSaveProfile,
+  studies,
+  skills,
+  requestSaveProfile,
 }) => {
-
-    const skillsItems = skills.map((skill) =>
-        <Col xs={4} md={4} lg={4}>
+  const skillsItems = skills.map((skill) =>
+    <Col xs={4} md={4} lg={4}>
       <Checkbox
         id={skill}
         name={"skill_"+skill}
-        label={skill}/>
+        label={<WText type="label" text={skill} />}/>
     </Col>
+  );
+
+  const renderStudies = () => {
+    return (
+      <Grid fluid className='formContainer'>
+        <Row className='formRowContent'>
+          <Col xs={4} className='formVerticalAlign'>
+            <div>
+              <WText type="label" text="  What are your latest studies?" />
+          </div>
+          </Col>
+          <Col xs={8} className='formVerticalAlign'>
+            <div>
+              <SelectField
+                id="studies"
+                key="studies"
+                required
+                defaultValue={studies[0]}
+                menuItems={studies}
+                fullWidth
+                style={{width: '100%', textAlign: 'left', margin: '0'}} />
+              </div>
+          </Col>
+        </Row>
+      </Grid>
     );
+  }
+
+  const renderSkills = () => {
+    return (
+      <Grid fluid className='formContainer'>
+        <Row className='formRowContent'>
+          <Col xs className='formVerticalAlign'>
+            <div>
+              <WText
+                type="label"
+                text="  What do you like to do? What are your skills? Select from the list below:" />
+            </div>
+          </Col>
+        </Row>
+        <Row className='formRowContent'>
+          {skillsItems}
+        </Row>
+      </Grid>
+    );
+  }
 
     // TODO: put the save button in navigation
+    const renderStep = () => {
+      return (
+        <Grid fluid className='formContainer'> 
+          <Row className='formRow'>
+            <Col xs>
+              {renderStudies()}
+            </Col>
+          </Row>
+          <Row  className='formRow'>
+            <Col xs>
+              {renderSkills()}
+            </Col>
+          </Row>
+          <Row className='formRow'>
+            <Col xs className="formRowContent">
+              <Button
+                className='authAction'
+                style={{textTransform: 'inherit', backgroundColor: '#79afff', color: '#f0f0f0', boxShadow: '0 0', borderRadius: '1px', height: '50px'}}
+                onClick={requestSaveProfile}
+                raised
+                iconBefore={false}
+                label='Save Profile' />
+            </Col>
+          </Row>
+        </Grid>
+      );
+    }
+
     return (
-        <Grid fluid>
-      <Row>
-        <Col xs={12} lgOffset={1} lg={3}>
-          <div>
-            What are your latest studies?
-          </div>
-        </Col>
-        <Col xs={12}  lg={7}>
-          <SelectField
-            id="studies"
-            required
-            defaultValue={studies[0]}
-            menuItems={studies}
-            key="studies"
-            fullWidth
-            position={SelectField.Positions.BELOW} />
-        </Col>
-      </Row>
-      <Row>
-        <Col lgOffset={1}  xs={12} lg={11}>
-          <div>
-            What do you like to do? What are your skills? Select from the list below:
-          </div>
-        </Col>
-      </Row>
-      <Row>
-        {skillsItems}
-      </Row>
-      <Row>
-        <Button
-          className='authAction'
-          style={{textTransform: 'inherit', backgroundColor: '#79afff', color: '#f0f0f0', boxShadow: '0 0', borderRadius: '1px', height: '50px'}}
-          onClick={requestSaveProfile}
-          raised
-          iconBefore={false}
-          label='Save Profile' />
-      </Row>
-    </Grid>
+      <Step>
+        {renderStep()}
+      </Step>
     );
 }
 

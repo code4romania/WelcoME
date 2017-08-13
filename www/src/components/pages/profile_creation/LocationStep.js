@@ -2,6 +2,8 @@ import React from 'react'
 import SelectField from 'react-md/lib/SelectFields'
 import { Grid, Row, Col } from 'react-flexbox-grid'
 import GoogleMap from 'google-map-react'
+import Step from './Step'
+import WText from '../../common/WText'
 
 const LocationStep = ({
   config,
@@ -27,45 +29,73 @@ const LocationStep = ({
       text={camp.name} />
   );
 
-  // TODO: #69 break into reusable components
-  return (
-    <Grid fluid>
-      <Row>
-        <Col xs={12} lg={5}>
-          <GoogleMap
-            apiKey={config.apiKey}
-            center={centerMap}
-            zoom={zoomLevel}>
-            {listItems}
-          </GoogleMap>
-        </Col>
-        <Col xs={12} lgOffset={1} lg={6}>
-          <Row>
-            <SelectField
-              id="camp-location"
-              required
-              onChange={val => onSelectedCampCountry(val)}
-              menuItems={campsCountries}
-              key="camp-location"
-              label="Select Country"
-              fullWidth
-              position={SelectField.Positions.BELOW} />
-          </Row>
-          <Row>
+  const renderMap = () => {
+    return (
+      <div style={{height: '400px'}}>
+        <GoogleMap
+          apiKey={config.apiKey}
+          center={centerMap}
+          zoom={zoomLevel}>
+          {listItems}
+        </GoogleMap>
+      </div>
+    );
+  }
+
+  const renderControls = () => {
+    return (
+      <Grid fluid className='formContainer'>
+        <Row>
+          <Col xs>
             <SelectField
               id="camp-country"
-              required
-              onChange={val => onSelectedCamp(val)}
-              menuItems={campsPerCountry}
               key="camp-country"
-              label="Select Camp"
-              fullWidth
-              position={SelectField.Positions.BELOW}
-              className="md-select-field--toolbar" />
-          </Row>
-        </Col>
-      </Row>
-    </Grid>
+              label={<WText type="label" text="Country" />}
+              menuItems={campsCountries}
+              onChange={val => onSelectedCampCountry(val)}
+              required
+              className="md-cell"
+              style={{width: '100%', textAlign: 'left', margin: '0'}}
+              errorText="A country is required" />
+          </Col>
+        </Row>
+        <Row>
+          <Col xs>
+            <SelectField
+              id="camp-location"
+              key="camp-location"
+              label={<WText type="label" text="Camp" />}
+              menuItems={campsPerCountry}
+              onChange={val => onSelectedCamp(val)}
+              required
+              className="md-cell"
+              style={{width: '100%', textAlign: 'left', margin: '0'}}
+              errorText="A camp is required" />
+          </Col>
+        </Row>
+      </Grid>
+    );
+  }
+
+  const renderStep = () => {
+    return (
+      <Grid fluid className='formContainer'>
+        <Row className='formRow'>
+          <Col xs={6} className="formRowContent">
+            {renderMap()}
+          </Col>
+          <Col xs={6} className="formRowContent">
+            {renderControls()}
+          </Col>
+        </Row>
+      </Grid>
+    );
+  }
+
+  return (
+    <Step>
+        {renderStep()}
+    </Step>
   );
 }
 

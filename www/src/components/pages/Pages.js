@@ -4,11 +4,11 @@ import './Pages.css'
 
 const Pages = ({pages}) => {
   return (
-    <div>
+    <section className='pages-container'>
       {pages.map(({Page, visible, key}) => (
         visible ? <Page key={key} /> : null
       ))}
-    </div>
+    </section>
   );
 }
 

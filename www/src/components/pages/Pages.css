@@ -1,4 +1,8 @@
 
+.pages-container {
+  width: 1112px;
+  margin: 0 auto;
+}
 
 .container {
 #  background-color: #a0a0a0;
@@ -8,20 +12,38 @@
 #  background-color: #f0f0f0;
 }
 
-.formRow {
+.wGrid {
+  flex-grow: 1;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.formRow, .formCol {
 #  background-color: #f7f7f7;
   margin-top: 20px;
   margin-bottom: 20px;
   margin-left: 5px;
   margin-right: 5px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+#  display: flex;
+#  justify-content: space-between;
 }
 
-.formRowContent {
+.formRow {
+  flex-direction: row;
+}
+
+.formCol {
+  flex-direction: column;
+}
+
+.formRowContent{
   align-items: center;
   text-align: center;
+}
+
+.formVerticalAlign {
+  align-items: center;
+  text-align: left;
 }
 
 .formRowContent .paragraph {
@@ -73,20 +95,4 @@
 
 .elem1-not-auth .md-text-field-inline-indicator {
   margin-right: 3px;
-}
-
-.welcome-def-h3 {
-  text-transform: uppercase;
-  color: #7f7f7f;
-  font-weight: 800;
-  font-size: 17px;
-  font-family: "Roboto";
-}
-
-.welcome-def-label {
-  color: #ababb2;
-  font-weight: 400;
-  font-size: 15px;
-  line-height: 1.5;
-  font-family: "Roboto";
 }

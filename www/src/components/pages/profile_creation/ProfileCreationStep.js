@@ -7,6 +7,9 @@ import TextField from 'react-md/lib/TextFields'
 import FontIcon from 'react-md/lib/FontIcons'
 import FileUpload from 'react-md/lib/FileInputs/FileUpload'
 import { Grid, Row, Col } from 'react-flexbox-grid'
+import Step from './Step'
+import WText from '../../common/WText'
+import '../Pages.css'
 
 const ProfileCreationStep = ({
   nationalities,
@@ -16,100 +19,136 @@ const ProfileCreationStep = ({
   onLoad,
   imageURL
 }) => {
-  // TODO: #69 break into reusable components
-  return (
-    <Grid>
-      <Row>
-        <Col xs={12} lg={4}>
-          <Row>
+  const renderProfilePic = () => {
+    return (
+      <Grid fluid className='formContainer'>
+        <Row className='formRow'>
+          <Col xs className='formRowContent'>
             <FileUpload
               id="profileImg"
               name="profileImg"
               label="Select profile Image"
               accept="image/*"
               onLoad={onLoad} />
-          </Row>
-          <Row>
+          </Col>
+        </Row>
+        <Row>
+          <Col xs className='formRowContent'>
             <img className="avatar" src={imageURL} alt="avatar"/>
-          </Row>
-        </Col>
-        <Col xs={12} lg={8}>
-          <Grid>
-            <Row>
-              <Col xs={12}  lg={8}>
-                <SelectionControlGroup
-    		        	id="genders"
-    		        	name="genders"
-    		        	type="radio"
-    		        	required
-    		        	inline
-    		        	controls={controlsGender}
-    		        	onChange={val => onChangeKey('gender', val)} />
-              </Col>
-  	        </Row>
-            <Row>
-              <Col xs={12}  lg={8}>
-          	    <DatePicker
-    	        		id="birthDate"
-    	        		label="Date of birth"
-    	        		required
-    	        		onChange={val => onChangeKey('birthDay', val)} />
-  	        	</Col>
-  	        </Row>
-  	        <Row>
-              <Col xs={12} lg={8}>
-          	    <SelectField
-    	        		id='nationality'
-    	        		required
-    	        		menuItems={nationalities}
-    	        		key='nationality'
-    	        		label="Nationality"
-    	       			fullWidth
-    	       			onChange={val => onChangeKey('nationality', val)}
-    	        		position={ SelectField.Positions.BELOW } />
-  	           </Col>
-  	        </Row>
-  	        <Row>
-  	        	<Col xs={12} lg={8}>
-                <TextField
-    				      id="phone"
-    				      label="Phone"
-    				      required
-    				      type="number"
-    				      leftIcon={<FontIcon>phone</FontIcon>}
-    				      maxLength={10}
-    				      onChange={val => onChangeKey('phoneNumber', val)}/>
-  	        	</Col>
-  	        </Row>
-  	        <Row>
-              <Col xs={12} lg={8}>
-                <TextField
-    				      id="email"
-    				      label="Email"
-    				      required
-    				      type="email"
-    				      onChange={val => onChangeKey('email', val)} />
-  	        	</Col>
-  	        </Row>
-            <Row>
-            	<Col xs={12} lg={3}>
-            		<div className="labelFamily"> Are you here with the family ? </div>
-            	</Col>
-          	  <Col xs={12} lg={9}>
-        		    <SelectionControlGroup
-  			        	id="withFamily"
-  			        	name="withFamily"
-  			        	type="radio"
-  			        	required
-  			        	inline
-  			        	controls={controlsFamily}
-  			        	onChange={val => onChangeKey('family', val)} />
-  	        	</Col>
-  	        </Row>
-  	      </Grid>
-        </Col>
-      </Row>
-    </Grid>
+          </Col>
+        </Row>
+      </Grid>
+    );
+  }
+
+  const renderProfileData = () => {
+    return (
+      <Grid fluid className='formContainer'>
+        <Row>
+          <Col xs >
+            <SelectionControlGroup
+              id="genders"
+              name="genders"
+              type="radio"
+              required
+              inline
+              controls={controlsGender.map((gender) => ({
+                value: gender.value,
+                label: <WText type="label" text={gender.label} />
+              }))}
+              onChange={val => onChangeKey('gender', val)} />
+          </Col>
+        </Row>
+        <Row  className='formRowContent'>
+          <Col xs className='formRowContent'>
+            <DatePicker
+              id="birthDate"
+              label={<WText type="label" text="Date of birth" />}
+              required
+              inline
+              onChange={val => onChangeKey('birthDay', val)} />
+          </Col>
+        </Row>
+        <Row className='formRowContent'>
+          <Col xs className='formRowContent'>
+            <SelectField
+              id="nationality"
+              label={<WText type="label" text="Nationality" />}
+              menuItems={nationalities}
+              onChange={val => onChangeKey('nationality', val)}
+              required
+              errorText="A state is required"
+              className="md-cell"
+              style={{width: '100%', textAlign: 'left', margin: '0'}} />
+          </Col>
+        </Row>
+        <Row  className='formRowContent'>
+          <Col xs className='formRowContent'>
+          <TextField
+            id="phone"
+            label={<WText type="label" text="Phone" />}
+            required
+            maxLength={10}
+            onChange={val => onChangeKey('phoneNumber', val)}
+            errorText="Phone number is required" />
+          </Col>
+        </Row>
+        <Row className='formRowContent'>
+          <Col xs className='formRowContent'>
+            <TextField
+              id="email"
+              label={<WText type="label" text="Email" />}
+              required
+              type="email"
+              onChange={val => onChangeKey('email', val)}
+              errorText="Email is required" />
+          </Col>
+        </Row>
+        <Row className='formRowContent'>
+          <Col xs className='formVerticalAlign'>
+            <div>
+              <WText type="label" text=" Are you here with the family?" />
+            </div>
+          </Col>
+          <Col xs className='formVerticalAlign'>
+            <div>
+              <SelectionControlGroup
+                id="withFamily"
+                name="withFamily"
+                type="radio"
+                required
+                inline
+                controls={controlsFamily.map((family) => ({
+                  value: family.value,
+                  label: <WText type="label" text={family.label} />
+                }))}
+                onChange={val => onChangeKey('family', val)} />
+            </div>
+          </Col>
+        </Row>
+      </Grid>
+    );
+  }
+
+  const renderStep = () => {
+    return (
+      <Grid fluid className='formContainer'>
+        <Row className='formRow'>
+          <Col xs={4} className="formRowContent">
+            {renderProfilePic()}
+          </Col>
+          <Col xs={8}>
+            {renderProfileData()}
+          </Col>
+        </Row>
+      </Grid>
+    );
+  }
+
+  return (
+    <Step>
+      {renderStep()}
+    </Step>
   );
 }
 
