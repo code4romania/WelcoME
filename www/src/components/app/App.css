@@ -2,7 +2,7 @@
   text-align: center;
 }
 
-.md-progress--linear.progress-auth {  
+.md-progress--linear.progress-auth {
   background: #1d4bb7;
 }
 
@@ -33,7 +33,7 @@
   padding: 5px;
   border: 1px solid black;
   background: green;
-  color: yellow; 
+  color: yellow;
 }
 .avatarIcon{
   width: 50px;

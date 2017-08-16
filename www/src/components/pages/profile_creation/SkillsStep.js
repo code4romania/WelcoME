@@ -1,11 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import SelectField from 'react-md/lib/SelectFields'
 import Checkbox from 'react-md/lib/SelectionControls/Checkbox'
 import Button from 'react-md/lib/Buttons/Button'
 import { Grid, Row, Col } from 'react-flexbox-grid'
 import Step from './Step'
-import WText from '../../common/WText'
+import { Text, SelectField } from '../../common/common'
 
 const SkillsStep = ({
   studies,
@@ -13,11 +12,11 @@ const SkillsStep = ({
   requestSaveProfile,
 }) => {
   const skillsItems = skills.map((skill) =>
-    <Col xs={4} md={4} lg={4}>
+    <Col xs={4} md={4} lg={4} key={skill + '_container'}>
       <Checkbox
         id={skill}
-        name={"skill_"+skill}
-        label={<WText type="label" text={skill} />}/>
+        name={'skill_' + skill}
+        label={<Text type="p" text={skill} />}/>
     </Col>
   );
 
@@ -27,7 +26,7 @@ const SkillsStep = ({
         <Row className='formRowContent'>
           <Col xs={4} className='formVerticalAlign'>
             <div>
-              <WText type="label" text="  What are your latest studies?" />
+              <Text type="p" text="What are your latest studies?" />
           </div>
           </Col>
           <Col xs={8} className='formVerticalAlign'>
@@ -38,8 +37,7 @@ const SkillsStep = ({
                 required
                 defaultValue={studies[0]}
                 menuItems={studies}
-                fullWidth
-                style={{width: '100%', textAlign: 'left', margin: '0'}} />
+                fullWidth />
               </div>
           </Col>
         </Row>
@@ -53,9 +51,7 @@ const SkillsStep = ({
         <Row className='formRowContent'>
           <Col xs className='formVerticalAlign'>
             <div>
-              <WText
-                type="label"
-                text="  What do you like to do? What are your skills? Select from the list below:" />
+              <Text type="p" text="What do you like to do? What are your skills? Select from the list below:" />
             </div>
           </Col>
         </Row>

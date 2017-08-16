@@ -16,7 +16,7 @@ const WText = (props) => {
 }
 
 WText.propTypes = {
-  type: PropTypes.oneOf(['h1', 'h2', 'h3', 'p']),
+  type: PropTypes.oneOf(['h1', 'h2', 'h3', 'p', 's']),
   text: PropTypes.string.isRequired,
 }
 

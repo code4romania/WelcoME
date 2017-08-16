@@ -1,6 +1,6 @@
 
 .pages-container {
-  width: 1112px;
+  width: 1012px;
   margin: 0 auto;
 }
 
@@ -28,10 +28,6 @@
   margin: 10px 0 10px 0;
   align-items: center;
   text-align: left;
-}
-
-.formRowContent .paragraph {
-  margin-bottom: 0;
 }
 
 .formHalfDividerLeft {

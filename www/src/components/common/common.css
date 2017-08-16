@@ -1,20 +1,26 @@
+:root {
+  --h2-color: #ababb2;
+  --p-color: #7f7f7f;
+  --focus-color: #79afff;
+}
+
 .welcome-h2 {
   text-transform: uppercase;
-  color: #7f7f7f;
+  color: var(--h2-color);
   font-weight: 800;
   font-size: 17px;
   font-family: "Roboto";
 }
 
 .welcome-h3 {
-  color: #ababb2;
+  color: var(--p-color);
   font-weight: 400;
   font-size: 17px;
   font-family: "Roboto";
 }
 
-.welcome-p, .welcome-a {
-  color: #ababb2;
+.welcome-p, .welcome-a, .welcome-s {
+  color: var(--p-color);
   font-weight: 400;
   font-size: 15px;
   line-height: 1.5;
@@ -25,24 +31,61 @@
   text-decoration: underline;
 }
 
+.welcome-s {
+  margin: 5px 0 5px 0;
+}
+
 .welcome-text-field {
   border: 1px;
+  text-align: left;
 }
 
 .welcome-text-field-adjusted label,
-.welcome-text-field-adjusted input {
-  margin-left: -18px;
+.welcome-text-field-adjusted input,
+.welcome-text-field-adjusted div.md-text-field-message-container span {
+  left: 0;
+  text-align: left;
 }
 
 .welcome-text-field .md-floating-label--active {
-  color: #79afff;
+  color: var(--focus-color);
 }
 
 .welcome-text-field label {
-  color: #ababb2;
+  color: var(--p-color);
 }
 
 .welcome-text-field .md-divider--text-field:after {
-  background: #79afff;
-  height: 1.5px;
+  background: var(--focus-color);
+  height: 1px;
+}
+
+.welcome-selection div div[aria-checked='true'] {
+  color: var(--focus-color);
+}
+
+.welcome-select {
+  text-align: left;
+}
+
+.welcome-select label {
+  color: var(--p-color);
+}
+
+.welcome-select .md-floating-label--active {
+  color: var(--focus-color);
+}
+
+.welcome-select .md-list-item .md-tile-content .md-tile-text--primary {
+  text-align: left;
+}
+
+.welcome-select .md-list-item .md-pointer--hover[id$="Active"] .md-tile-text--primary,
+.welcome-select .md-list-item .md-pointer--hover:hover .md-tile-text--primary {
+  color: var(--focus-color);
+}
+
+.welcome-select .md-divider--text-field:after {
+  background-color: var(--focus-color);
+  height: 1px;
 }

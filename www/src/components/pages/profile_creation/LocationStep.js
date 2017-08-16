@@ -1,9 +1,8 @@
 import React from 'react'
-import SelectField from 'react-md/lib/SelectFields'
 import { Grid, Row, Col } from 'react-flexbox-grid'
 import GoogleMap from 'google-map-react'
 import Step from './Step'
-import WText from '../../common/WText'
+import { SelectField } from '../../common/common'
 
 const LocationStep = ({
   config,
@@ -23,6 +22,7 @@ const LocationStep = ({
 
   const listItems = camps.map((camp) =>
     <Marker
+      key={camp.name + '_container'}
       className="camp"
       lat={camp.Location.geolocation.lat}
       lng={camp.Location.geolocation.long}
@@ -33,7 +33,7 @@ const LocationStep = ({
     return (
       <div style={{height: '400px'}}>
         <GoogleMap
-          apiKey={config.apiKey}
+          bootstrapURLKeys={{key: config.apiKey}}
           center={centerMap}
           zoom={zoomLevel}>
           {listItems}
@@ -50,13 +50,11 @@ const LocationStep = ({
             <SelectField
               id="camp-country"
               key="camp-country"
-              label={<WText type="label" text="Country" />}
+              label={'Country'}
               menuItems={campsCountries}
               onChange={val => onSelectedCampCountry(val)}
               required
-              className="md-cell"
-              style={{width: '100%', textAlign: 'left', margin: '0'}}
-              errorText="A country is required" />
+              errorText={'A country is required'} />
           </Col>
         </Row>
         <Row>
@@ -64,13 +62,11 @@ const LocationStep = ({
             <SelectField
               id="camp-location"
               key="camp-location"
-              label={<WText type="label" text="Camp" />}
+              label={'Camp'}
               menuItems={campsPerCountry}
               onChange={val => onSelectedCamp(val)}
               required
-              className="md-cell"
-              style={{width: '100%', textAlign: 'left', margin: '0'}}
-              errorText="A camp is required" />
+              errorText={'A camp is required'} />
           </Col>
         </Row>
       </Grid>
