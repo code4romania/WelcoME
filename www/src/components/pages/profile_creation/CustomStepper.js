@@ -11,24 +11,24 @@ const CustomStepper = (props) => {
     const stepItems = props.steps.map((item) =>
 
         <Step title={item.props.title} key={item.props.title} editable>
-        <StepContent>
-            {item}
-        </StepContent>
-        <StepActions>
-          <Button data-stepper-next
-                style={{textTransform: 'inherit', backgroundColor: '#79afff', color: '#f0f0f0', boxShadow: '0 0', borderRadius: '1px', height: '50px'}}    
-                raised
-                iconBefore={false}
-                label='Next'
-                 />
-        </StepActions>
+	        <StepContent>
+	            {item}
+	        </StepContent>
+	        <StepActions>
+	          <Button data-stepper-next
+	                style={{textTransform: 'inherit', backgroundColor: '#79afff', color: '#f0f0f0', boxShadow: '0 0', borderRadius: '1px', height: '50px'}}    
+	                raised
+	                iconBefore={false}
+	                label='Next'
+	                 />
+	        </StepActions>
       </Step>
 
     );
     return (
-        <Stepper type="non-linear">
-       {stepItems}
-    </Stepper>
+        <Stepper>
+      		 {stepItems}
+    	</Stepper>
     );
 }
 

@@ -12,11 +12,20 @@ import CustomStepper from '../profile_creation/CustomStepper'
 
 const Profile = ({panel, profile}) => {
   return (
-     <CustomStepper steps = {[
+       <ExpansionList>
+      <ExpansionPanel closeOnSave={false} closeOnCancel={false} {...panel} label={<AccountHeader {...profile} />}>
+        <Account {...profile} />
+      </ExpansionPanel>
+      <ExpansionPanel>
+        <CustomStepper steps = {[
                       <UserTypeStepContext title="Welcome"/>,
                       <ProfileStepContext title="Profile"/>,
                       <LocationStepContext title="Location"/>
                   ]} />
+      </ExpansionPanel>
+      
+    </ExpansionList>
+    
   );
 }
 
