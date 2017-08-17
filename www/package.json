@@ -25,6 +25,8 @@
     "react-dom": "^15.4.2",
     "react-flexbox-grid": "^1.0.2",
     "react-md": "^1.0.11",
+    "react-mdl": "^1.10.3",
+    "react-mdl-stepper": "^0.2.3",
     "react-tap-event-plugin": "^2.0.1",
     "route-parser": "0.0.5",
     "rxjs": "^5.0.3",

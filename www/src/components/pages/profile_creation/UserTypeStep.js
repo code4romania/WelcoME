@@ -67,7 +67,7 @@ const UserTypeStep = ({
   }
 
   return (
-    <Step>
+    <Step >
       {renderStep()}
     </Step>
   );

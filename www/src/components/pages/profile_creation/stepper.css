@@ -5,3 +5,6 @@
   width: 800px;
   margin: 0 auto;
 }
+.mdl-stepper{
+	max-width: 100% !important; 
+}
