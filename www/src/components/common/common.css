@@ -27,13 +27,17 @@
   font-family: "Roboto";
 }
 
-.welcome-p, .welcome-a, .welcome-s {
+.welcome-p, .welcome-a, .welcome-s, .welcome-p-bm {
   color: var(--p-color);
   font-weight: 400;
   font-size: 15px;
   line-height: 1.5;
   font-family: "Roboto";
   margin-bottom: 0;
+}
+
+.welcome-p-bm {
+  margin-bottom: 10px;
 }
 
 .welcome-a {

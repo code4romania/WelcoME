@@ -42,7 +42,7 @@ export default class SignUp extends PureComponent {
           <div className='formHalfDividerLeft'>
             <Divider />
           </div>
-          <Text type="p" text="or with your email if you'd prefer" />
+          <Text type="p-bm" text="or with your email if you'd prefer" />
           <div className='formHalfDividerRight'>
             <Divider />
           </div>
