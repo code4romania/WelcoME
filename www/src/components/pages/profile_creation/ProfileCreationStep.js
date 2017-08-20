@@ -1,11 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import DatePicker from 'react-md/lib/Pickers/DatePickerContainer'
 import FileUpload from 'react-md/lib/FileInputs/FileUpload'
 import { Grid, Row, Col } from 'react-flexbox-grid'
 import Step from './Step'
 import '../Pages.css'
-import { Text, TextField, SelectionGroup, SelectField } from '../../common/common'
+import { Text, TextField, SelectionGroup, SelectField, DatePicker } from '../../common/common'
 
 const ProfileCreationStep = ({
   nationalities,
@@ -77,9 +76,9 @@ const ProfileCreationStep = ({
             <DatePicker
               id="birthDate"
               label={'Date of birth'}
+              onChange={val => onChangeKey('birthDay', val)}
               required
-              inline
-              onChange={val => onChangeKey('birthDay', val)} />
+              maxDate={new Date()} />
           </Col>
         </Row>
         <Row>

@@ -1,10 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Checkbox from 'react-md/lib/SelectionControls/Checkbox'
-import Button from 'react-md/lib/Buttons/Button'
 import { Grid, Row, Col } from 'react-flexbox-grid'
 import Step from './Step'
-import { Text, SelectField } from '../../common/common'
+import { Text, SelectField, Button } from '../../common/common'
 
 const SkillsStep = ({
   studies,
@@ -16,7 +15,8 @@ const SkillsStep = ({
       <Checkbox
         id={skill}
         name={'skill_' + skill}
-        label={<Text type="p" text={skill} />}/>
+        label={<Text type="p" text={skill} />}
+        className={'welcome-input'} />
     </Col>
   );
 
@@ -79,11 +79,7 @@ const SkillsStep = ({
           <Row className='formRow'>
             <Col xs className="formRowContent">
               <Button
-                className='authAction'
-                style={{textTransform: 'inherit', backgroundColor: '#79afff', color: '#f0f0f0', boxShadow: '0 0', borderRadius: '1px', height: '50px'}}
                 onClick={requestSaveProfile}
-                raised
-                iconBefore={false}
                 label='Save Profile' />
             </Col>
           </Row>

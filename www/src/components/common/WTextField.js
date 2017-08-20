@@ -6,8 +6,12 @@ import classnames from 'classnames'
 export default class WTextField extends PureComponent {
   getClassNames = () => {
     return this.props.type === 'password'
-      ? classnames('welcome-text-field', 'welcome-text-field-adjusted')
-      : 'welcome-text-field';
+      ? classnames(
+          'welcome-input',
+          'welcome-text-field',
+          'welcome-text-field-adjusted',
+        )
+      : classnames('welcome-input', 'welcome-text-field');
   }
 
   render = () => {

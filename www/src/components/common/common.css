@@ -2,8 +2,16 @@
   --h2-color: #ababb2;
   --p-color: #7f7f7f;
   --focus-color: #79afff;
+  --error-color: #d34836;
 }
 
+:export {
+  wFocus: var(--focus-color);
+  wDarkGrey: var(--h2-color);
+}
+
+/* Text */
+/* --------------------------------------------------------------------- */
 .welcome-h2 {
   text-transform: uppercase;
   color: var(--h2-color);
@@ -25,6 +33,7 @@
   font-size: 15px;
   line-height: 1.5;
   font-family: "Roboto";
+  margin-bottom: 0;
 }
 
 .welcome-a {
@@ -35,6 +44,41 @@
   margin: 5px 0 5px 0;
 }
 
+/* Common */
+/* --------------------------------------------------------------------- */
+.welcome-input .md-floating-label--active,
+.welcome-input .md-text-field-icon--active,
+.welcome-input .md-divider--text-field::after,
+.welcome-input .md-text--theme-secondary {
+  color: var(--focus-color);
+}
+
+.welcome-input label:not(.md-floating-label--error):not(.md-floating-label--active) {
+  color: var(--p-color);
+}
+
+.welcome-input .md-divider--text-field::after {
+  height: 1px;
+}
+
+.welcome-input .md-floating-label--error,
+.welcome-input .md-text-field-icon--error,
+.welcome-input .md-text-field-message-container--error,
+.welcome-input .md-text-field-message-container--error {
+  color: var(--error-color);
+}
+
+.welcome-input .md-divider--text-field-active::after {
+  background: var(--focus-color);
+}
+
+.welcome-input .md-divider--text-field-error,
+.welcome-input .md-divider--text-field-error::after {
+  background: var(--error-color);
+}
+
+/* Text fields */
+/* --------------------------------------------------------------------- */
 .welcome-text-field {
   border: 1px;
   text-align: left;
@@ -47,33 +91,14 @@
   text-align: left;
 }
 
-.welcome-text-field .md-floating-label--active {
-  color: var(--focus-color);
-}
-
-.welcome-text-field label {
-  color: var(--p-color);
-}
-
-.welcome-text-field .md-divider--text-field:after {
-  background: var(--focus-color);
-  height: 1px;
-}
-
+/* Select */
+/* --------------------------------------------------------------------- */
 .welcome-selection div div[aria-checked='true'] {
   color: var(--focus-color);
 }
 
 .welcome-select {
   text-align: left;
-}
-
-.welcome-select label {
-  color: var(--p-color);
-}
-
-.welcome-select .md-floating-label--active {
-  color: var(--focus-color);
 }
 
 .welcome-select .md-list-item .md-tile-content .md-tile-text--primary {
@@ -85,7 +110,24 @@
   color: var(--focus-color);
 }
 
-.welcome-select .md-divider--text-field:after {
-  background-color: var(--focus-color);
-  height: 1px;
+/* Date picker  */
+/* --------------------------------------------------------------------- */
+.welcome-date-picker .md-picker--date .md-picker-header,
+.welcome-date-picker .md-calendar-date--btn::after,
+.welcome-date-picker .md-divider::after {
+  background: var(--focus-color);
+}
+
+.welcome-date-picker .md-text--theme-primary,
+.welcome-date-picker .md-tile-text--primary {
+  color: var(--focus-color);
+}
+
+.welcome-date-picker .md-calendar-controls .md-title,
+.welcome-date-picker .md-calendar-controls .md-btn--icon {
+  color: var(--p-color);
+}
+
+.welcome-date-picker .md-dialog-footer .md-btn--color-primary-active {
+  background: none;
 }

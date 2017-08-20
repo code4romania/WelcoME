@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import Button from 'react-md/lib/Buttons/Button'
-import './common.css'
 import omit from 'object.omit'
+const styles = require('./common.css')
 
 export default class WButton extends PureComponent {
   constructor(props) {
@@ -16,24 +16,40 @@ export default class WButton extends PureComponent {
   getPrimaryColor = () => {
     return !!this.props.primaryColor
       ? this.props.primaryColor
-      : '#79afff';
+      : styles.wFocus;
+  }
+
+  getColor = () => {
+    return this.props.primary !== false
+      ? this.getPrimaryColor()
+      : styles.wDarkGrey;
+  }
+
+  getButtonHeight = () => {
+    return !!this.props.buttonHeight
+      ? this.props.buttonHeight
+      : 40;
+  }
+
+  getLineHeight = () => {
+    return this.getButtonHeight() - 15;
   }
 
   getStyle = () => {
     return {
       fontWeight: '500',
       fontSize: '15px',
-      lineHeight: '35px',
+      lineHeight: this.getLineHeight() + 'px',
       fontFamily: 'Roboto',
       boxShadow: '0 0',
-      height: '50px',
+      height: this.getButtonHeight() + 'px',
       width: '100%',
-      color: this.state.hover ? this.getPrimaryColor() : '#ffffff',
+      color: this.state.hover ? this.getColor() : '#ffffff',
       backgroundColor: this.state.hover
         ? '#ffffff'
-        : this.getPrimaryColor(),
+        : this.getColor(),
       border: this.state.hover
-        ? '1.5px solid ' + this.getPrimaryColor()
+        ? '1.5px solid ' + this.getColor()
         : 'none',
       borderRadius: '0px',
       textTransform: 'none',
@@ -43,7 +59,7 @@ export default class WButton extends PureComponent {
   render = () => {
     return (
       <Button
-        {...omit(this.props, 'primaryColor')}
+        {...omit(this.props, 'primaryColor', 'buttonHeight')}
         raised
         style={this.getStyle()}
         onMouseEnter={this.toggleHover}
