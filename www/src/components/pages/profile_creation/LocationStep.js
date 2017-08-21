@@ -1,26 +1,23 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Grid, Row, Col } from 'react-flexbox-grid'
 import GoogleMap from 'google-map-react'
 import Step from './Step'
 import { SelectField } from '../../common/common'
 
 const LocationStep = ({
-  config,
   onChangeKey,
-  campsCountries,
-  centerMap,
-  zoomLevel,
-  camps,
+  getFormValue,
+  campCountries,
   campsPerCountry,
-  onSelectedCampCountry,
-  onSelectedCamp
+  googleMapControls,
 }) => {
   const Marker = (props) =>
     <div className={props.className}>
       {props.text}
     </div>;
 
-  const listItems = camps.map((camp) =>
+  const listItems = googleMapControls.camps.map((camp) =>
     <Marker
       key={camp.name + '_container'}
       className="camp"
@@ -33,9 +30,9 @@ const LocationStep = ({
     return (
       <div style={{height: '400px'}}>
         <GoogleMap
-          bootstrapURLKeys={{key: config.apiKey}}
-          center={centerMap}
-          zoom={zoomLevel}>
+          bootstrapURLKeys={{key: googleMapControls.config.apiKey}}
+          center={googleMapControls.centerMap}
+          zoom={googleMapControls.zoomLevel}>
           {listItems}
         </GoogleMap>
       </div>
@@ -51,8 +48,13 @@ const LocationStep = ({
               id="camp-country"
               key="camp-country"
               label={'Country'}
-              menuItems={campsCountries}
-              onChange={val => onSelectedCampCountry(val)}
+              menuItems={campCountries}
+              onChange={value => googleMapControls.onSelectedCampCountry(value)}
+              defaultValue={
+                !!getFormValue('camp')
+                  ? getFormValue('camp').country
+                  : ''
+              }
               required
               errorText={'A country is required'} />
           </Col>
@@ -64,7 +66,8 @@ const LocationStep = ({
               key="camp-location"
               label={'Camp'}
               menuItems={campsPerCountry}
-              onChange={val => onSelectedCamp(val)}
+              onChange={value => googleMapControls.onSelectedCamp(value)}
+              defaultValue={getFormValue('selectedCamp', 'temp')}
               required
               errorText={'A camp is required'} />
           </Col>
@@ -90,9 +93,14 @@ const LocationStep = ({
 
   return (
     <Step>
-        {renderStep()}
+      {renderStep()}
     </Step>
   );
+}
+
+LocationStep.propTypes = {
+  onChangeKey: PropTypes.func.isRequired,
+  getFormValue: PropTypes.func.isRequired,
 }
 
 export default LocationStep

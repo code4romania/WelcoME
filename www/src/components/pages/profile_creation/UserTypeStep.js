@@ -6,11 +6,10 @@ import { Text, SelectionGroup } from '../../common/common'
 import '../Pages.css'
 
 const UserTypeStep = ({
-  userTypes,
-  selectedType,
   onChangeKey,
+  getFormValue,
+  userTypes,
 }) => {
-
   const renderTitle = () => {
     return (
       <Text type="h2" text="We are glad to have you on our platform." />
@@ -20,8 +19,8 @@ const UserTypeStep = ({
   const renderDescription = () => {
     return (
       <div>
-      <Text type="p" text="Our goal is to connect communities with refugees and asylum seekers. "/>
-      <Text type="p" text="Let's find out a few things about you, so we can guide your through the platform in not time!"/>
+        <Text type="p" text="Our goal is to connect communities with refugees and asylum seekers. "/>
+        <Text type="p" text="Let's find out a few things about you, so we can guide your through the platform in not time!"/>
       </div>
   );
   }
@@ -36,8 +35,8 @@ const UserTypeStep = ({
             name="user-type-selection"
             type="radio"
             controls={userTypes}
-            value={selectedType}
             onChange={val => onChangeKey('userType', val)}
+            defaultValue={getFormValue('userType')}
             required />
         </div>
       </div>
@@ -74,12 +73,12 @@ const UserTypeStep = ({
 }
 
 UserTypeStep.propTypes = {
+  onChangeKey: PropTypes.func.isRequired,
+  getFormValue: PropTypes.func.isRequired,
   userTypes: PropTypes.arrayOf(PropTypes.shape({
     value: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
   })).isRequired,
-  selectedType: PropTypes.string.isRequired,
-  onChangeKey: PropTypes.func.isRequired,
 }
 
 export default UserTypeStep;

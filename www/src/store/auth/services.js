@@ -150,6 +150,7 @@ payloads$(Actions.SIGNUP_EMAIL_REQUESTED)
   })
 
 // profile completed requested
+// TODO
 payloads$(Actions.COMPLETE_PROFILE_REQUESTED)
   .subscribe((fields) => {
     const user = FirebaseAuth.currentUser;

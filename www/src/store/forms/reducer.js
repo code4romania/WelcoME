@@ -14,7 +14,8 @@ Handlers.clearFields = (form, fields) => dispatch(Actions.CLEAR_FIELDS, {form, f
 // reducer
 const initialState = {
   signup: {},
-  account: {}
+  account: {},
+  temp: {},
 }
 
 Reducers.forms = (state = initialState, action) => {

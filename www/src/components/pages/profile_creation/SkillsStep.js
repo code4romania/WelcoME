@@ -6,8 +6,11 @@ import Step from './Step'
 import { Text, SelectField, Button } from '../../common/common'
 
 const SkillsStep = ({
+  onChangeKey,
+  getFormValue,
   studies,
   skills,
+  onSkillChange,
   requestSaveProfile,
 }) => {
   const skillsItems = skills.map((skill) =>
@@ -16,6 +19,11 @@ const SkillsStep = ({
         id={skill}
         name={'skill_' + skill}
         label={<Text type="p" text={skill} />}
+        onChange={value => onSkillChange(skill, value)}
+        defaultChecked={!!getFormValue('skills')
+          ? getFormValue('skills').includes(skill)
+          : false
+        }
         className={'welcome-input'} />
     </Col>
   );
@@ -34,10 +42,10 @@ const SkillsStep = ({
               <SelectField
                 id="studies"
                 key="studies"
-                required
-                defaultValue={studies[0]}
                 menuItems={studies}
-                fullWidth />
+                onChange={value => onChangeKey('studies', value)}
+                defaultValue={getFormValue('studies') || studies[0]}
+                required />
               </div>
           </Col>
         </Row>
@@ -62,42 +70,43 @@ const SkillsStep = ({
     );
   }
 
-    // TODO: put the save button in navigation
-    const renderStep = () => {
-      return (
-        <Grid fluid className='formContainer'> 
-          <Row className='formRow'>
-            <Col xs>
-              {renderStudies()}
-            </Col>
-          </Row>
-          <Row  className='formRow'>
-            <Col xs>
-              {renderSkills()}
-            </Col>
-          </Row>
-          <Row className='formRow'>
-            <Col xs className="formRowContent">
-              <Button
-                onClick={requestSaveProfile}
-                label='Save Profile' />
-            </Col>
-          </Row>
-        </Grid>
-      );
-    }
-
+  // TODO: put the save button in navigation
+  const renderStep = () => {
     return (
-      <Step>
-        {renderStep()}
-      </Step>
+      <Grid fluid className='formContainer'> 
+        <Row className='formRow'>
+          <Col xs>
+            {renderStudies()}
+          </Col>
+        </Row>
+        <Row  className='formRow'>
+          <Col xs>
+            {renderSkills()}
+          </Col>
+        </Row>
+        <Row className='formRow'>
+          <Col xs className="formRowContent">
+            <Button
+              onClick={requestSaveProfile}
+              label='Save Profile' />
+          </Col>
+        </Row>
+      </Grid>
     );
+  }
+
+  return (
+    <Step>
+      {renderStep()}
+    </Step>
+  );
 }
 
 SkillsStep.propTypes = {
-    studies: PropTypes.arrayOf(PropTypes.string).isRequired,
-    skills: PropTypes.arrayOf(PropTypes.string).isRequired,
-    requestSaveProfile: PropTypes.func.isRequired,
+  studies: PropTypes.arrayOf(PropTypes.string).isRequired,
+  skills: PropTypes.arrayOf(PropTypes.string).isRequired,
+  onSkillChange: PropTypes.func.isRequired,
+  requestSaveProfile: PropTypes.func.isRequired,
 }
 
 export default SkillsStep

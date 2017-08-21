@@ -7,12 +7,14 @@ import '../Pages.css'
 import { Text, TextField, SelectionGroup, SelectField, DatePicker } from '../../common/common'
 
 const ProfileCreationStep = ({
-  nationalities,
-  controlsGender,
-  controlsFamily,
   onChangeKey,
+  getFormValue,
+  email,
+  gender,
+  nationality,
+  family,
   onLoad,
-  imageURL
+  imageURL,
 }) => {
   const renderProfilePic = () => {
     return (
@@ -46,6 +48,7 @@ const ProfileCreationStep = ({
               label="Name"
               required
               onChange={val => onChangeKey('firstName', val)}
+              defaultValue={getFormValue('firstName')}
               errorText="Please enter your name" />
           </Col>
         </Row>
@@ -56,6 +59,7 @@ const ProfileCreationStep = ({
               label="Surname"
               required
               onChange={val => onChangeKey('lastName', val)}
+              defaultValue={getFormValue('lastName')}
               errorText="Please enter your name" />
           </Col>
         </Row>
@@ -67,8 +71,9 @@ const ProfileCreationStep = ({
               type="radio"
               required
               inline
-              controls={controlsGender}
-              onChange={val => onChangeKey('gender', val)} />
+              controls={gender}
+              onChange={val => onChangeKey('gender', val)}
+              defaultValue={getFormValue('gender')} />
           </Col>
         </Row>
         <Row>
@@ -76,9 +81,10 @@ const ProfileCreationStep = ({
             <DatePicker
               id="birthDate"
               label={'Date of birth'}
-              onChange={val => onChangeKey('birthDay', val)}
+              onChange={val => onChangeKey('birthday', val)}
               required
-              maxDate={new Date()} />
+              maxDate={new Date()}
+              defaultValue={getFormValue('birthday')} />
           </Col>
         </Row>
         <Row>
@@ -86,8 +92,9 @@ const ProfileCreationStep = ({
             <SelectField
               id="nationality"
               label="Nationality"
-              menuItems={nationalities}
+              menuItems={nationality}
               onChange={val => onChangeKey('nationality', val)}
+              defaultValue={getFormValue('nationality')}
               required
               errorText="A state is required" />
           </Col>
@@ -100,6 +107,7 @@ const ProfileCreationStep = ({
               required
               maxLength={10}
               onChange={val => onChangeKey('phoneNumber', val)}
+              defaultValue={getFormValue('phoneNumber')}
               errorText="Phone number is required" />
           </Col>
         </Row>
@@ -111,6 +119,8 @@ const ProfileCreationStep = ({
               required
               type="email"
               onChange={val => onChangeKey('email', val)}
+              defaultValue={email.value || getFormValue('email')}
+              disabled={email.disabled}
               errorText="Email is required" />
           </Col>
         </Row>
@@ -121,7 +131,7 @@ const ProfileCreationStep = ({
             alignItems: 'flex-start',
             justifyContent: 'center',
           }}>
-              <Text type="s" text=" Are you here with the family?"/>
+            <Text type="s" text=" Are you here with the family?"/>
           </Col>
           <Col xs className="formVerticalAlign">
               <SelectionGroup
@@ -130,7 +140,8 @@ const ProfileCreationStep = ({
                 type="radio"
                 required
                 inline
-                controls={controlsFamily}
+                controls={family}
+                defaultValue={getFormValue('family')}
                 onChange={val => onChangeKey('family', val)} />
           </Col>
         </Row>
@@ -161,18 +172,23 @@ const ProfileCreationStep = ({
 }
 
 ProfileCreationStep.propTypes = {
-  nationalities: PropTypes.arrayOf(PropTypes.string).isRequired,
-  controlsGender: PropTypes.arrayOf(PropTypes.shape({
-    value: PropTypes.string.isRequired,
-    label: PropTypes.string.isRequired,
-  })).isRequired,
-  controlsFamily: PropTypes.arrayOf(PropTypes.shape({
-    value: PropTypes.string.isRequired,
-    label: PropTypes.string.isRequired,
-  })).isRequired,
   onChangeKey: PropTypes.func.isRequired,
-  onLoad: PropTypes.func.isRequired,
+  getFormValue: PropTypes.func.isRequired,
+  email: PropTypes.shape({
+    value: PropTypes.string.isRequired,
+    disabled: PropTypes.bool.isRequired,
+  }).isRequired,
+  gender: PropTypes.arrayOf(PropTypes.shape({
+    value: PropTypes.string.isRequired,
+    label: PropTypes.string.isRequired,
+  })).isRequired,
+  nationality: PropTypes.arrayOf(PropTypes.string).isRequired,
+  family: PropTypes.arrayOf(PropTypes.shape({
+    value: PropTypes.string.isRequired,
+    label: PropTypes.string.isRequired,
+  })).isRequired,
   imageURL: PropTypes.string,
+  onLoad: PropTypes.func.isRequired,
 }
 
 export default ProfileCreationStep
