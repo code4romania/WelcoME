@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Grid, Row, Col } from 'react-flexbox-grid'
+import Grid from 'material-ui/Grid';
 import GoogleMap from 'google-map-react'
 import Step from './Step'
 import { SelectField } from '../../common/common'
@@ -41,52 +41,46 @@ const LocationStep = ({
 
   const renderControls = () => {
     return (
-      <Grid fluid className='formContainer'>
-        <Row>
-          <Col xs>
-            <SelectField
-              id="camp-country"
-              key="camp-country"
-              label={'Country'}
-              menuItems={campCountries}
-              onChange={value => googleMapControls.onSelectedCampCountry(value)}
-              defaultValue={
-                !!getFormValue('camp')
-                  ? getFormValue('camp').country
-                  : ''
-              }
-              required
-              errorText={'A country is required'} />
-          </Col>
-        </Row>
-        <Row>
-          <Col xs>
-            <SelectField
-              id="camp-location"
-              key="camp-location"
-              label={'Camp'}
-              menuItems={campsPerCountry}
-              onChange={value => googleMapControls.onSelectedCamp(value)}
-              defaultValue={getFormValue('selectedCamp', 'temp')}
-              required
-              errorText={'A camp is required'} />
-          </Col>
-        </Row>
+      <Grid container spacing={24} direction={'column'}>
+        <Grid item xs={12}>
+          <SelectField
+            id="camp-country"
+            key="camp-country"
+            label={'Country'}
+            menuItems={campCountries}
+            onChange={value => googleMapControls.onSelectedCampCountry(value)}
+            defaultValue={
+              !!getFormValue('camp')
+                ? getFormValue('camp').country
+                : ''
+            }
+            required
+            errorText={'A country is required'} />
+        </Grid>
+        <Grid item xs={12}>
+          <SelectField
+            id="camp-location"
+            key="camp-location"
+            label={'Camp'}
+            menuItems={campsPerCountry}
+            onChange={value => googleMapControls.onSelectedCamp(value)}
+            defaultValue={getFormValue('selectedCamp', 'temp')}
+            required
+            errorText={'A camp is required'} />
+        </Grid>
       </Grid>
     );
   }
 
   const renderStep = () => {
     return (
-      <Grid fluid className='formContainer'>
-        <Row className='formRow'>
-          <Col xs={6} className="formRowContent">
-            {renderMap()}
-          </Col>
-          <Col xs={6} className="formRowContent">
-            {renderControls()}
-          </Col>
-        </Row>
+      <Grid container spacing={40}>
+        <Grid item xs={6}>
+          {renderMap()}
+        </Grid>
+        <Grid item xs={6}>
+          {renderControls()}
+        </Grid>
       </Grid>
     );
   }

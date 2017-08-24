@@ -6,14 +6,16 @@ const { sendVerificationEmail } = require('./sendemails.js')
 module.exports = ({ profile, uid }) => new Promise((resolve, reject) => {
   const auth = admin.auth();
   const profileKeys = [
-    'firstName',
-    'lastName',
     'type',
     'locale',
+    'email',
     'sendVerificationEmail',
     'facebookCredential',
     'googleCredential',
+    'profileData',
   ];
+  console.log(profile);
+
   const scope = {};
   const newProfile = Object.assign({}, profile);
 
@@ -49,11 +51,20 @@ module.exports = ({ profile, uid }) => new Promise((resolve, reject) => {
         }
       })
 
-      if (!facebook) newProfile.facebookCredential = null
-      if (!google) newProfile.googleCredential = null
-      let displayName = user.displayName
-      if (!displayName && facebook) displayName = facebook.displayName
-      if (!displayName && google) displayName = google.displayName
+      if (!facebook) {
+        newProfile.facebookCredential = null;
+      }
+      if (!google) {
+        newProfile.googleCredential = null;
+      }
+
+      let displayName = user.displayName;
+      if (!displayName && facebook) {
+        displayName = facebook.displayName;
+      }
+      if (!displayName && google) {
+        displayName = google.displayName
+      }
       if (displayName && !scope.account.firstName && !scope.account.lastName) {
         const names = displayName.split(' ')
         const lastName = names.pop()

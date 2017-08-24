@@ -12,9 +12,7 @@ export default class SkillsStepContext extends PureComponent {
   }
 
   render = () => {
-    const state = this.context.store;
     const handlers = this.context.handlers;
-    const forms = state.forms;
 
     // TODO: validation
     // const errors = {};
@@ -35,7 +33,13 @@ export default class SkillsStepContext extends PureComponent {
 
         handlers.changeFields('account', {'skills':  profileSkills});
       },
-      requestSaveProfile: () => handlers.requestCompleteProfile(forms),
+      requestSaveProfile: () => handlers.requestCompleteProfile(
+        Object.assign(
+          {},
+          this.context.store.forms.account,
+          this.context.store.auth,
+        )
+      ),
     };
 
     return (

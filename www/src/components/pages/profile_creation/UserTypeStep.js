@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {Grid, Row, Col} from 'react-flexbox-grid'
+import Grid from 'material-ui/Grid';
 import Step from './Step'
 import { Text, SelectionGroup } from '../../common/common'
 import '../Pages.css'
@@ -12,7 +12,9 @@ const UserTypeStep = ({
 }) => {
   const renderTitle = () => {
     return (
-      <Text type="h2" text="We are glad to have you on our platform." />
+      <div className='formCenterAlign'>
+        <Text type="h2" text="We are glad to have you on our platform." />
+      </div>
     );
   }
 
@@ -29,38 +31,30 @@ const UserTypeStep = ({
     return (
       <div>
         <Text type="p" text="You identify yourself as one of the following:" />
-        <div className='formCenterAlign'>
-          <SelectionGroup
-            id="user-type-selection"
-            name="user-type-selection"
-            type="radio"
-            controls={userTypes}
-            onChange={val => onChangeKey('userType', val)}
-            defaultValue={getFormValue('userType')}
-            required />
-        </div>
+        <SelectionGroup
+          id="user-type-selection"
+          name="user-type-selection"
+          type="radio"
+          controls={userTypes}
+          onChange={val => onChangeKey('userType', val)}
+          defaultValue={getFormValue('userType')}
+          required />
       </div>
     );
   }
 
   const renderStep = () => {
     return (
-      <Grid fluid className='formContainer'>
-        <Row>
-          <Col xs className='formVerticalAlign'>
-            {renderTitle()}
-          </Col>
-        </Row>
-        <Row>
-          <Col xs className='formVerticalAlign'>
-            {renderDescription()}
-          </Col>
-        </Row>
-        <Row>
-          <Col xs className='formVerticalAlign'>
-            {renderUserTypeSelection(userTypes)}
-          </Col>
-        </Row>
+      <Grid container spacing={40} direction={'column'}>
+        <Grid item xs>
+          {renderTitle()}
+        </Grid>
+        <Grid item xs>
+          {renderDescription()}
+        </Grid>
+        <Grid item xs>
+          {renderUserTypeSelection(userTypes)}
+        </Grid>
       </Grid>
     );
   }

@@ -66,8 +66,8 @@ const changeProfile = withAuth((req, res) => {
     return res.status(400).send('Bad request!');
   }
   updateProfile({profile, uid})
-  .then(() => res.end())
-  .catch(err => res.status(400).send(err.message));
+    .then(() => res.end())
+    .catch(err => res.status(400).send(err.message));
 });
 
 // when user is deleted clean up database

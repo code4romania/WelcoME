@@ -5,12 +5,16 @@ import IStepContext from './IStepContext'
 import { nationalities } from '../../../utils'
 
 export default class ProfileStepContext extends PureComponent {
-  // Init email
+
   componentDidMount = () => {
+    // Init email
     if (!!this.context.store.auth && !!this.context.store.auth.email) {
       IStepContext(this.props, this.context)
         .onChangeKey('email', this.context.store.auth.email);
     }
+    // radio defaults
+    IStepContext(this.props, this.context).onChangeKey('gender', 'male');
+    IStepContext(this.props, this.context).onChangeKey('family', 'true');
   }
 
   render = () => {
@@ -42,8 +46,8 @@ export default class ProfileStepContext extends PureComponent {
           label: 'Yes',
         },
         {
-            value: 'false',
-            label: 'No',
+          value: 'false',
+          label: 'No',
         },
       ],
       imageURL: forms.avatar,

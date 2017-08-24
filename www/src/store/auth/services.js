@@ -150,7 +150,6 @@ payloads$(Actions.SIGNUP_EMAIL_REQUESTED)
   })
 
 // profile completed requested
-// TODO
 payloads$(Actions.COMPLETE_PROFILE_REQUESTED)
   .subscribe((fields) => {
     const user = FirebaseAuth.currentUser;
@@ -158,6 +157,23 @@ payloads$(Actions.COMPLETE_PROFILE_REQUESTED)
       'changeProfile',
       {
         type: fields.userType,
+        email: fields.email,
+        profileData: {
+          firstName: fields.firstName,
+          lastName: fields.lastName,
+          birthday: fields.birthday,
+          nationality: fields.nationality,
+          gender: fields.gender,
+          camp: {
+            country: fields.camp.country,
+            city: fields.camp.city,
+            name: fields.camp.name,
+          },
+          family: fields.family,
+          phoneNumber: fields.phoneNumber,
+          studies: fields.studies,
+          skills: fields.skills,
+        }
       },
       user,
     )

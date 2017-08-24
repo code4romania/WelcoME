@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Checkbox from 'react-md/lib/SelectionControls/Checkbox'
-import { Grid, Row, Col } from 'react-flexbox-grid'
+import Grid from 'material-ui/Grid';
 import Step from './Step'
 import { Text, SelectField, Button } from '../../common/common'
 
@@ -14,7 +14,7 @@ const SkillsStep = ({
   requestSaveProfile,
 }) => {
   const skillsItems = skills.map((skill) =>
-    <Col xs={4} md={4} lg={4} key={skill + '_container'}>
+    <Grid item xs={4} key={skill}>
       <Checkbox
         id={skill}
         name={'skill_' + skill}
@@ -25,47 +25,39 @@ const SkillsStep = ({
           : false
         }
         className={'welcome-input'} />
-    </Col>
+    </Grid>
   );
 
   const renderStudies = () => {
     return (
-      <Grid fluid className='formContainer'>
-        <Row className='formRowContent'>
-          <Col xs={4} className='formVerticalAlign'>
-            <div>
-              <Text type="p" text="What are your latest studies?" />
-          </div>
-          </Col>
-          <Col xs={8} className='formVerticalAlign'>
-            <div>
-              <SelectField
-                id="studies"
-                key="studies"
-                menuItems={studies}
-                onChange={value => onChangeKey('studies', value)}
-                defaultValue={getFormValue('studies') || studies[0]}
-                required />
-              </div>
-          </Col>
-        </Row>
+      <Grid container spacing={24} direction={'row'}>
+        <Grid item xs={4}>
+          <Text type="p" text="What are your latest studies?" />
+        </Grid>
+        <Grid item xs={8}>
+          <SelectField
+            id="studies"
+            key="studies"
+            menuItems={studies}
+            onChange={value => onChangeKey('studies', value)}
+            defaultValue={getFormValue('studies') || studies[0]}
+            required />
+        </Grid>
       </Grid>
     );
   }
 
   const renderSkills = () => {
     return (
-      <Grid fluid className='formContainer'>
-        <Row className='formRowContent'>
-          <Col xs className='formVerticalAlign'>
-            <div>
-              <Text type="p" text="What do you like to do? What are your skills? Select from the list below:" />
-            </div>
-          </Col>
-        </Row>
-        <Row className='formRowContent'>
-          {skillsItems}
-        </Row>
+      <Grid container spacing={24} direction={'column'}>
+        <Grid item xs>
+          <Text type="p" text="What do you like to do? What are your skills? Select from the list below:" />
+        </Grid>
+        <Grid item xs>
+          <Grid container spacing={24}>
+            {skillsItems}
+          </Grid>
+        </Grid>
       </Grid>
     );
   }
@@ -73,24 +65,18 @@ const SkillsStep = ({
   // TODO: put the save button in navigation
   const renderStep = () => {
     return (
-      <Grid fluid className='formContainer'> 
-        <Row className='formRow'>
-          <Col xs>
+      <Grid container spacing={24} direction={'column'}>
+        <Grid item xs>
             {renderStudies()}
-          </Col>
-        </Row>
-        <Row  className='formRow'>
-          <Col xs>
+        </Grid>
+        <Grid item xs>
             {renderSkills()}
-          </Col>
-        </Row>
-        <Row className='formRow'>
-          <Col xs className="formRowContent">
+        </Grid>
+        <Grid item xs>
             <Button
               onClick={requestSaveProfile}
               label='Save Profile' />
-          </Col>
-        </Row>
+        </Grid>
       </Grid>
     );
   }

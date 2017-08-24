@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import Dialog from 'react-md/lib/Dialogs';
 import PropTypes from 'prop-types'
-import { Grid, Row, Col } from 'react-flexbox-grid'
+import Grid from 'material-ui/Grid';
 import { Button, Text, TextField } from '../../common/common'
 
 export default class Forgot extends PureComponent {
@@ -17,31 +17,25 @@ export default class Forgot extends PureComponent {
 
   render = () => {
     const contents =
-      <Grid fluid className='formContainer'>
-        <Row style={{margin: '0 0 -20px 0'}}>
-          <Col xs className='formCenterAlign'> 
-            <Text type="h3" text="We'll send you a link to reset your password" />
-          </Col>
-        </Row>
-        <Row>
-          <Col xs className='formCenterAlign'> 
-            <TextField
-              id='email'
-              onChange={val => this.props.onChangeKey('email', val)}
-              value={this.props.email.value}
-              disabled={this.props.email.disabled}
-              label={this.props.email.label}
-              error={!!this.props.email.error}
-              errorText={this.props.email.error} />
-          </Col>
-        </Row>
-        <Row>
-          <Col xs className='formCenterAlign'> 
-            <Button
-              onClick={this.props.requestForgot}
-              label="Send reset link" />
-          </Col>
-        </Row>
+      <Grid container spacing={24} align={'center'} justify={'center'}>
+        <Grid item xs={12} className="formCenterAlign" style={{margin: '0 0 -10px 0'}}>
+          <Text type="h3" text="We'll send you a link to reset your password" />
+        </Grid>
+        <Grid item xs={12}> 
+          <TextField
+            id='email'
+            onChange={val => this.props.onChangeKey('email', val)}
+            value={this.props.email.value}
+            disabled={this.props.email.disabled}
+            label={this.props.email.label}
+            error={!!this.props.email.error}
+            errorText={this.props.email.error} />
+        </Grid>
+        <Grid item xs={12}>
+          <Button
+            onClick={this.props.requestForgot}
+            label="Send reset link" />
+        </Grid>
       </Grid>;
 
     return (
