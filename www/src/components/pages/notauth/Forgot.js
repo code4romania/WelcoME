@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import Dialog from 'react-md/lib/Dialogs';
 import PropTypes from 'prop-types'
-import Grid from 'material-ui/Grid';
+import Grid from 'material-ui-next/Grid';
 import { Button, Text, TextField } from '../../common/common'
 
 export default class Forgot extends PureComponent {
@@ -32,9 +32,9 @@ export default class Forgot extends PureComponent {
             errorText={this.props.email.error} />
         </Grid>
         <Grid item xs={12}>
-          <Button
-            onClick={this.props.requestForgot}
-            label="Send reset link" />
+          <Button onClick={this.props.requestForgot}>
+            Send reset link
+          </Button>
         </Grid>
       </Grid>;
 

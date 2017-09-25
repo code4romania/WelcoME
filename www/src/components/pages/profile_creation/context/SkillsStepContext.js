@@ -33,13 +33,6 @@ export default class SkillsStepContext extends PureComponent {
 
         handlers.changeFields('account', {'skills':  profileSkills});
       },
-      requestSaveProfile: () => handlers.requestCompleteProfile(
-        Object.assign(
-          {},
-          this.context.store.forms.account,
-          this.context.store.auth,
-        )
-      ),
     };
 
     return (

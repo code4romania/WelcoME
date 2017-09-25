@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import FileUpload from 'react-md/lib/FileInputs/FileUpload'
-import Grid from 'material-ui/Grid';
+import Grid from 'material-ui-next/Grid';
 import Step from './Step'
 import '../Pages.css'
 import { Text, TextField, SelectionGroup, SelectField, DatePicker } from '../../common/common'

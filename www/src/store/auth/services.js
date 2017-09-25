@@ -177,6 +177,7 @@ payloads$(Actions.COMPLETE_PROFILE_REQUESTED)
       },
       user,
     )
+    .then(() => Handlers.goToPath('/feed'))
     .then(() => Handlers.okUser(
       'profile-completed',
       'Profile succesfully completed',

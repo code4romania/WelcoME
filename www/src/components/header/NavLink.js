@@ -36,9 +36,9 @@ const NavLink = (props) => {
         id={props.name}
         className={props.active ? 'active-link' : 'inactive-link'}
         onClick={props.action}
-        label={props.text}
-        flat >
+        flat>
         {props.icon}
+        {props.text}
       </Button>
     );
   };

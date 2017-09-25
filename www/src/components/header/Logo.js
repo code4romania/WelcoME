@@ -7,10 +7,11 @@ const Logo = ({clickLogo}) => {
   const contents =
     <Button
       className='nav-logo'
-      onClick={clickLogo} 
-      label='Welcome'
-      flat />;
-  
+      onClick={clickLogo}
+      flat>
+      Welcome
+    </Button>;
+
   return (
     <div>
       {contents}
@@ -23,4 +24,3 @@ Logo.PropTypes = {
 }
 
 export default Logo
-

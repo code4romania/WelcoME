@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import Dialog from 'react-md/lib/Dialogs';
 import Divider from 'react-md/lib/Dividers';
 import PropTypes from 'prop-types'
-import Grid from 'material-ui/Grid';
+import Grid from 'material-ui-next/Grid';
 import { Button, Text, TextField, Link} from '../../common/common'
 
 export default class SignUp extends PureComponent {
@@ -25,14 +25,16 @@ export default class SignUp extends PureComponent {
         <Grid item xs={6}>
           <Button
             primaryColor="#3b5998"
-            onClick={this.props.requestFacebook}
-            label="Facebook" />
+            onClick={this.props.requestFacebook}>
+            Facebook
+          </Button>
         </Grid>
         <Grid item xs={6}>
           <Button
             primaryColor="#d34836"
-            onClick={this.props.requestGoogle}
-            label="Google" />
+            onClick={this.props.requestGoogle}>
+            Google
+          </Button>
         </Grid>
         <Grid container spacing={24} align={'center'} justify={'center'} style={{margin: '20px 0 -25px 0'}}>
           <Grid item xs>
@@ -81,8 +83,9 @@ export default class SignUp extends PureComponent {
         </Grid>
         <Grid item xs={12}>
           <Button
-            onClick={this.props.requestSignUp}
-            label="Create account" />
+            onClick={this.props.requestSignUp}>
+            Create account
+          </Button>
         </Grid>
         <Grid item xs={12} className="formCenterAlign">
           <Link

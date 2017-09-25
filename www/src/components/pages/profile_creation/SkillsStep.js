@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Checkbox from 'react-md/lib/SelectionControls/Checkbox'
-import Grid from 'material-ui/Grid';
+import Grid from 'material-ui-next/Grid';
 import Step from './Step'
-import { Text, SelectField, Button } from '../../common/common'
+import { Text, SelectField } from '../../common/common'
 
 const SkillsStep = ({
   onChangeKey,
@@ -11,7 +11,6 @@ const SkillsStep = ({
   studies,
   skills,
   onSkillChange,
-  requestSaveProfile,
 }) => {
   const skillsItems = skills.map((skill) =>
     <Grid item xs={4} key={skill}>
@@ -51,7 +50,13 @@ const SkillsStep = ({
     return (
       <Grid container spacing={24} direction={'column'}>
         <Grid item xs>
-          <Text type="p" text="What do you like to do? What are your skills? Select from the list below:" />
+          <Text
+            type={'p'}
+            text={
+              'What do you like to do? What are your skills?' +
+              'Select from the list below:'
+            }
+          />
         </Grid>
         <Grid item xs>
           <Grid container spacing={24}>
@@ -67,15 +72,10 @@ const SkillsStep = ({
     return (
       <Grid container spacing={24} direction={'column'}>
         <Grid item xs>
-            {renderStudies()}
+          {renderStudies()}
         </Grid>
         <Grid item xs>
-            {renderSkills()}
-        </Grid>
-        <Grid item xs>
-            <Button
-              onClick={requestSaveProfile}
-              label='Save Profile' />
+          {renderSkills()}
         </Grid>
       </Grid>
     );
@@ -92,7 +92,6 @@ SkillsStep.propTypes = {
   studies: PropTypes.arrayOf(PropTypes.string).isRequired,
   skills: PropTypes.arrayOf(PropTypes.string).isRequired,
   onSkillChange: PropTypes.func.isRequired,
-  requestSaveProfile: PropTypes.func.isRequired,
 }
 
 export default SkillsStep

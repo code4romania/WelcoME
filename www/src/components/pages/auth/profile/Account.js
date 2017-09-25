@@ -2,7 +2,7 @@ import React from 'react'
 import Radio from 'react-md/lib/SelectionControls/Radio'
 import Button from 'react-md/lib/Buttons/Button'
 import TextField from 'react-md/lib/TextFields'
-import Grid from 'material-ui/Grid';
+import Grid from 'material-ui-next/Grid';
 
 // TODO: #1 stucture these fields
 const Account = ({

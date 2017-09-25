@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Grid from 'material-ui/Grid';
+import Grid from 'material-ui-next/Grid';
 import Step from './Step'
 import { Text, SelectionGroup } from '../../common/common'
 import '../Pages.css'

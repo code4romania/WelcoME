@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import Dialog from 'react-md/lib/Dialogs';
 import PropTypes from 'prop-types'
-import Grid from 'material-ui/Grid';
+import Grid from 'material-ui-next/Grid';
 import { Button, Text, TextField} from '../../common/common'
 
 export default class Reset extends PureComponent {
@@ -42,9 +42,9 @@ export default class Reset extends PureComponent {
             errorText={this.props.passwordRepeat.error} />
         </Grid>
         <Grid item xs={12}>
-          <Button
-            onClick={this.props.requestReset}
-            label="Reset password" />
+          <Button onClick={this.props.requestReset}>
+            Reset password
+          </Button>
         </Grid>
       </Grid>;
 
