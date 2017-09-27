@@ -4,6 +4,8 @@ import { Button } from 'react-md/lib/Buttons'
 import MenuButton from 'react-md/lib/Menus/MenuButton';
 import ListItem from 'react-md/lib/Lists/ListItem';
 
+import IconButton from 'material-ui-next/IconButton';
+
 import './NavLink.css'
 
 const NavLink = (props) => {
@@ -31,16 +33,23 @@ const NavLink = (props) => {
   };
 
   const renderLink = () => {
-    return (
-      <Button
-        id={props.name}
-        className={props.active ? 'active-link' : 'inactive-link'}
-        onClick={props.action}
-        flat>
-        {props.icon}
-        {props.text}
-      </Button>
-    );
+    return props.icon
+      ? (
+        <IconButton
+          id={props.name}
+          className={props.active ? 'active-link' : 'inactive-link'}
+          onClick={props.action}>
+          {props.icon}
+        </IconButton>
+      ) : (
+        <Button
+          id={props.name}
+          className={props.active ? 'active-link' : 'inactive-link'}
+          onClick={props.action}
+          flat>
+          {props.text}
+        </Button>
+      );
   };
 
   return props.isMenu

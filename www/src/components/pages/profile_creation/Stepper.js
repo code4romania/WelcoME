@@ -27,10 +27,7 @@ export default class HorizontalLinearStepper extends React.Component {
     }
   };
 
-  handleSubmit = () => {
-    this.setState({stepIndex: 0, finished: false});
-    this.props.onSubmit();
-  }
+  handleSubmit = () => this.props.onSubmit();
 
   renderStepContent = (stepIndex) => {
     const Page = this.props.steps[stepIndex]['Page'];
@@ -52,20 +49,25 @@ export default class HorizontalLinearStepper extends React.Component {
     const isLast = stepIndex === this.props.steps.length - 1;
 
     return (
-      <Grid container spacing={24} align={'center'} justify={'center'}>
-        <Grid item xs={6}>
-          <Button
-            onClick={this.handlePrev}>
-            Back
-          </Button>
+      <div className='step-container'>
+        <Grid container spacing={24} align={'center'} justify={'center'}>
+          <Grid item xs={5}>
+            <Button
+              onClick={this.handlePrev}
+              primaryColor="#ababb2"
+              disabled={stepIndex === 0}>
+              Back
+            </Button>
+          </Grid>
+          <Grid item xs={2}/>
+          <Grid item xs={5}>
+            <Button
+              onClick={isLast ? this.handleSubmit : this.handleNext}>
+              {isLast ? 'Create Profile' : 'Next'}
+            </Button>
+          </Grid>
         </Grid>
-        <Grid item xs={6}>
-          <Button
-            onClick={isLast ? this.handleSubmit : this.handleNext}>
-            {isLast ? 'Create Profile' : 'Next'}
-          </Button>
-        </Grid>
-      </Grid>
+      </div>
     );
   }
 

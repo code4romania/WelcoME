@@ -6,6 +6,7 @@ const styles = require('./common.css')
 export default class WButton extends PureComponent {
   constructor(props) {
     super(props);
+
     this.state = { hover: false };
   }
 
@@ -35,6 +36,10 @@ export default class WButton extends PureComponent {
     return this.getButtonHeight() - 15;
   }
 
+  isDisabled = () => {
+    return this.props.disabled;
+  }
+
   getStyle = () => {
     return {
       fontWeight: '500',
@@ -44,11 +49,13 @@ export default class WButton extends PureComponent {
       boxShadow: '0 0',
       height: this.getButtonHeight() + 'px',
       width: '100%',
-      color: this.state.hover ? this.getColor() : '#ffffff',
-      backgroundColor: this.state.hover
+      color: this.state.hover || this.isDisabled()
+        ? this.getColor()
+        : '#ffffff',
+      backgroundColor: this.state.hover || this.isDisabled()
         ? '#ffffff'
         : this.getColor(),
-      border: this.state.hover
+      border: this.state.hover || this.isDisabled()
         ? '1.5px solid ' + this.getColor()
         : 'none',
       borderRadius: '0px',
@@ -57,13 +64,18 @@ export default class WButton extends PureComponent {
   }
 
   render = () => {
+    let additionalProps = {
+      style: this.getStyle(),
+      onMouseEnter: this.toggleHover,
+      onMouseLeave: this.toggleHover,
+    };
+
     return (
       <Button
-        {...omit(this.props, 'primaryColor', 'buttonHeight')}
         raised
-        style={this.getStyle()}
-        onMouseEnter={this.toggleHover}
-        onMouseLeave={this.toggleHover} />
+        {...omit(this.props, 'primaryColor', 'buttonHeight')}
+        {...additionalProps}
+      />
     );
   }
 }

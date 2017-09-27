@@ -11,7 +11,7 @@ export default class Link extends PureComponent {
           href="#"
           onClick={this.props.onClick}
           className="welcome-a">
-            {this.props.linkText}
+          {this.props.linkText}
         </a>
         &nbsp;
         {this.props.postLinkText}
