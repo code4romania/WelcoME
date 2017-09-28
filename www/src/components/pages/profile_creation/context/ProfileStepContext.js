@@ -50,7 +50,7 @@ export default class ProfileStepContext extends PureComponent {
           label: 'No',
         },
       ],
-      imageURL: forms.avatar,
+      imageURL: forms.account.avatar,
       onLoad: (file, uploadResult) => {
         if (!file || file.type.indexOf("image") <= -1) {
           console.log("no file selected");
@@ -75,7 +75,8 @@ export default class ProfileStepContext extends PureComponent {
               showCloseButton: true,
               timeOut: 5000,
             },
-          })
+          });
+          this.forceUpdate();
         }
       }
     };
