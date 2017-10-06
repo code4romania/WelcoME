@@ -17,6 +17,12 @@ https://blog.tighten.co/react-101-building-a-gif-search-engine
 test web:
 `cd www && npm run test`
 
+run mobile:
+`cd mobile && npm start`
+
+test mobile:
+`cd mobile && npm test`
+
 test functions
 `cd functions && npm run test`
 
